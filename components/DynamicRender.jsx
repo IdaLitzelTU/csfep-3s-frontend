@@ -20,7 +20,7 @@ const DynamicRender = () => {
       : [{}];
   });
   const Number = ({ defaultValue, name }) => {
-    console.log(defaultValue);
+    // console.log(defaultValue);
     return (
       <div>
         <input
@@ -41,8 +41,7 @@ const DynamicRender = () => {
         <input
           key={name}
           defaultValue={defaultValue}
-          id="arrays"
-          placeholder="Enter array inside brackets"
+          placeholder="Enter array, E.g., [3, 4.7]"
           required
           onChange={handleArrays}
         />
@@ -51,7 +50,6 @@ const DynamicRender = () => {
   };
   const handleArrays = (e) => {
     const arrayPresent = e.target.value;
-    console.log(arrayPresent);
   };
 
   const renderers = {
