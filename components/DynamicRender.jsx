@@ -4,7 +4,7 @@ import * as client from "../pages/api/csfep";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 
 const DynamicRender = () => {
   const { data } = useQuery(["model-input"], client.fetchModelInput);
@@ -20,11 +20,15 @@ const DynamicRender = () => {
       : [{}];
   });
   const Number = ({ defaultValue, name }) => {
+    console.log(defaultValue);
     return (
       <div>
         <input
+          type="number"
+          step="0.0001"
+          // pattern="[A-Za-z0-9 ]+"
           key={name}
-          default={defaultValue}
+          defaultValue={defaultValue}
           onChange={(e) => console.log(e)}
           required
         />
@@ -34,15 +38,27 @@ const DynamicRender = () => {
   const Array = ({ defaultValue, name }) => {
     return (
       <div>
-        <input key={name} default={defaultValue} required />
+        <input
+          key={name}
+          defaultValue={defaultValue}
+          id="arrays"
+          placeholder="Enter array inside brackets"
+          required
+          onChange={handleArrays}
+        />
       </div>
     );
   };
+  const handleArrays = (e) => {
+    const arrayPresent = e.target.value;
+    console.log(arrayPresent);
+  };
+
   const renderers = {
     number: <Number />,
     "array[number]": <Array />,
   };
-  console.log(formData);
+
   return (
     <>
       <Grid container>
@@ -51,6 +67,9 @@ const DynamicRender = () => {
             <Grid item key={key}>
               <h3>{key}</h3>
               {formData[key].map((element) => {
+                const Renderer = () => {
+                  return renderers[element.type];
+                };
                 return (
                   <Grid item key={element.name}>
                     <Stack flow="columns">
@@ -60,17 +79,10 @@ const DynamicRender = () => {
                           <>{element.description}</>
                         </Tooltip>
                       </div>
-                      {element.type === "number" ? (
-                        <Number
-                          defaultValue={element.default}
-                          name={element.name}
-                        />
-                      ) : (
-                        <Array
-                          defaultValue={element.default}
-                          name={element.name}
-                        />
-                      )}
+                      <Renderer
+                        defaulValue={element.default}
+                        name={element.key}
+                      />
                     </Stack>
                   </Grid>
                 );
