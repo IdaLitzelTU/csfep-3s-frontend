@@ -1,6 +1,6 @@
 // dynamic routing of model versions
 import React from "react";
-import { getAllVersions, getModelData } from "../../lib/model";
+import { getAllVersions, getModelData } from "../../api/csfep";
 import styles from "../../styles/Home.module.css";
 
 export default function model({ modelData }) {

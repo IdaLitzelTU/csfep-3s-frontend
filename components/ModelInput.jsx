@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import * as client from "../pages/api/csfep";
+import * as client from "../api/csfep";
 import PropTypes from "prop-types";
 
 const ModelInput = ({ version }) => {

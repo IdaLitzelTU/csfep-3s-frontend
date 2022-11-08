@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import * as client from "../pages/api/csfep";
+import * as client from "../api/csfep";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -30,7 +30,7 @@ const ModelSelection = () => {
   return (
     data && (
       <div>
-        <InputLabel id="select-model-label">Select model version</InputLabel>
+        <InputLabel id="select-model-label">Select version</InputLabel>
         <Select
           labelId="select-model"
           id="select-model"
