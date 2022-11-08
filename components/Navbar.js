@@ -5,35 +5,40 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
 import Stack from "@mui/material/Stack";
-
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 function NavBar() {
+  const currentRoute = useRouter().asPath;
+
   const menuItems = [
     {
-      href: "/about",
-      title: "About",
+      href: "/",
+      title: "Home",
     },
     {
       href: "/datasets",
-      title: "Datasets",
+      title: "Manage Datasets",
     },
     {
       href: "/model",
-      title: "Model",
+      title: "Run Model",
+    },
+    {
+      href: "/about",
+      title: "About",
     },
   ];
 
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "#95E338", color: "#005B36" }}
+      sx={{ color: "#95E338", backgroundColor: "#005B36" }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -49,13 +54,24 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            CSFEP-3S
+            <Image
+              src="/logo.jfif"
+              alt="csfep logo"
+              width={185}
+              height={75}
+              object-fit="cover"
+            />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Stack spacing={2} direction="row">
               {menuItems.map(({ href, title }) => (
                 <Link href={href} key={href}>
                   <Button
+                    className={
+                      currentRoute === href
+                        ? "Navbar-Button-active"
+                        : "Navbar-Button"
+                    }
                     key={title}
                     sx={{
                       my: 2,
