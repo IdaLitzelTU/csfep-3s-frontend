@@ -37,3 +37,7 @@ a {
   color:#95E338;
   /* background-color:transparent; */
 }
+
+.MuiSelect-select {
+  min-width: 200px;
+}
