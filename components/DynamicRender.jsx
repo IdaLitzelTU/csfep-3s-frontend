@@ -3,7 +3,8 @@ import { useQuery } from "react-query";
 import * as client from "../pages/api/csfep";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-// import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
 
 const Number = ({ key, default: defaultValue }) => {
   // console.log(defaultValue);
@@ -71,7 +72,12 @@ const DynamicRender = () => {
   return (
     <>
       {formData && (
-        <Grid container>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="stretch"
+        >
           {Object.keys(formData).map((key) => {
             return (
               <Grid item key={key}>
@@ -80,13 +86,15 @@ const DynamicRender = () => {
                   const Renderer = renderers[element.type];
                   return (
                     <Grid item key={element.name}>
-                      <Stack direction="row" spacing={1}>
-                        <item>{element.display_name}</item>
-                        <Renderer {...element} />
-                      </Stack>
-                      <Stack direction="row">
-                        <item>{element.description}</item>
-                      </Stack>
+                      <Paper variant="outlined" sx={{ m: 1 }}>
+                        <Stack direction="row" spacing={2}>
+                          <item>{element.display_name}</item>
+                          <Renderer {...element} />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <item>{element.description}</item>
+                        </Stack>
+                      </Paper>
                     </Grid>
                   );
                 })}
