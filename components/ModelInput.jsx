@@ -1,11 +1,11 @@
 import React from "react";
 import { useQuery } from "react-query";
-import * as client from "../pages/api/csfep";
+import * as client from "../api/csfep";
+import PropTypes from "prop-types";
 
-const ModelInput = () => {
-  const { isLoading, error, data } = useQuery(
-    ["model-input"],
-    client.fetchModelInput
+const ModelInput = ({ version }) => {
+  const { isLoading, error, data } = useQuery(["model-input", version], () =>
+    client.fetchModelInput(version)
   );
 
   if (isLoading)
@@ -23,6 +23,10 @@ const ModelInput = () => {
     </>;
 
   return data && <div>{JSON.stringify(data)}</div>;
+};
+
+ModelInput.propTypes = {
+  version: PropTypes.string,
 };
 
 export default ModelInput;

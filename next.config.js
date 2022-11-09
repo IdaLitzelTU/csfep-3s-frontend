@@ -8,7 +8,17 @@ const nextConfig = {
       aggregateTimeout: 300,
     }
     return config
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'static.wixstatic.com',
+        // port: '',
+        pathname: '/media/**',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig
