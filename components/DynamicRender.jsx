@@ -3,8 +3,6 @@ import { useQuery } from "react-query";
 import * as client from "../pages/api/csfep";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
-import Tooltip from "@mui/material/Tooltip";
 // import { styled } from "@mui/material/styles";
 
 const Number = ({ key, default: defaultValue }) => {
@@ -82,21 +80,12 @@ const DynamicRender = () => {
                   const Renderer = renderers[element.type];
                   return (
                     <Grid item key={element.name}>
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        divider={<Divider orientation="vertical" flexItem />}
-                      >
+                      <Stack direction="row" spacing={1}>
                         <item>{element.display_name}</item>
                         <Renderer {...element} />
+                      </Stack>
+                      <Stack direction="row">
                         <item>{element.description}</item>
-                        {/* <div>
-                          <p></p>
-                          <Tooltip>
-                            <></>
-                          </Tooltip>
-                        </div> */}
-                        
                       </Stack>
                     </Grid>
                   );
