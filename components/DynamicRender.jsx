@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import * as client from "../pages/api/csfep";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 // import { styled } from "@mui/material/styles";
 
@@ -79,21 +80,23 @@ const DynamicRender = () => {
                 <h3>{key}</h3>
                 {formData[key].map((element) => {
                   const Renderer = renderers[element.type];
-
-                  console.log(Renderer);
-                  // const Renderer = () => {
-                  //   return renderers[element.type];
-                  // };
                   return (
                     <Grid item key={element.name}>
-                      <Stack flow="columns">
-                        <div>
-                          <p>{element.display_name}</p>
-                          <Tooltip>
-                            <>{element.description}</>
-                          </Tooltip>
-                        </div>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        divider={<Divider orientation="vertical" flexItem />}
+                      >
+                        <item>{element.display_name}</item>
                         <Renderer {...element} />
+                        <item>{element.description}</item>
+                        {/* <div>
+                          <p></p>
+                          <Tooltip>
+                            <></>
+                          </Tooltip>
+                        </div> */}
+                        
                       </Stack>
                     </Grid>
                   );
