@@ -4,16 +4,16 @@ import * as client from "../pages/api/csfep";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+// import TextField from "@mui/material/TextField";
+// import { styled } from "@mui/material/styles";
 
 const Number = ({ key, default: defaultValue }) => {
-  // console.log(defaultValue);
   return (
     <div>
       <input
         type="number"
         step="0.0001"
-        // pattern="[A-Za-z0-9 ]+"
         key={key}
         defaultValue={defaultValue}
         onChange={(e) => console.log(e)}
@@ -81,23 +81,33 @@ const DynamicRender = () => {
           {Object.keys(formData).map((key) => {
             return (
               <Grid item key={key}>
-                <h3>{key}</h3>
-                {formData[key].map((element) => {
-                  const Renderer = renderers[element.type];
-                  return (
-                    <Grid item key={element.name}>
-                      <Paper variant="outlined" sx={{ m: 1 }}>
+                <Typography
+                  variant="h5"
+                  style={{ color: "#005B36" }}
+                  gutterBottom
+                >
+                  {key}
+                </Typography>
+                <Paper variant="outlined" sx={{ m: 1 }}>
+                  {formData[key].map((element) => {
+                    const Renderer = renderers[element.type];
+                    return (
+                      <Grid item key={element.name}>
                         <Stack direction="row" spacing={2}>
                           <item>{element.display_name}</item>
                           <Renderer {...element} />
                         </Stack>
                         <Stack direction="row" spacing={2}>
-                          <item>{element.description}</item>
+                          <Typography
+                            sx={{ fontStyle: "italic", fontSize: 12 }}
+                          >
+                            {element.description}
+                          </Typography>
                         </Stack>
-                      </Paper>
-                    </Grid>
-                  );
-                })}
+                      </Grid>
+                    );
+                  })}
+                </Paper>
               </Grid>
             );
           })}
