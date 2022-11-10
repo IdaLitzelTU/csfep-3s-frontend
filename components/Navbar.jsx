@@ -1,17 +1,17 @@
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import Link from "next/link";
-import Stack from "@mui/material/Stack";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import React from "react"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Toolbar from "@mui/material/Toolbar"
+import Typography from "@mui/material/Typography"
+import Container from "@mui/material/Container"
+import Button from "@mui/material/Button"
+import Link from "next/link"
+import Stack from "@mui/material/Stack"
+import Image from "next/image"
+import { useRouter } from "next/router"
 
 function NavBar() {
-  const currentRoute = useRouter().asPath;
+  const currentRoute = useRouter().asPath
 
   const menuItems = [
     {
@@ -28,9 +28,9 @@ function NavBar() {
     },
     {
       href: "/about",
-      title: "About",
+      title: "Contact",
     },
-  ];
+  ]
 
   return (
     <AppBar
@@ -90,6 +90,6 @@ function NavBar() {
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  )
 }
-export default NavBar;
+export default NavBar
