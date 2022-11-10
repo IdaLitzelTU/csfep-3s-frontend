@@ -18,7 +18,7 @@ export default function model({ modelOutput }) {
             {Object.entries(modelOutput.meta).map(([key, value]) => {
               return (
                 <ListItem disablePadding key={key}>
-                  <span style={{display:"inline-flex"}}>
+                  <span style={{display:"inline"}}>
                   <strong>{key}{": "}</strong>
                   <ListItemText primary={value} />
                   </span>
