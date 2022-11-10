@@ -1,18 +1,21 @@
-import React from "react";
+import React from "react"
 import Head from "next/head"
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.css"
 
 const About = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-      </Head>
-      <main className={styles.main}>
-        About
-      </main>
-    </div>
+    <main className={styles.main}>
+      <h4
+        style={{
+          textAlign: "center",
+          verticalAlign: "middle",
+          lineHeight: "50",
+        }}
+      >
+        Contact us
+      </h4>
+    </main>
   )
-};
+}
 
-export default About;
+export default About
