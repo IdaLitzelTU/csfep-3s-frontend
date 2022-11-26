@@ -34,12 +34,13 @@ const Framework = () => {
           },
           margin: "0 auto",
           paddingTop: "10px",
+          paddingBottom: "10vh",
         }}
       >
         <Grid container spacing={4}>
           <Grid item sm={12} md={6} style={{ margin: "auto " }}>
             <Grow in={true} timeout={1100}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>
                   OBJECTIVE OF THE FRAMEWORK
                 </Typography>
@@ -68,7 +69,7 @@ const Framework = () => {
 
           <Grid item sm={12} md={6}>
             <Grow in={true} timeout={1100}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Image
                   src="/Graph-Why.png"
                   width={400}
@@ -87,7 +88,7 @@ const Framework = () => {
 
           <Grid item sm={12} md={6}>
             <Grow in={true} timeout={1100}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Image
                   src="/Graph-Framework.png"
                   width={400}
@@ -107,7 +108,7 @@ const Framework = () => {
 
           <Grid item sm={12} md={6} style={{ margin: "auto " }}>
             <Grow in={true} timeout={1200}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>WHY A 3S FRAMEWORK?</Typography>
                 <ul style={{ paddingLeft: "0" }}>
                   <li>
@@ -124,7 +125,7 @@ const Framework = () => {
 
           <Grid item sm={12} md={6} style={{ margin: "auto " }}>
             <Grow in={true} timeout={1200}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <ul style={{ paddingLeft: "0" }}>
                   <li>
                     <Typography {...bodyProps}>
@@ -153,7 +154,7 @@ const Framework = () => {
 
           <Grid item sm={12} md={6}>
             <Grow in={true} timeout={1100}>
-              <div>
+              <div style={{ padding: "30px" }}>
                 <Image
                   src="/Graph-Objective.png"
                   width={400}

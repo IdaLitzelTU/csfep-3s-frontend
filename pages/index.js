@@ -36,6 +36,7 @@ export default function Home() {
           },
           margin: "0 auto",
           paddingTop: "10px",
+          paddingBottom: "10vh",
         }}
       >
         <Grid container spacing={4}>
@@ -92,7 +93,7 @@ export default function Home() {
 
           <Grid item sm={12} md={6} style={{ margin: "auto" }}>
             <Grow in={true} timeout={1100}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>OUR MISSION</Typography>
                 <Typography {...bodyProps}>
                   is to generate and disseminate knowledge, inspire and raise
@@ -114,7 +115,7 @@ export default function Home() {
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
-                  padding: "20px",
+                  padding: "30px",
                 }}
               >
                 <Image
@@ -141,7 +142,7 @@ export default function Home() {
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
-                  padding: "20px",
+                  padding: "30px",
                 }}
               >
                 <Image
@@ -162,7 +163,7 @@ export default function Home() {
 
           <Grid item sm={12} md={6} style={{ margin: "auto" }}>
             <Grow in={true} timeout={1200}>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>
                   CLIMATE SMART FOREST ECONOMY
                 </Typography>
