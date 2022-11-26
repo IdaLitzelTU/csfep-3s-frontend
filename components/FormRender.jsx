@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
@@ -7,20 +7,7 @@ import Divider from "@mui/material/Divider"
 import PropTypes from "prop-types"
 import renderers from "./FieldRender"
 
-// TODO: let metadata define icon for the group
-// TODO: Input metadata should include
-// label
-// units
-// key
-// name (description)
-// category
-// categoryIcon (from the branding)
-//
-
 const FormRender = ({ formData, defaultData }) => {
-  console.log(formData)
-  console.log(defaultData)
-
   return (
     <>
       {formData && (
@@ -45,7 +32,7 @@ const FormRender = ({ formData, defaultData }) => {
                     <Grid item key={key} style={{ paddingBottom: "24px" }}>
                       <Divider textAlign="left">
                         <Typography
-                          variant="h5"
+                          variant="h6"
                           style={{ color: "#005B36" }}
                           gutterBottom
                         >
@@ -82,7 +69,7 @@ const FormRender = ({ formData, defaultData }) => {
                             </Grid>
                             <Grid item xs={2}>
                               <Renderer
-                                value={String(defaultData[element.name])}
+                                value={String(defaultData[element.name] || "")}
                                 {...element}
                               />
                             </Grid>

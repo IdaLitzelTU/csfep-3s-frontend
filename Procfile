@@ -1,1 +1,1 @@
-web: yarn start --optimize_for_size
+web: yarn start

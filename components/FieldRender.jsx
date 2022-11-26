@@ -3,10 +3,10 @@ import PropTypes from "prop-types"
 import TextField from "@mui/material/TextField"
 
 const Number = ({
-  key,
+  name,
   default: defaultValue,
   display_name,
-  value,
+  value = "",
   ...props
 }) => {
   const units = getUnits(display_name)
@@ -17,11 +17,12 @@ const Number = ({
       <TextField
         label={label}
         type="number"
-        id={key}
-        key={key}
+        id={name}
+        key={value}
         defaultValue={value}
         style={{ width: "100%" }}
         placeholder={units}
+        inputProps={{ step: 0.01 }}
         helperText={
           defaultValue === "None"
             ? ""
@@ -33,10 +34,10 @@ const Number = ({
 }
 
 const Array = ({
-  key,
+  name,
   default: defaultValue,
   display_name,
-  value,
+  value = "",
   ...props
 }) => {
   const units = getUnits(display_name)
@@ -60,15 +61,14 @@ const Array = ({
     })
     return error
   }
-
   return (
     <div>
       <TextField
         label={label}
         error={error}
-        id={key}
-        key={key}
-        defaultValue={value}
+        id={name}
+        key={value}
+        defaultValue={value.replace("[", "").replace("]", "")}
         style={{ width: "100%" }}
         placeholder={units}
         helperText={`Input comma separated numbers. ${defaultHelper}`}
@@ -79,14 +79,14 @@ const Array = ({
 }
 
 Array.propTypes = {
-  key: PropTypes.string,
+  name: PropTypes.string,
   default: PropTypes.string,
   display_name: PropTypes.string,
   value: PropTypes.string,
 }
 
 Number.propTypes = {
-  key: PropTypes.string,
+  name: PropTypes.string,
   default: PropTypes.string,
   display_name: PropTypes.string,
   value: PropTypes.string,

@@ -55,7 +55,7 @@ const ModelSelection = ({ version, setVersion }) => {
 
 ModelSelection.propTypes = {
   version: PropTypes.string,
-  setVersion: PropTypes.function,
+  setVersion: PropTypes.func,
 }
 
 export default ModelSelection

@@ -18,10 +18,10 @@ function NavBar() {
       href: "/",
       title: "Home",
     },
-    // {
-    //   href: "/datasets",
-    //   title: "Manage Datasets",
-    // },
+    {
+      href: "/framework",
+      title: "3S Framework",
+    },
     {
       href: "/model",
       title: "3S Model",
