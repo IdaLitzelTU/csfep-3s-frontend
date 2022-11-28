@@ -75,8 +75,10 @@ function NavBar() {
                     key={title}
                     sx={{
                       my: 2,
+                      color: currentRoute === href ? "#afb0ae" : "white" ,
                       display: "block",
                       textTransform: "none",
+                      fontFamily: currentRoute === href ? "Gotham Book": "Gotham Medium" 
                     }}
                     variant="text"
                   >
