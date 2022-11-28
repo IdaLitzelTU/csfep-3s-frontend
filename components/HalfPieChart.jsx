@@ -3,6 +3,7 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from "recharts"
 import { Grid, Typography, Stack } from "@mui/material"
 import PropTypes from "prop-types"
 import useDim from "../hooks/useDim"
+import { Minimize } from "@mui/icons-material"
 
 const HalfPieChart = ({ data, colors, units }) => {
   const { ref, width } = useDim()
@@ -48,8 +49,8 @@ const HalfPieChart = ({ data, colors, units }) => {
               data={data}
               cx="50%"
               cy="50%"
-              outerRadius={(width / 3) * 0.4}
-              innerRadius={(width / 3) * 0.4 * 0.75}
+              outerRadius={Math.min((width / 3) * 0.4, 75)}
+              innerRadius={Math.min((width / 3) * 0.4, 75) * 0.75}
               paddingAngle={0}
               // label
             >

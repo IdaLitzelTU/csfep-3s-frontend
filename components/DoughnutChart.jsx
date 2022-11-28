@@ -74,7 +74,7 @@ const DoughnutChart = ({ data, colors }) => {
                   cy: 150,
                   // cx: `${25 + 25 * index}%`,
                   cx: chartPosition(width * 0.6, index),
-                  radius: chartRadius(width * 0.6),
+                  radius: Math.min(chartRadius(width * 0.6), 100),
                   colors,
                   index,
                 })}
