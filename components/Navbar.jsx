@@ -75,7 +75,6 @@ function NavBar() {
                     key={title}
                     sx={{
                       my: 2,
-                      color: "white",
                       display: "block",
                       textTransform: "none",
                     }}
