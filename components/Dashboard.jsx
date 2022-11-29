@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import DoughnutChart from "./DoughnutChart"
-import HalfPieChart from "./HalfPieChart"
+import RadialBChart from "./RadialChart"
 import NumberChart from "./NumberChart"
 import GroupBarChart from "./GroupBarChart"
 import StackedBarChart from "./StackedBarChart"
@@ -12,7 +12,7 @@ import Image from "next/image"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
-const colorsSink = ["#462255", "#B4C6E6"]
+const colorsSink = ["#B4C6E6"]
 const colorsStorage = ["#462255", "#B4C6E6", "#EEE6CF"]
 const colorsSubsctitution = ["#462255", "#B4C6E6"]
 
@@ -128,14 +128,8 @@ const Dashboard = ({ data, version, dataset }) => {
                     <Image alt="Sink" src="/sink.png" {...imageProps} />
                   </div>
                   <Stack direction="row" style={{ padding: "0 5% 5% 5%" }}>
-                    <HalfPieChart
-                      data={[
-                        {
-                          name: "harvested",
-                          value: 0,
-                        },
-                        { name: "accumulated", value: 0 },
-                      ]}
+                    <RadialBChart
+                      data={getSink(data, units)}
                       colors={colorsSink}
                       units={units}
                     />
@@ -219,6 +213,7 @@ function getCommonValues(data, units) {
       name: "Months to regrow forest",
       value: util.round(yearsToRegrowForest * 12),
     },
+
     {
       name: `Carbon gained from forest (${units})`,
       value: util.round(harvested + accumulated),
@@ -227,28 +222,25 @@ function getCommonValues(data, units) {
 }
 
 function getSink(data, units) {
-  const harvested = util.round(data[units]["constants"]["Harvested"])
-  const accumulated = util.round(data[units]["constants"]["Accumulated"])
-  // const accumulated = 3
+  const scenarios = {
+    scenario_1: "S1",
+    scenario_2: "S2",
+    scenario_3: "S3",
+  }
 
-  const carbonBalance = [
-    { name: "tC Harvested", value: util.round(data["Harvested"]) },
-    { name: "tC Accumulated", value: util.round(data["Accumulated"]) },
-  ]
-  const carbonTotal = util.round(data["Accumulated"] + data["Harvested"])
-  const carbonDistribution = [
-    { name: "tC Stored in Scrap", value: util.round(data["C2Scrap"]) },
-    { name: "tC Reintroduced in Forest", value: util.round(data["C2Forest"]) },
-    { name: "tC Stored in Building", value: util.round(data["C2Buildings"]) },
-  ]
+  const out = []
 
-  return [
-    {
-      name: "harvested",
-      value: harvested,
-    },
-    { name: "accumulated", value: accumulated },
-  ]
+  Object.keys(scenarios).forEach((scenario) => {
+    out.push({
+      name: "Carbon recovered during building lifetime",
+      tooltip: scenarios[scenario],
+      value: util.round(
+        data[units][scenario]["Carbon Recovered during Building Lifetime"]
+      ),
+    })
+  })
+
+  return out
 }
 
 function getStorage(data, units) {
