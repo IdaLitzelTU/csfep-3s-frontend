@@ -3,6 +3,7 @@ import { Stack, Typography, Paper, Button } from "@mui/material"
 import PropTypes from "prop-types"
 import { useQuery } from "react-query"
 import * as client from "../api/csfep"
+import Assumptions from "./Assumptions"
 
 const ModelMeta = ({ version }) => {
   const { data } = useQuery(["model-input", version], () =>
@@ -20,7 +21,7 @@ const ModelMeta = ({ version }) => {
       >
         <Stack
           direction="row"
-          justifyContent="flex-end"
+          justifyContent="flex-start"
           alignItems="stretch"
           spacing={2}
         >
@@ -40,6 +41,9 @@ const ModelMeta = ({ version }) => {
             Contact
           </Button>
         </Stack>
+        <Assumptions
+          assumptions={{ Assumptions: "", ...data["assumptions"] }}
+        />
       </Paper>
     )
   )

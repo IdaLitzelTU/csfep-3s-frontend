@@ -5,6 +5,7 @@ import HalfPieChart from "./HalfPieChart"
 import NumberChart from "./NumberChart"
 import GroupBarChart from "./GroupBarChart"
 import StackedBarChart from "./StackedBarChart"
+import Assumptions from "./Assumptions"
 import { Grid, Paper, Stack, Typography, Switch } from "@mui/material"
 import * as util from "../api/util"
 import Image from "next/image"
@@ -91,11 +92,12 @@ const Dashboard = ({ data, version, dataset }) => {
                   tCO2
                 </Typography>
               </Stack>
+              <Assumptions assumptions={data["assumptions"]} />
             </div>
           </Paper>
         </Grid>
 
-        {getCommonValues(data).map((el, i) => (
+        {getCommonValues(data, units).map((el, i) => (
           <Grid item xs={2} key={`number-container-${i}`}>
             <Paper key={`common-paper-${i}`} {...paperStyle}>
               <NumberChart {...el} />
@@ -127,7 +129,13 @@ const Dashboard = ({ data, version, dataset }) => {
                   </div>
                   <Stack direction="row" style={{ padding: "0 5% 5% 5%" }}>
                     <HalfPieChart
-                      data={getSink(data, units)}
+                      data={[
+                        {
+                          name: "harvested",
+                          value: 0,
+                        },
+                        { name: "accumulated", value: 0 },
+                      ]}
                       colors={colorsSink}
                       units={units}
                     />
@@ -161,7 +169,7 @@ const Dashboard = ({ data, version, dataset }) => {
                     }}
                   >
                     <GroupBarChart
-                      data={getSubsctitution(data, units)}
+                      data={getSubstitution(data, units)}
                       colors={colorsSubsctitution}
                       units={units}
                     />
@@ -191,12 +199,12 @@ const Dashboard = ({ data, version, dataset }) => {
   )
 }
 
-function getCommonValues(data) {
-  const buildingArea = data["scenario_1"]["Buildings floor area m2"]
-  const numberOfBuildings = data["scenario_1"]["Number of Buildings"]
-  const yearsToRegrowForest = data["scenario_1"]["Years to Regrow Forest"]
-  const carbonRecoveredDuringLifetime =
-    data["scenario_1"]["Carbon Recovered during Building Lifetime"]
+function getCommonValues(data, units) {
+  const buildingArea = data[units]["constants"]["Buildings floor area m2"]
+  const numberOfBuildings = data[units]["constants"]["Number of Buildings"]
+  const yearsToRegrowForest = data[units]["constants"]["Years to Regrow Forest"]
+  const harvested = data[units]["constants"]["Harvested"]
+  const accumulated = data[units]["constants"]["Accumulated"]
 
   return [
     {
@@ -208,19 +216,19 @@ function getCommonValues(data) {
       value: util.round(numberOfBuildings),
     },
     {
-      name: "Years to regrow forest",
-      value: util.round(yearsToRegrowForest),
+      name: "Months to regrow forest",
+      value: util.round(yearsToRegrowForest * 12),
     },
     {
-      name: "Carbon recovered over building lifetime",
-      value: util.round(carbonRecoveredDuringLifetime),
+      name: `Carbon gained from forest (${units})`,
+      value: util.round(harvested + accumulated),
     },
   ]
 }
 
 function getSink(data, units) {
-  const harvested = util.round(data["scenario_1"][units]["Harvested"])
-  const accumulated = util.round(data["scenario_1"][units]["Accumulated"])
+  const harvested = util.round(data[units]["constants"]["Harvested"])
+  const accumulated = util.round(data[units]["constants"]["Accumulated"])
   // const accumulated = 3
 
   const carbonBalance = [
@@ -260,13 +268,13 @@ function getStorage(data, units) {
     }
     Object.keys(variables).forEach((variable) => {
       scopeData[variables[variable]] = util.round(
-        data[scenario][units][variable]
+        data[units][scenario][variable]
       )
     })
     scopeData["total"] = `${util.round(
-      data[scenario][units]["C2Scrap"] +
-        data[scenario][units]["C2Buildings"] +
-        data[scenario][units]["C2Forest"]
+      data[units][scenario]["C2Scrap"] +
+        data[units][scenario]["C2Buildings"] +
+        data[units][scenario]["C2Forest"]
     )}`
     out.push(scopeData)
   })
@@ -274,14 +282,14 @@ function getStorage(data, units) {
   return out
 }
 
-function getSubsctitution(data, units) {
+function getSubstitution(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    MassTimber: `Timber production emission`,
-    "MT transport": `Timber transport emission`,
-    SteelConcrete: `Steel/concrete production emission`,
-    "SC transport": `Steel/concrete transport emission`,
+    "MT Production": `Timber production emission`,
+    "MT Transport": `Timber transport emission`,
+    "SC Production": `Steel/concrete production emission`,
+    "SC Transport": `Steel/concrete transport emission`,
   }
 
   const out = []
@@ -292,16 +300,16 @@ function getSubsctitution(data, units) {
     }
     Object.keys(variables).forEach((variable) => {
       scopeData[variables[variable]] = util.round(
-        data[scenario][units][variable]
+        data[units][scenario][variable]
       )
     })
     scopeData["totalMT"] = `${util.round(
-      data[scenario][units]["MassTimber"] +
-        data[scenario][units]["MT transport"]
+      data[units][scenario]["MT Production"] +
+        data[units][scenario]["MT Transport"]
     )}`
     scopeData["totalSC"] = `${util.round(
-      data[scenario][units]["SteelConcrete"] +
-        data[scenario][units]["SC transport"]
+      data[units][scenario]["SC Production"] +
+        data[units][scenario]["SC Transport"]
     )}`
     out.push(scopeData)
   })
@@ -319,26 +327,26 @@ function get3sTotals(data, units) {
   const out = []
 
   Object.keys(scenarios).forEach((scenario) => {
-    // formula is Sink - Storage + Substitution
+    // formula is Sink + Substitution
 
-    const sink = util.round(data[scenario][units]["Harvested"])
-    const transportationDiff =
-      data[scenario][units]["SC transport"] -
-      data[scenario][units]["MT transport"]
+    const sink = util.round(
+      data[units][scenario]["Carbon Recovered during Building Lifetime"]
+    )
 
     const storage = util.round(
-      data[scenario][units]["C2Scrap"] +
-        data[scenario][units]["C2Forest"] +
-        data[scenario][units]["C2Buildings"] +
-        transportationDiff
+      data[units][scenario]["C2Scrap"] +
+        data[units][scenario]["C2Forest"] +
+        data[units][scenario]["C2Buildings"]
     )
 
     const substitution = util.round(
-      data[scenario][units]["SteelConcrete"] -
-        data[scenario][units]["MassTimber"]
+      data[units][scenario]["SC Production"] +
+        data[units][scenario]["SC Transport"] -
+        data[units][scenario]["MT Production"] -
+        data[units][scenario]["MT Transport"]
     )
 
-    const total = util.round(sink + storage + substitution)
+    const total = util.round(sink + substitution)
 
     out.push({
       tooltip: `${total} ${units}`,
