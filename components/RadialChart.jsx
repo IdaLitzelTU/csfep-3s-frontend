@@ -60,14 +60,7 @@ const RadialBChart = ({ data, colors, units }) => {
             barSize={Math.max(width * 0.09, 10)}
             data={data}
           >
-            <Tooltip
-              labelFormatter={() => <></>}
-              formatter={(value, name, props) => {
-                const { payload } = props
-                const { tooltip } = payload
-                return [value, tooltip]
-              }}
-            />
+            <Tooltip labelFormatter={() => <></>} formatter={format} />
             <RadialBar
               legendType="none"
               background
@@ -97,3 +90,9 @@ RadialBChart.propTypes = {
 }
 
 export default RadialBChart
+
+const format = (value, name, props) => {
+  const { payload } = props
+  const { tooltip } = payload
+  return [value, tooltip]
+}
