@@ -1,19 +1,57 @@
 import React from "react"
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
+import { Grid, Typography, Box } from "@mui/material"
+
+const headerProps = {
+  variant: "h6",
+  style: {
+    fontFamily: "Gotham Medium",
+    color: "#005B36",
+    paddingTop: "15px",
+  },
+  gutterBottom: true,
+}
+
+const bodyProps = {
+  variant: "body1",
+  style: { fontFamily: "Gotham Book", color: "black", lineHeight: 1.4 },
+  gutterBottom: true,
+}
 
 const About = () => {
   return (
     <main className={styles.main}>
-      <h4
-        style={{
-          textAlign: "center",
-          verticalAlign: "middle",
-          lineHeight: "50",
+      <Box
+        sx={{
+          width: {
+            sm: "100%",
+            md: "40vw",
+          },
+          margin: "auto",
+          paddingTop: "45px",
         }}
       >
-        Contact us
-      </h4>
+        <Grid
+          container
+          justifyContent="space-evenly"
+          alignItems="stretch"
+          spacing={6}
+          columns={1}
+          style={{ width: "100%", minWidth: "650px" }}
+        >
+          <div>
+            <Typography {...headerProps}> CONTACT US</Typography>
+          </div>
+          <div>
+            <Typography {...bodyProps}>
+              If you would like to partner with us, provide potential
+              breakthrough initiative opportunities, or learn more about the
+              CSFEP, please contact us at caris.zwane@dalberg.com.
+            </Typography>
+          </div>
+        </Grid>
+      </Box>
     </main>
   )
 }
