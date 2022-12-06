@@ -60,8 +60,6 @@ const DoughnutChart = ({ data, colors }) => {
                 <text
                   key={`text-pie-${index}`}
                   x={chartPosition(width * 0.6, index)}
-                  // x={`${22 + 21 * index}%`}
-                  // x={`${16 + 21 * index}%`}
                   y={45}
                   textAnchor="middle"
                   fontSize="1.25rem"

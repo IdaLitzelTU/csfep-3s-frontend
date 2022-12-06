@@ -180,11 +180,13 @@ const Dashboard = ({ data, version, dataset }) => {
             width={1}
             height={1}
             style={{
+              paddingTop: "45px",
               objectFit: "contain",
               width: "100%",
               position: "relative",
               height: "unset",
               opacity: "75%",
+              marginBottom: "-2vh",
             }}
           />
         </Grid>
