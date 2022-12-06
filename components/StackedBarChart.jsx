@@ -68,7 +68,8 @@ const StackedBarChart = ({ data, colors, units }) => {
           fontFamily={"Gotham Medium"}
           style={{ lineHeight: 1.4 }}
         >
-          {`Material substitution benefits (${units})`}
+          {`Carbon storage in timber buildings and respective demand for timber
+            (${units})`}
         </Typography>
       </div>
     </Stack>

@@ -90,8 +90,7 @@ const GroupBarChart = ({ data, colors, units }) => {
             fontFamily={"Gotham Medium"}
             style={{ lineHeight: 1.4 }}
           >
-            {`Carbon storage in timber buildings and respective demand for timber
-            (${units})`}
+            {`Material substitution benefits (${units})`}
           </Typography>
         </div>
       </Stack>
