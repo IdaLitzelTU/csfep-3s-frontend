@@ -27,6 +27,9 @@ const About = () => {
           width: {
             sm: "100%",
             md: "40vw",
+            position: "absolute",
+            top: "40vh",
+            left: "30vw",
           },
           margin: "auto",
           paddingTop: "45px",
@@ -47,7 +50,7 @@ const About = () => {
             <Typography {...bodyProps}>
               If you would like to partner with us, provide potential
               breakthrough initiative opportunities, or learn more about the
-              CSFEP, please contact us at caris.zwane@dalberg.com.
+              CSFEP, please contact us at robyn.vandenheuvel@dalberg.com.
             </Typography>
           </div>
         </Grid>
