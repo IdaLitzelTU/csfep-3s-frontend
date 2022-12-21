@@ -77,15 +77,13 @@ export default function Home() {
                 >
                   is a collaborative initiative from EIT Climate-KIC, World
                   Economic Forum, and the World Resources Institute, with seed
-                  funding from Good Energies Foundation. It also counts on
-                  independent scientific council from The Nature Conservancy,
-                  and support from Dalberg Catalyst. We are part of a global
-                  movement or organizations that are scaling climate smart
-                  biobased economies. CSFEPs initial focus is the building and
-                  construction sector and its sourcing practices, where
+                  funding from Good Energies Foundation, and support from Dalberg 
+                  Catalyst. We are part of a global movement of organizations that 
+                  are scaling climate smart biobased economies. CSFEPs initial focus
+                  is the building and construction sector and its sourcing practices, where
                   increasing the use of sustainable forest products could
                   rapidly decarbonize construction, while creating carbon sinks
-                  in cities.
+                  in the built environment.
                 </Typography>
               </div>
             </Grow>
