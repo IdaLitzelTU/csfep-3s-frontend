@@ -45,38 +45,12 @@ const FormRender = ({ formData, defaultData }) => {
                     {formData[key].map((element) => {
                       const Renderer = renderers[element.type]
                       return (
-                        <Grid
-                          item
+                        <Renderer
                           key={element.name}
-                          style={{ paddingBottom: "24px" }}
-                        >
-                          <Grid
-                            container
-                            direction="row"
-                            spacing={2}
-                            columns={5}
-                            alignItems="stretch"
-                          >
-                            <Grid item xs={3} style={{}}>
-                              <div
-                                style={{
-                                  height: "100%",
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Typography>{element.description}</Typography>
-                              </div>
-                            </Grid>
-                            <Grid item xs={2}>
-                              <Renderer
-                                value={String(defaultData[element.name] || "")}
-                                {...element}
-                                default={String(element.default || "")}
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
+                          value={String(defaultData[element.name] || "")}
+                          {...element}
+                          default={String(element.default || "")}
+                        />
                       )
                     })}
                   </div>
