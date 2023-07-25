@@ -13,7 +13,7 @@ const FormRender = ({ formData, defaultData }) => {
       {formData && (
         <Paper
           variant="outlined"
-          elevation={12}
+          key={"paper-outline"}
           style={{
             padding: "5rem",
             backgroundColor: "whitesmoke",
@@ -28,8 +28,9 @@ const FormRender = ({ formData, defaultData }) => {
             >
               {Object.keys(formData).map((key) => {
                 return (
-                  <>
-                    <Grid item key={key} style={{ paddingBottom: "24px" }}>
+                  // originaly that was an empty tag, but next.js does not sit well with keyless head html tags
+                  <div key={key}>
+                    <Grid item style={{ paddingBottom: "24px" }}>
                       <Divider textAlign="left">
                         <Typography
                           variant="h6"
@@ -71,13 +72,14 @@ const FormRender = ({ formData, defaultData }) => {
                               <Renderer
                                 value={String(defaultData[element.name] || "")}
                                 {...element}
+                                default={String(element.default || "")}
                               />
                             </Grid>
                           </Grid>
                         </Grid>
                       )
                     })}
-                  </>
+                  </div>
                 )
               })}
             </Grid>
