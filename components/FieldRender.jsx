@@ -26,7 +26,13 @@ const Row = ({ children, description }) => {
   )
 }
 
-const Group = ({ name, display_name, fields, description, ...props }) => {
+const Group = ({
+  name,
+  display_name: displayName,
+  fields,
+  description,
+  ...props
+}) => {
   const [selectedFields, setSelectedFields] = useState([])
 
   const fieldsObject = JSON.parse(fields)
@@ -52,7 +58,7 @@ const Group = ({ name, display_name, fields, description, ...props }) => {
           id={name}
           value={selectedFields}
           onChange={handleChange}
-          label={display_name}
+          label={displayName}
           style={{ width: "100%" }}
           SelectProps={{
             multiple: true,
@@ -77,13 +83,13 @@ const Group = ({ name, display_name, fields, description, ...props }) => {
 const Number = ({
   name,
   default: defaultValue,
-  display_name,
+  display_name: displayName,
   value = "",
   description,
   ...props
 }) => {
-  const units = getUnits(display_name)
-  const label = cleanString(display_name)
+  const units = getUnits(displayName)
+  const label = cleanString(displayName)
 
   return (
     <Row description={description}>
@@ -99,7 +105,7 @@ const Number = ({
         helperText={
           defaultValue === "None"
             ? ""
-            : `Default value: ${defaultValue}${units ? units : ""}`
+            : `Default value: ${defaultValue}${units || ""}`
         }
       />
     </Row>
@@ -109,17 +115,17 @@ const Number = ({
 const Array = ({
   name,
   default: defaultValue,
-  display_name,
+  display_name: displayName,
   value = "",
   description,
   ...props
 }) => {
-  const units = getUnits(display_name)
-  const label = cleanString(display_name)
+  const units = getUnits(displayName)
+  const label = cleanString(displayName)
   const [error, setError] = useState(false)
   let defaultHelper = ""
   if (defaultValue !== "None") {
-    defaultHelper = `Default value: ${defaultValue}${units ? units : ""}`
+    defaultHelper = `Default value: ${defaultValue}${units || ""}`
   }
 
   function notValidInput(input) {
