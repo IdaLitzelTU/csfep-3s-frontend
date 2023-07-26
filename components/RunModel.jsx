@@ -13,6 +13,7 @@ import Grow from "@mui/material/Grow"
 import Router from "next/router"
 
 import * as client from "../api/csfep"
+import { getFieldValue } from "./FieldRender"
 
 import ModelSelection from "./ModelSelection"
 import ModelRender from "./ModelRender"
@@ -80,17 +81,12 @@ const RunModel = () => {
     }
   }
 
-  function formatArray(value) {
-    return `[${value}]`
-  }
-
   function getData() {
     const names = data ? [...new Set(data.input)] : []
-    const inputData = {}
+
+    let inputData = {}
     names.forEach((input) => {
-      inputData[input.name] = input.type.startsWith("array")
-        ? formatArray(document.getElementById(input.name).value)
-        : document.getElementById(input.name).value
+      inputData = { ...inputData, ...getFieldValue(input) }
     })
 
     const datasetMeta = [
