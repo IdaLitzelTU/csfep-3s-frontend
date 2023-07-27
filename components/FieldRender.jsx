@@ -7,8 +7,12 @@ import MenuItem from "@mui/material/MenuItem"
 
 const Row = ({ children, description }) => {
   return (
-    <Grid container columns={5} style={{ paddingBottom: "24px" }}>
-      <Grid item xs={3} style={{}}>
+    <Grid
+      container
+      columns={5}
+      style={{ paddingBottom: "24px", justifyContent: "space-between" }}
+    >
+      <Grid item xs={2}>
         <div
           style={{
             height: "100%",

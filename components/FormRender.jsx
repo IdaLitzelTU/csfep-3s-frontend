@@ -29,7 +29,7 @@ const FormRender = ({ formData, defaultData }) => {
               {Object.keys(formData).map((key) => {
                 return (
                   // originaly that was an empty tag, but next.js does not sit well with keyless head html tags
-                  <div key={key}>
+                  <div style={{ width: "inherit" }} key={key}>
                     <Grid item style={{ paddingBottom: "24px" }}>
                       <Divider textAlign="left">
                         <Typography
