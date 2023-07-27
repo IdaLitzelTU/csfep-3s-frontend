@@ -30,6 +30,45 @@ const Row = ({ children, description }) => {
   )
 }
 
+const Select = ({
+  name,
+  default: defaultValue,
+  display_name: displayName,
+  options,
+  description,
+  ...props
+}) => {
+  const [selectedValue, setSelectedValue] = useState(defaultValue)
+  const optionsObject = JSON.parse(options)
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event
+    setSelectedValue(value)
+  }
+
+  return (
+    <>
+      <Row description={description}>
+        <TextField
+          select
+          id={name}
+          value={selectedValue}
+          onChange={handleChange}
+          label={displayName}
+          style={{ width: "100%" }}
+        >
+          {optionsObject.map((field) => (
+            <MenuItem key={field.name} value={field.name}>
+              {field.display_name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Row>
+    </>
+  )
+}
+
 const Group = ({
   name,
   display_name: displayName,
@@ -183,6 +222,8 @@ Number.propTypes = {
   ...propTypes,
 }
 
+Select.propTypes = { ...propTypes, options: PropTypes.string }
+
 Group.propTypes = {
   ...propTypes,
   fields: PropTypes.string,
@@ -192,6 +233,7 @@ const renderers = {
   number: Number,
   "array[number]": Array,
   group: Group,
+  select: Select,
 }
 
 export default renderers
@@ -237,6 +279,7 @@ const PARSERS = {
   number: inputParser,
   group: groupParser,
   "array[number]": arrayParser,
+  select: inputParser,
 }
 
 export function getFieldValue(field) {
