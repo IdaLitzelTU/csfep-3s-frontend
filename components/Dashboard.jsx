@@ -212,7 +212,7 @@ function getCommonValues(data, units) {
       value: util.round(numberOfBuildings),
     },
     {
-      name: "Months to regrow forest",
+      name: "Years to regrow forest",
       value: util.round(yearsToRegrowForest * 12),
     },
 
