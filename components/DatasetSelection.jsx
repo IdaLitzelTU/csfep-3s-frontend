@@ -67,7 +67,7 @@ const DatasetSelection = ({
   const onNewChange = (e) => {
     setNewChecked(e.target.checked)
   }
-
+  
   return (
     data &&
     version !== "" && (
@@ -85,10 +85,8 @@ const DatasetSelection = ({
             <Select
               labelId="select-dataset"
               id="select-dataset"
-              value={dataset["dataset_name"]}
-              // defaultValue={"New dataset"}
+              value={dataset.id}
               label="Select dataset"
-              // displayEmpty={false}
               onChange={(event) => {
                 setDataset(
                   datasetList.filter(
@@ -99,12 +97,12 @@ const DatasetSelection = ({
                 )
               }}
             >
-              <MenuItem key="new-dataset" value={-1}>
+              <MenuItem key="new-dataset" value={"-1"}>
                 New dataset
               </MenuItem>
               <ListSubheader>Existing datasets</ListSubheader>
               {data.map((v, index) => (
-                <MenuItem key={v.dataset_name} value={v.id}>
+                <MenuItem key={v.id} value={v.id}>
                   {v.dataset_name}
                 </MenuItem>
               ))}

@@ -20,11 +20,20 @@ import ModelRender from "./ModelRender"
 import DatasetSelection from "./DatasetSelection"
 import ModelMeta from "./ModelMeta"
 
+const dataset_object = {
+  id: "-1",
+  dataset_name: "",
+  organisation_name: "",
+  publisher_name: "",
+  description: "",
+  version: []
+}
+
 const RunModel = () => {
   const router = useRouter()
   const [version, setVersion] = useState("")
   const [outputLoading, setOutputLoading] = useState(false)
-  const [dataset, setDataset] = useState({})
+  const [dataset, setDataset] = useState(dataset_object)
   const [inputError, setError] = useState("")
   const [newChecked, setNewChecked] = useState(false)
 
