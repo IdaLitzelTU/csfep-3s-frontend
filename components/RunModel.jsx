@@ -26,7 +26,7 @@ const dataset_object = {
   organisation_name: "",
   publisher_name: "",
   description: "",
-  version: []
+  version: [],
 }
 
 const RunModel = () => {
@@ -81,7 +81,7 @@ const RunModel = () => {
       setStatus("Saving your dataset")
       const datasetId = await client.postNewDataset(payload)
       setStatus("Running 3S Model")
-      Router.push(`/results?version=${version}&dataset=${datasetId}`)
+      Router.push(`/run?version=${version}&dataset=${datasetId}`)
     } else {
       setStatus("Running 3S Model")
       Router.push(
