@@ -1,5 +1,3 @@
-<img width="628" alt="image" src="https://github.com/DalbergDataInsights/csfep-3s-frontend/assets/27925882/958175e4-c73a-4367-a8ff-11f0fd2601d3">This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
