@@ -58,7 +58,7 @@ const RunModel = () => {
     </>
 
   const isEmpty = (data) => {
-    const empty = (key) => data[key].length < 1
+    const empty = (key) => data[key]?.length < 1
     return Object.keys(data).some(empty)
   }
 
@@ -75,7 +75,8 @@ const RunModel = () => {
       // document.getElementById("error").scrollIntoView()
       return
     }
-
+    
+  
     // if data is not empty then check if you want to persist the model
     if (newChecked) {
       setStatus("Saving your dataset")
@@ -92,12 +93,10 @@ const RunModel = () => {
 
   function getData() {
     const names = data ? [...new Set(data.input)] : []
-
     let inputData = {}
     names.forEach((input) => {
       inputData = { ...inputData, ...getFieldValue(input) }
     })
-
     const datasetMeta = [
       "dataset_name",
       "publisher_name",

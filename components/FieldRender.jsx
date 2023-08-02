@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import TextField from "@mui/material/TextField"
 import Grid from "@mui/material/Grid"
@@ -35,11 +35,17 @@ const Select = ({
   default: defaultValue,
   display_name: displayName,
   options,
+  value,
   description,
   ...props
 }) => {
-  const [selectedValue, setSelectedValue] = useState(defaultValue)
+  const [selectedValue, setSelectedValue] = useState(value)
   const optionsObject = JSON.parse(options)
+ 
+  useEffect(() => {
+    setSelectedValue(value)
+  }, [value])
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -52,11 +58,14 @@ const Select = ({
       <Row description={description}>
         <TextField
           select
-          id={name}
-          value={selectedValue}
-          onChange={handleChange}
+          key={value}
           label={displayName}
           style={{ width: "100%" }}
+          inputProps={{
+            id: name,
+            value: selectedValue,
+            onChange: handleChange,
+          }}
         >
           {optionsObject.map((field) => (
             <MenuItem key={field.name} value={field.name}>
@@ -74,12 +83,23 @@ const Group = ({
   display_name: displayName,
   fields,
   description,
+  value,
   ...props
 }) => {
   const [selectedFields, setSelectedFields] = useState([])
+  const [inputFields, setInputFields] = useState([])
 
   const fieldsObject = JSON.parse(fields)
 
+  useEffect(() => {
+    if(!!value){
+      const parsedFields = JSON.parse(value)
+      setSelectedFields(Object.keys(parsedFields))
+      setInputFields(Object.entries(parsedFields))
+    } else {
+      setSelectedFields([])
+     }
+  }, [value])
   // row at the top with stateful multi-select
   // based on the select, filter the array of fields and render it with rows
 
@@ -99,12 +119,15 @@ const Group = ({
         <TextField
           select
           id={name}
-          value={selectedFields}
-          onChange={handleChange}
           label={displayName}
           style={{ width: "100%" }}
           SelectProps={{
             multiple: true,
+          }}
+          inputProps={{
+            id: name,
+            value: selectedFields,
+            onChange: handleChange,
           }}
         >
           {fieldsObject.map((field) => (
@@ -116,9 +139,18 @@ const Group = ({
       </Row>
       {fieldsObject
         .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) => (
-          <Number {...field} key={index} />
-        ))}
+        .map((field, index) => {
+          inputFields.map((child) => {
+            field.name === child[0] && (
+              <Number
+                {...field}
+                key={index}
+                name={`${name}-${field.name}`}
+                value={child[1]}
+              />
+            )
+          })
+        })}
     </>
   )
 }
@@ -267,12 +299,13 @@ function groupParser(field) {
   const fields = JSON.parse(field.fields)
   const out = {}
   fields.forEach((f) => {
-    const element = document.getElementById(f.name)
+    const groupName = field.name
+    const element = document.getElementById(`${groupName}-${f.name}`)
     if (element) {
       out[f.name] = element.value
     }
   })
-  return out
+  return JSON.stringify(out)
 }
 
 const PARSERS = {
