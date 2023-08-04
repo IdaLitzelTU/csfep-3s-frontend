@@ -41,7 +41,7 @@ const Select = ({
 }) => {
   const [selectedValue, setSelectedValue] = useState(value)
   const optionsObject = JSON.parse(options)
- 
+
   useEffect(() => {
     setSelectedValue(value)
   }, [value])
@@ -83,22 +83,23 @@ const Group = ({
   display_name: displayName,
   fields,
   description,
-  value,
+  value = "",
   ...props
 }) => {
   const [selectedFields, setSelectedFields] = useState([])
   const [inputFields, setInputFields] = useState([])
-
+  
   const fieldsObject = JSON.parse(fields)
 
   useEffect(() => {
-    if(!!value){
+    if (!!value) {
       const parsedFields = JSON.parse(value)
       setSelectedFields(Object.keys(parsedFields))
       setInputFields(Object.entries(parsedFields))
     } else {
       setSelectedFields([])
-     }
+      setInputFields([])
+    }
   }, [value])
   // row at the top with stateful multi-select
   // based on the select, filter the array of fields and render it with rows
@@ -139,18 +140,16 @@ const Group = ({
       </Row>
       {fieldsObject
         .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) => {
-          inputFields.map((child) => {
-            field.name === child[0] && (
-              <Number
-                {...field}
-                key={index}
-                name={`${name}-${field.name}`}
-                value={child[1]}
-              />
-            )
-          })
-        })}
+        .map((field, index) => inputFields.length > 0 ? (
+          <Number
+          {...field}
+          key={index}
+          name={`${name}-${field.name}`}
+          value={inputFields.find((f) => field.name === f[0])[1]}
+        />
+        ) : (
+          <Number {...field} key={index} name={`${name}-${field.name}`} />
+        ))}
     </>
   )
 }

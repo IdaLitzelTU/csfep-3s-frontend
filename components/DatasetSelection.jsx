@@ -55,19 +55,12 @@ const DatasetSelection = ({
 
   const onCompatibleChange = (e) => {
     setChecked(e.target.checked)
-    if (e.target.checked) {
-      // filter to only show compatible versions when checked
-      const s = data.filter((el) => {
-        return el.version.map((v) => v.name === version)
-      })
-      setDatasetList(s)
-    }
   }
 
   const onNewChange = (e) => {
     setNewChecked(e.target.checked)
   }
-  
+
   return (
     data &&
     version !== "" && (
@@ -101,7 +94,15 @@ const DatasetSelection = ({
                 New dataset
               </MenuItem>
               <ListSubheader>Existing datasets</ListSubheader>
-              {data.map((v, index) => (
+              {(checked
+                ? datasetList
+                    .map((el) => ({
+                      ...el,
+                      version: el.version.filter((v) => v.name === version)
+                    }))
+                    .filter((v) => v.version.length > 0)
+                : datasetList
+              ).map((v) => (
                 <MenuItem key={v.id} value={v.id}>
                   {v.dataset_name}
                 </MenuItem>
