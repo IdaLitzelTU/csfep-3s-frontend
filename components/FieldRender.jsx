@@ -88,7 +88,7 @@ const Group = ({
 }) => {
   const [selectedFields, setSelectedFields] = useState([])
   const [inputFields, setInputFields] = useState([])
-  
+
   const fieldsObject = JSON.parse(fields)
 
   useEffect(() => {
@@ -140,16 +140,18 @@ const Group = ({
       </Row>
       {fieldsObject
         .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) => inputFields.length > 0 ? (
-          <Number
-          {...field}
-          key={index}
-          name={`${name}-${field.name}`}
-          value={inputFields.find((f) => field.name === f[0])[1]}
-        />
-        ) : (
-          <Number {...field} key={index} name={`${name}-${field.name}`} />
-        ))}
+        .map((field, index) =>
+          inputFields.length > 0 ? (
+            <Number
+              {...field}
+              key={index}
+              name={`${name}-${field.name}`}
+              value={inputFields.find((f) => field.name === f[0])[1]}
+            />
+          ) : (
+            <Number {...field} key={index} name={`${name}-${field.name}`} />
+          )
+        )}
     </>
   )
 }
@@ -172,7 +174,7 @@ const Number = ({
         type="number"
         id={name}
         key={value}
-        defaultValue={value}
+        defaultValue={value == "" ? defaultValue : value}
         style={{ width: "100%" }}
         placeholder={units}
         inputProps={{ step: 0.01 }}
@@ -200,6 +202,8 @@ const Array = ({
   let defaultHelper = ""
   if (defaultValue !== "None") {
     defaultHelper = `Default value: ${defaultValue}${units || ""}`
+  } else {
+    defaultValue = ""
   }
 
   function notValidInput(input) {
@@ -222,7 +226,11 @@ const Array = ({
         error={error}
         id={name}
         key={value}
-        defaultValue={value.replace("[", "").replace("]", "")}
+        defaultValue={
+          value == ""
+            ? defaultValue.replace("[", "").replace("]", "")
+            : value.replace("[", "").replace("]", "")
+        }
         style={{ width: "100%" }}
         placeholder={units}
         helperText={`Input comma separated numbers. ${defaultHelper}`}
