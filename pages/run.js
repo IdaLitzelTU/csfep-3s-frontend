@@ -3,7 +3,6 @@ import styles from "../styles/Home.module.css"
 import { useQuery } from "react-query"
 import * as client from "../api/csfep"
 import DashboardV1 from "../components/dashboards/v1"
-import DashboardV2 from "../components/dashboards/v2"
 import PropTypes from "prop-types"
 
 export default function Model({ version, dataset }) {
@@ -14,7 +13,7 @@ export default function Model({ version, dataset }) {
   const render = ({ data, version, dataset }) => {
     const availableModels = {
       v1: DashboardV1,
-      v2: DashboardV2,
+      v2: DashboardV1,
     }
 
     const Renderer = availableModels[version]
