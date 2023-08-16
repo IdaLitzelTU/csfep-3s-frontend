@@ -358,7 +358,7 @@ function get3sTotals(data, units) {
 Dashboard.propTypes = {
   data: PropTypes.object,
   version: PropTypes.string,
-  dataset: PropTypes.object,
+  dataset: PropTypes.string,
 }
 
 export default Dashboard
