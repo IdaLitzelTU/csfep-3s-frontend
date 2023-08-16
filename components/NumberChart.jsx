@@ -45,7 +45,7 @@ const NumberChart = ({ name, value, suffix = "", icon = <></> }) => {
 }
 
 NumberChart.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.number,
   suffix: PropTypes.string,
   name: PropTypes.string,
   icon: PropTypes.object,
