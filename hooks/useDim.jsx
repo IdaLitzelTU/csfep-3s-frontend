@@ -7,8 +7,8 @@ const useDim = () => {
   const [height, setHeight] = useState(0)
 
   const handleWindowSizeChange = () => {
-    setWidth(ref.current.offsetWidth)
-    setHeight(ref.current.offsetHeight)
+    setWidth(ref.current?.offsetWidth)
+    setHeight(ref.current?.offsetHeight)
   }
 
   useLayoutEffect(() => {
