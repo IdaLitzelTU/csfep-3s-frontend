@@ -6,9 +6,12 @@ import DashboardV1 from "../components/dashboards/v1"
 import PropTypes from "prop-types"
 
 export default function Model({ version, dataset }) {
-  const { data } = useQuery(["model-output", version, dataset], () =>
-    client.runModel(version, dataset)
-  )
+  const { data } = useQuery(["model-output", version, dataset], () => {
+    if (typeof dataset === "number") {
+      return client.fetchModelOutput(version, dataset);
+    }
+    return client.runModel(version, dataset);
+  })
 
   const render = ({ data, version, dataset }) => {
     const availableModels = {
@@ -34,5 +37,5 @@ Model.getInitialProps = async ({ query }) => {
 
 Model.propTypes = {
   version: PropTypes.string,
-  dataset: PropTypes.object,
+  dataset: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
 }
