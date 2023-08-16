@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography"
 import PropTypes from "prop-types"
 
 const NumberChart = ({ name, value, suffix = "", icon = <></> }) => {
-  
   return (
     <Stack
       spacing={2}
