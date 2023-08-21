@@ -15,7 +15,12 @@ export async function fetchModelInput(version) {
 
 export async function runModel(version, body) {
   // fetch model output for a specified version and dataset
-  const response = await axios.post(`${endpoint}/run/${version}`, body)
+  const options = {
+    headers: {"content-type": "application/json"}
+  }
+  const response = await axios.post(
+    `${endpoint}/run/${version}?body=${JSON.stringify(body)}`, options
+  )
   return response.data.results
 }
 

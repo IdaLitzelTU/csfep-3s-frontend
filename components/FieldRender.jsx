@@ -270,7 +270,7 @@ Group.propTypes = {
 
 const renderers = {
   number: Number,
-  "array[number]": Array,
+  array: Array,
   group: Group,
   select: Select,
 }
@@ -318,11 +318,11 @@ function groupParser(field) {
 const PARSERS = {
   number: inputParser,
   group: groupParser,
-  "array[number]": arrayParser,
+  array: arrayParser,
   select: inputParser,
 }
 
 export function getFieldValue(field) {
   const value = PARSERS[field.type](field)
-  return { [field.name]: value }
+  return { name: field.name, value: value, type: field.type }
 }

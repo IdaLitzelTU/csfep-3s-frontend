@@ -93,9 +93,9 @@ const RunModel = () => {
 
   function getData() {
     const names = data ? [...new Set(data.input)] : []
-    let inputData = {}
+    let inputData = []
     names.forEach((input) => {
-      inputData = { ...inputData, ...getFieldValue(input) }
+      inputData.push(getFieldValue(input))
     })
     const datasetMeta = [
       "dataset_name",
