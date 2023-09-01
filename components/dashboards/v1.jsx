@@ -280,10 +280,10 @@ function getSubstitution(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    "MT Production": `Timber production emission`,
-    "MT Transport": `Timber transport emission`,
-    "SC Production": `Steel/concrete production emission`,
-    "SC Transport": `Steel/concrete transport emission`,
+    "MT Production": `Biomass-based materials manufacturing`,
+    "MT Transport": `Biomass-based materials transport`,
+    "SC Production": `Mineral-based materials manufacturing`,
+    "SC Transport": `Mineral-based materials transport`,
   }
 
   const out = []
