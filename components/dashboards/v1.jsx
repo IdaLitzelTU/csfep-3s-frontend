@@ -204,7 +204,7 @@ function getCommonValues(data, units) {
 
   return [
     {
-      name: "Bulding floor area (sqm)",
+      name: "Bulding floor area [m2]",
       value: util.round(buildingArea),
     },
     {
@@ -212,12 +212,12 @@ function getCommonValues(data, units) {
       value: util.round(numberOfBuildings),
     },
     {
-      name: "Years to regrow forest",
+      name: "Time to replenish forest carbon [years]",
       value: util.round(yearsToRegrowForest * 12),
     },
 
     {
-      name: `Carbon gained from forest (${units})`,
+      name: `Carbon gained from forest [${units}]`,
       value: util.round(harvested + accumulated),
     },
   ]
@@ -249,9 +249,9 @@ function getStorage(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    C2Scrap: `Carbon leftover in scrap timber after production`,
-    C2Buildings: `Carbon stored in buildings`,
-    C2Forest: `Carbon returned to forest`,
+    C2Scrap: `Scrap wood`,
+    C2Buildings: `Building`,
+    C2Forest: `Forest`,
   }
 
   const out = []
