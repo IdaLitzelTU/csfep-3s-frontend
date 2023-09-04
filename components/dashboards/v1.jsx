@@ -213,7 +213,7 @@ function getCommonValues(data, units) {
     },
     {
       name: "Time to replenish forest carbon [years]",
-      value: util.round(yearsToRegrowForest * 12),
+      value: util.round(yearsToRegrowForest),
     },
 
     {
