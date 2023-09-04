@@ -212,13 +212,12 @@ function getCommonValues(data, units) {
       value: util.round(numberOfBuildings),
     },
     {
-      name: "Time to replenish forest carbon [years]",
-      value: util.round(yearsToRegrowForest),
-    },
-
-    {
       name: `Carbon gained from forest [${units}]`,
       value: util.round(harvested + accumulated),
+    },
+    {
+      name: "Time to replenish forest carbon [years]",
+      value: util.round(yearsToRegrowForest),
     },
   ]
 }
