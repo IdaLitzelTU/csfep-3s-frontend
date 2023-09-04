@@ -14,7 +14,7 @@ const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
 const colorsSink = ["#008000"]
 const colorsStorage = ["#462255", "#B4C6E6", "#EEE6CF"]
-const colorsSubsctitution = ["#462255", "#B4C6E6"]
+const colorsSubsctitution = ["#FFD966", "#FFC000"]
 
 const imageDivStyle = {
   position: "relative",

@@ -50,7 +50,7 @@ const GroupBarChart = ({ data, colors, units }) => {
             <Legend
               iconType="circle"
               align="left"
-              wrapperStyle={{ paddingLeft: "55px" }}
+              wrapperStyle={{ paddingLeft: "55px", bottom:"-1.5rem", lineHeight:"1.5rem" }}
               formatter={(value) => (
                 <span style={{ fontFamily: "Gotham Book", color: "black" }}>
                   {value}
