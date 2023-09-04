@@ -46,7 +46,7 @@ const GroupBarChart = ({ data, colors, units }) => {
             <CartesianGrid strokeDasharray="1" vertical={false} />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip />
+            <Tooltip itemStyle={{marginTop:'0.75rem'}} labelStyle={{marginTop:'0.75rem'}} />
             <Legend
               iconType="circle"
               align="left"

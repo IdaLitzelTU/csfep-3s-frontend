@@ -40,7 +40,7 @@ const StackedBarChart = ({ data, colors, units }) => {
           <CartesianGrid strokeDasharray="1" horizontal={false} />
           <XAxis type="number" domain={[0, "dataMax + 1.5"]} />
           <YAxis type="category" dataKey="name" />
-          <Tooltip />
+          <Tooltip itemStyle={{marginTop:'0.8rem'}} labelStyle={{margin:'0.8rem 0'}} />
           <Legend
             align="left"
             iconType="circle"
