@@ -1,3 +1,5 @@
-export function round(val, digits = 2) {
-  return Math.round(val * 10 ** digits) / 10 ** digits
+export function round(val) {
+   // if greater than 1000 round to 0 else round 2
+   const roundDecimal = val < 100 ? 2 : 0
+  return Math.round(val * 10 ** roundDecimal) / 10 ** roundDecimal
 }
