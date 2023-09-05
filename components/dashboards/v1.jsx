@@ -13,7 +13,7 @@ import Image from "next/image"
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
 const colorsSink = ["#008000"]
-const colorsStorage = ["#462255", "#B4C6E6", "#EEE6CF"]
+const colorsStorage = ["#7B3F00", "#B87333", "#D27D2D"]
 const colorsSubsctitution = ["#FFD966", "#FFC000"]
 
 const imageDivStyle = {
@@ -248,8 +248,8 @@ function getStorage(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    C2Scrap: `Scrap wood`,
     C2Buildings: `Building`,
+    C2Scrap: `Scrap wood`,
     C2Forest: `Forest`,
   }
 
