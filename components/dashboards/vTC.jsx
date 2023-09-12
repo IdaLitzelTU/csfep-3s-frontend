@@ -44,7 +44,7 @@ const paperStyle = {
   },
 }
 
-const Dashboard = ({ data, version, dataset }) => {
+const Dashboard = ({ data, version, dataset, dataset_name }) => {
 
   return (
     data && <>{JSON.stringify(data)} </>
@@ -57,6 +57,7 @@ Dashboard.propTypes = {
   data: PropTypes.object,
   version: PropTypes.string,
   dataset: PropTypes.array,
+  dataset_name: PropTypes.string
 }
 
 export default Dashboard

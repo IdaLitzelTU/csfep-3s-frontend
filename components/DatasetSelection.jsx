@@ -69,7 +69,7 @@ const DatasetSelection = ({
         style={{
           padding: "5rem",
           backgroundColor: "whitesmoke",
-          marginTop: "1rem"
+          marginTop: "1rem",
         }}
       >
         <h4 style={{ color: "#005B36" }}>Choose a Dataset: </h4>
@@ -99,7 +99,7 @@ const DatasetSelection = ({
                 ? datasetList
                     .map((el) => ({
                       ...el,
-                      version: el.version.filter((v) => v.name === version)
+                      version: el.version.filter((v) => v.name === version),
                     }))
                     .filter((v) => v.version.length > 0)
                 : datasetList
@@ -133,63 +133,62 @@ const MetaFields = ({ dataset, changeFunction }) => {
   const [layout, setLayout] = useState(<></>)
 
   useEffect(() => {
+    const buildLayout = (dataset) => {
+      return (
+        <Grid container columns={2} spacing={2} alignItems="stretch">
+          <Grid item xs={1}>
+            <TextField
+              label="Your name"
+              type="string"
+              id="publisher_name"
+              key={dataset["publisher_name"] || ""}
+              defaultValue={dataset["publisher_name"] || ""}
+              style={{ width: "100%" }}
+              onChange={(e) => changeFunction(e)}
+              placeholder="Please specify your name (optional)"
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <TextField
+              label="Your organization"
+              type="string"
+              id="organisation_name"
+              key={dataset["organisation_name"] || ""}
+              defaultValue={dataset["organisation_name"] || ""}
+              style={{ width: "100%" }}
+              placeholder="Please specify your organization (optional)"
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              label="Dataset name"
+              type="string"
+              id="dataset_name"
+              key={dataset["dataset_name"] || ""}
+              defaultValue={dataset["dataset_name"] || ""}
+              style={{ width: "100%" }}
+              onChange={(e) => changeFunction(e)}
+              placeholder="Please name your dataset (required)"
+              required
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              label="Dataset description"
+              type="string"
+              id="description"
+              key={dataset["description"] || ""}
+              defaultValue={dataset["description"] || ""}
+              style={{ width: "100%" }}
+              onChange={(e) => changeFunction(e)}
+              placeholder="Please write short dataset description here (optional)"
+            />
+          </Grid>
+        </Grid>
+      )
+    }
     setLayout(buildLayout(dataset))
-  }, [dataset])
-
-  const buildLayout = (dataset) => {
-    return (
-      <Grid container columns={2} spacing={2} alignItems="stretch">
-        <Grid item xs={1}>
-          <TextField
-            label="Your name"
-            type="string"
-            id="publisher_name"
-            key={dataset["publisher_name"] || ""}
-            defaultValue={dataset["publisher_name"] || ""}
-            style={{ width: "100%" }}
-            onChange={(e)=>changeFunction(e)}
-            placeholder="Please specify your name (optional)"
-          />
-        </Grid>
-        <Grid item xs={1}>
-          <TextField
-            label="Your organization"
-            type="string"
-            id="organisation_name"
-            key={dataset["organisation_name"] || ""}
-            defaultValue={dataset["organisation_name"] || ""}
-            style={{ width: "100%" }}
-            placeholder="Please specify your organization (optional)"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label="Dataset name"
-            type="string"
-            id="dataset_name"
-            key={dataset["dataset_name"] || ""}
-            defaultValue={dataset["dataset_name"] || ""}
-            style={{ width: "100%" }}
-            onChange={(e)=>changeFunction(e)}
-            placeholder="Please name your dataset (required)"
-            required
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label="Dataset description"
-            type="string"
-            id="description"
-            key={dataset["description"] || ""}
-            defaultValue={dataset["description"] || ""}
-            style={{ width: "100%" }}
-            onChange={(e)=>changeFunction(e)}
-            placeholder="Please write short dataset description here (optional)"
-          />
-        </Grid>
-      </Grid>
-    )
-  }
+  }, [dataset, changeFunction])
 
   return layout
 }

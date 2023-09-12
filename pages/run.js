@@ -20,7 +20,14 @@ export default function Model({ version, dataset, dataset_name }) {
     }
 
     const Renderer = availableModels[version]
-    return <Renderer data={data} version={version} dataset={dataset} dataset_name={dataset_name} />
+    return (
+      <Renderer
+        data={data}
+        version={version}
+        dataset={dataset}
+        dataset_name={dataset_name}
+      />
+    )
   }
 
   return (
@@ -38,4 +45,5 @@ Model.getInitialProps = async ({ query }) => {
 Model.propTypes = {
   version: PropTypes.string,
   dataset: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  dataset_name: PropTypes.string,
 }
