@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import MenuItem from "@mui/material/MenuItem"
+import { InputAdornment } from "@mui/material"
 
 const Row = ({ children, description }) => {
   return (
@@ -162,11 +163,11 @@ const Number = ({
   display_name: displayName,
   value = "",
   description,
+  unit,
   ...props
 }) => {
   const units = getUnits(displayName)
   const label = cleanString(displayName)
-
   return (
     <Row description={description}>
       <TextField
@@ -178,6 +179,9 @@ const Number = ({
         style={{ width: "100%" }}
         placeholder={units}
         inputProps={{ step: 0.01 }}
+        InputProps={ unit && {
+          endAdornment: <InputAdornment position="end">{unit}</InputAdornment>,
+        }}
         helperText={
           defaultValue === "None"
             ? ""
@@ -194,6 +198,7 @@ const Array = ({
   display_name: displayName,
   value = "",
   description,
+  unit,
   ...props
 }) => {
   const units = getUnits(displayName)
@@ -232,6 +237,9 @@ const Array = ({
             : value.replace("[", "").replace("]", "")
         }
         style={{ width: "100%" }}
+        InputProps={ unit && {
+          endAdornment: <InputAdornment position="end">{unit}</InputAdornment>,
+        }}
         placeholder={units}
         helperText={`Input comma separated numbers. ${defaultHelper}`}
         onChange={(e) => notValidInput(e)}
