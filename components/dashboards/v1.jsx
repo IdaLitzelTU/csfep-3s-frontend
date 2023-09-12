@@ -14,9 +14,9 @@ import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
-const colorsSink = ["#008000"]
+const colorsSink = ["#005B36BF"]
 const colorsStorage = ["#7B3F00", "#B87333", "#D27D2D"]
-const colorsSubsctitution = ["#FFD966", "#FFC000"]
+const colorsSubsctitution = ["#FFC000","#FFD966"]
 
 const imageDivStyle = {
   position: "relative",
