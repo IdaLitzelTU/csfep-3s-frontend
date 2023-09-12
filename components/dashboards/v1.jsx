@@ -9,6 +9,8 @@ import Assumptions from "../Assumptions"
 import { Grid, Paper, Stack, Typography, Switch } from "@mui/material"
 import * as util from "../../api/util"
 import Image from "next/image"
+import { ArrowBack } from "@mui/icons-material"
+import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
@@ -44,8 +46,9 @@ const paperStyle = {
   },
 }
 
-const Dashboard = ({ data, version, dataset }) => {
+const Dashboard = ({ data, version, dataset, dataset_name }) => {
   const [units, setUnits] = useState("tC")
+  const router = useRouter()
 
   const handleChange = (event) => {
     setUnits(event.target.checked ? "tCO2" : "tC")
@@ -70,11 +73,28 @@ const Dashboard = ({ data, version, dataset }) => {
                 textAlign: "center",
               }}
             >
-              <Typography variant="h4" style={{ fontFamily: "Gotham Medium" }}>
-                Climate Smart Forest Economy Program: 3
-                <span style={{ color: "green" }}>S</span>
-                Model {`${version}`}
-              </Typography>
+              <Stack direction="row" spacing={4} alignItems="flex-start">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  onClick={() => router.back()}
+                  style={{ cursor: "pointer" }}
+                >
+                  <ArrowBack fontSize="medium" />
+                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>Return</span>
+                </Stack>
+                <Typography
+                  variant="h4"
+                  style={{ fontFamily: "Gotham Medium" }}
+                >
+                  Climate Smart Forest Economy Program: 3
+                  <span style={{ color: "green" }}>S</span>
+                  Model {`${version}`}
+                  <br />
+                  Building Initiative: {dataset_name}
+                </Typography>
+              </Stack>
               <Stack
                 direction="row"
                 spacing={1}
@@ -358,6 +378,7 @@ Dashboard.propTypes = {
   data: PropTypes.object,
   version: PropTypes.string,
   dataset: PropTypes.array,
+  dataset_name: PropTypes.string,
 }
 
 export default Dashboard

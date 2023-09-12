@@ -82,11 +82,11 @@ const RunModel = () => {
       setStatus("Saving your dataset")
       const datasetId = await client.postNewDataset(payload)
       setStatus("Running 3S Model")
-      Router.push(`/run?version=${version}&dataset=${datasetId}`)
+      Router.push(`/run?version=${version}&dataset=${datasetId}&dataset_name=${dataset.dataset_name}`)
     } else {
       setStatus("Running 3S Model")
       Router.push(
-        `/run?version=${version}&dataset=${JSON.stringify(payload.data)}`
+        `/run?version=${version}&dataset=${JSON.stringify(payload.data)}&dataset_name=${dataset.dataset_name}`
       )
     }
   }
@@ -113,7 +113,6 @@ const RunModel = () => {
 
     return newDataset
   }
-
   return (
     <Stack
       direction="column"

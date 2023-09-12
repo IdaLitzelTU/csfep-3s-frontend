@@ -5,13 +5,12 @@ import * as client from "../api/csfep"
 import DashboardV1 from "../components/dashboards/v1"
 import PropTypes from "prop-types"
 
-export default function Model({ version, dataset }) {
+export default function Model({ version, dataset, dataset_name }) {
   const { data } = useQuery(["model-output", version, dataset], () =>
     typeof dataset === "number"
       ? client.fetchModelOutput(version, dataset)
       : client.runModel(version, dataset)
   )
-
   const render = ({ data, version, dataset }) => {
     const availableModels = {
       v1: DashboardV1,
@@ -19,7 +18,7 @@ export default function Model({ version, dataset }) {
     }
 
     const Renderer = availableModels[version]
-    return <Renderer data={data} version={version} dataset={dataset} />
+    return <Renderer data={data} version={version} dataset={dataset} dataset_name={dataset_name} />
   }
 
   return (
@@ -30,8 +29,8 @@ export default function Model({ version, dataset }) {
 }
 
 Model.getInitialProps = async ({ query }) => {
-  const { version, dataset } = query
-  return { version, dataset: JSON.parse(dataset) }
+  const { version, dataset, dataset_name } = query
+  return { version, dataset: JSON.parse(dataset), dataset_name }
 }
 
 Model.propTypes = {
