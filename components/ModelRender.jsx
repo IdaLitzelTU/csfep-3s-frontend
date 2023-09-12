@@ -4,6 +4,7 @@ import FormRender from "./FormRender"
 import { useQuery } from "react-query"
 import * as client from "../api/csfep"
 
+
 const ModelRender = ({ version, dataset }) => {
   const { data } = useQuery(["model-input", version], () =>
     client.fetchModelInput(version)
@@ -50,7 +51,7 @@ const ModelRender = ({ version, dataset }) => {
 
   return (
     <>
-      <FormRender formData={formData} defaultData={body} />
+     <FormRender formData={formData} defaultData={body} />
     </>
   )
 }

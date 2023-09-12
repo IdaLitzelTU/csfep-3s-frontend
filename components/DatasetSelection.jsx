@@ -69,6 +69,7 @@ const DatasetSelection = ({
         style={{
           padding: "5rem",
           backgroundColor: "whitesmoke",
+          marginTop: "1rem"
         }}
       >
         <h4 style={{ color: "#005B36" }}>Choose a Dataset: </h4>
@@ -146,6 +147,7 @@ const MetaFields = ({ dataset, changeFunction }) => {
             key={dataset["publisher_name"] || ""}
             defaultValue={dataset["publisher_name"] || ""}
             style={{ width: "100%" }}
+            onChange={(e)=>changeFunction(e)}
             placeholder="Please specify your name (optional)"
           />
         </Grid>
@@ -168,6 +170,7 @@ const MetaFields = ({ dataset, changeFunction }) => {
             key={dataset["dataset_name"] || ""}
             defaultValue={dataset["dataset_name"] || ""}
             style={{ width: "100%" }}
+            onChange={(e)=>changeFunction(e)}
             placeholder="Please name your dataset (required)"
             required
           />
@@ -180,6 +183,7 @@ const MetaFields = ({ dataset, changeFunction }) => {
             key={dataset["description"] || ""}
             defaultValue={dataset["description"] || ""}
             style={{ width: "100%" }}
+            onChange={(e)=>changeFunction(e)}
             placeholder="Please write short dataset description here (optional)"
           />
         </Grid>

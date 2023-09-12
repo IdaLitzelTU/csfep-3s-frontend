@@ -31,6 +31,7 @@ const dataset_object = {
 
 const RunModel = () => {
   const router = useRouter()
+
   const [version, setVersion] = useState("")
   const [outputLoading, setOutputLoading] = useState(false)
   const [dataset, setDataset] = useState(dataset_object)
@@ -66,7 +67,6 @@ const RunModel = () => {
     setOutputLoading(true)
     const payload = getData()
     setStatus("Checking your data")
-
     // check if data is empty
     if (isEmpty(payload.data)) {
       setOutputLoading(false)
@@ -75,8 +75,7 @@ const RunModel = () => {
       // document.getElementById("error").scrollIntoView()
       return
     }
-    
-  
+    console.log(payload)
     // if data is not empty then check if you want to persist the model
     if (newChecked) {
       setStatus("Saving your dataset")
@@ -94,7 +93,9 @@ const RunModel = () => {
   function getData() {
     const names = data ? [...new Set(data.input)] : []
     let inputData = []
+
     names.forEach((input) => {
+     // console.log(input)
       inputData.push(getFieldValue(input))
     })
     const datasetMeta = [
@@ -103,95 +104,94 @@ const RunModel = () => {
       "organisation_name",
       "description",
     ]
-
     const newDataset = {}
     datasetMeta.forEach((dm) => {
       newDataset[dm] = document.getElementById(dm).value
     })
+
     newDataset["version"] = version
     newDataset["data"] = inputData
-
     return newDataset
   }
   return (
-    <Stack
-      direction="column"
-      justifyContent="space-between"
-      alignItems="stretch"
-      spacing={2}
-      height="100%"
-    >
-      <div>
-        <Grow
-          in={error !== "" || inputError !== ""}
-          {...(error !== "" || inputError !== "" ? { timeout: 1000 } : {})}
+        <Stack
+          direction="column"
+          justifyContent="space-between"
+          alignItems="stretch"
+          spacing={2}
+          height="100%"
         >
-          <Typography id="error" variant="h4" style={{ color: "red" }}>
-            {error}
-            <br />
-            {inputError}
-          </Typography>
-        </Grow>
-        <h4>Available Model Versions: {"  "} </h4>
-        <ModelSelection version={version} setVersion={setVersion} />
-        <br></br>
-        <ModelMeta version={version} />
-        <br></br>
-        <DatasetSelection
-          version={version}
-          dataset={dataset}
-          setDataset={setDataset}
-          newChecked={newChecked}
-          setNewChecked={setNewChecked}
-        />
-      </div>
-      <div style={{ minHeight: "60vh" }}>
-        {version && dataset ? (
-          <ModelRender version={version} dataset={dataset} />
-        ) : (
-          <h4
-            style={{
-              textAlign: "center",
-              verticalAlign: "middle",
-              lineHeight: "50",
-            }}
-          >
-            Please select a version to run the model
-          </h4>
-        )}
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          sx={{
-            float: "right",
-            color: "white",
-            backgroundColor: "#005B36",
-            textTransform: "none",
-          }}
-          onClick={handleClick}
-          disabled={version !== "" ? false : true}
-        >
-          Save & Run
-        </Button>
-        {outputLoading ? (
-          <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={outputLoading}
-          >
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <CircularProgress color="inherit" />
-              <Typography position="absolute" mt={10}>
-                {status}
+          <div>
+            <Grow
+              in={error !== "" || inputError !== ""}
+              {...(error !== "" || inputError !== "" ? { timeout: 1000 } : {})}
+            >
+              <Typography id="error" variant="h4" style={{ color: "red" }}>
+                {error}
+                {inputError}
               </Typography>
-              <Typography position="absolute" mt={15}>
-                Please do not close this page.
-              </Typography>
-            </Box>
-          </Backdrop>
-        ) : null}
-      </div>
-    </Stack>
+            </Grow>
+            <h4>Available Model Versions: {"  "} </h4>
+            <ModelSelection version={version} setVersion={setVersion} />
+            <ModelMeta version={version} />
+            <DatasetSelection
+              version={version}
+              dataset={dataset}
+              setDataset={setDataset}
+              newChecked={newChecked}
+              setNewChecked={setNewChecked}
+            />
+          </div>
+          <div style={{ minHeight: "60vh" }}>
+            {version && dataset ? (
+              <ModelRender version={version} dataset={dataset} />
+            ) : (
+              <h4
+                style={{
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  lineHeight: "50",
+                }}
+              >
+                Please select a version to run the model
+              </h4>
+            )}
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              sx={{
+                float: "right",
+                color: "white",
+                backgroundColor: "#005B36",
+                textTransform: "none",
+              }}
+              onClick={handleClick}
+              disabled={version !== "" ? false : true}
+            >
+              Save & Run
+            </Button>
+            {outputLoading ? (
+              <Backdrop
+                sx={{
+                  color: "#fff",
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={outputLoading}
+              >
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <CircularProgress color="inherit" />
+                  <Typography position="absolute" mt={10}>
+                    {status}
+                  </Typography>
+                  <Typography position="absolute" mt={15}>
+                    Please do not close this page.
+                  </Typography>
+                </Box>
+              </Backdrop>
+            ) : null}
+          </div>
+        </Stack>
   )
 }
 

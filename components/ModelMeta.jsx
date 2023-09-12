@@ -17,6 +17,7 @@ const ModelMeta = ({ version }) => {
         style={{
           padding: "1rem",
           backgroundColor: "whitesmoke",
+          marginTop: "1rem",
         }}
       >
         <Stack

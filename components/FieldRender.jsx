@@ -4,6 +4,12 @@ import TextField from "@mui/material/TextField"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import MenuItem from "@mui/material/MenuItem"
+import Accordion from "@mui/material/Accordion"
+import AccordionSummary from "@mui/material/AccordionSummary"
+import AccordionDetails from "@mui/material/AccordionDetails"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import DialogComponent from "./DialogComponent"
+import { Button } from "@mui/material"
 import { InputAdornment } from "@mui/material"
 
 const Row = ({ children, description }) => {
@@ -53,7 +59,6 @@ const Select = ({
     } = event
     setSelectedValue(value)
   }
-
   return (
     <>
       <Row description={description}>
@@ -194,19 +199,22 @@ const Number = ({
 
 const Array = ({
   name,
-  default: defaultValue,
+  default: defaultValue = "[0,0,0]",
   display_name: displayName,
   value = "",
   description,
+  defaultHelper = "",
   unit,
   ...props
 }) => {
   const units = getUnits(displayName)
   const label = cleanString(displayName)
   const [error, setError] = useState(false)
-  let defaultHelper = ""
+
   if (defaultValue !== "None") {
-    defaultHelper = `Default value: ${defaultValue}${units || ""}`
+    defaultHelper = `Default value: ${defaultValue}${
+      units || ""
+    } ${defaultHelper}`
   } else {
     defaultValue = ""
   }
@@ -241,10 +249,180 @@ const Array = ({
           endAdornment: <InputAdornment position="end">{unit}</InputAdornment>,
         }}
         placeholder={units}
-        helperText={`Input comma separated numbers. ${defaultHelper}`}
+        helperText={
+          defaultHelper !== ""
+            ? defaultHelper
+            : `Input comma separated numbers. ${defaultHelper}`
+        }
         onChange={(e) => notValidInput(e)}
       />
     </Row>
+  )
+}
+
+const InputWithOverlay = ({
+  name,
+  default: defaultValue,
+  display_name: displayName,
+  value = "",
+  description,
+  defaultHelper = "Open Calculator",
+  modal = "transportCalculator",
+  ...props
+}) => {
+  const [openModal, setOpenModal] = useState(false)
+  const [calcValue, setCalcValue] = useState(value)
+  const Modal = MODALS[modal]
+
+useEffect(()=>{
+  setCalcValue(value)
+},[value])
+  return (
+    <>
+      <Array
+        name={name}
+        default={defaultValue}
+        display_name={displayName}
+        value={calcValue}
+        key={value}
+        description={description}
+        defaultHelper={
+          <span
+            style={{
+              color: "#0096FF",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+            onClick={() => setOpenModal(true)}
+          >
+            {defaultHelper}
+          </span>
+        }
+      />
+      <Modal
+        openModal={openModal}
+        handleClose={() => setOpenModal(false)}
+        setValue={setCalcValue}
+        transportName = {name}
+      />
+    </>
+  )
+}
+
+const Text = ({
+  name,
+  default: defaultValue,
+  display_name: displayName,
+  value = "",
+  description,
+  ...props
+}) => {
+  const units = getUnits(displayName)
+  const label = cleanString(displayName)
+  let defaultHelper
+  if (defaultValue !== "None") {
+    defaultHelper = `Default value: ${defaultValue}${
+      units || ""
+    } ${defaultHelper}`
+  } else {
+    defaultValue = ""
+  }
+  return (
+    <Row description={description}>
+      <TextField
+        label={label}
+        id={name}
+        key={value}
+        defaultValue={value == "" ? defaultValue : value}
+        style={{ width: "100%" }}
+        helperText={defaultHelper}
+      />
+    </Row>
+  )
+}
+
+const StagedInput = ({
+  name,
+  display_name: displayName,
+  fields,
+  description,
+  value = "",
+  ...props
+}) => {
+
+  const [steps, setSteps] = useState([{ id: 1}])
+  const [expanded, setExpanded] = useState("step1")
+
+  const fieldsObject = JSON.parse(fields)
+  const addStep = () => {
+    const newStepId = steps.length + 1
+    setSteps([...steps, { id: newStepId }])
+  }
+  const removeStep = (index) => {
+    setSteps(steps.filter((s) => s.id !== index))
+  }
+
+
+  useEffect(() => {
+    let parsedData
+    if (value !== "") {
+      parsedData = JSON.parse(value)
+    } else {
+      parsedData = []
+    }
+    const incomingValue = parsedData.map((el, i) => ({id: i, ...el}))
+    setSteps(incomingValue)
+  }, [value])
+
+
+  return (
+    <Grid>
+      {steps.map((step, index) => (
+        <Accordion key={step.id} expanded={expanded === `step${step.id}` ? true : false} onChange={() => setExpanded(`step${step.id}`)} >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`step${step.id}-content`}
+            id={`step${step.id}-header`}
+          >
+            <Typography>Step {step.id}</Typography>
+          </AccordionSummary>
+          <AccordionDetails id={`step${step.id}`}>
+            {fieldsObject.map((element) => {
+              const Renderer = renderers[element.type]
+              console.log(element)
+              return (
+                <Renderer
+                  key={element.name + "_" + index}
+                  value={step && step[element.name]}
+                  {...element}
+                  default={element.default || ""}
+                />
+              )
+            })}
+          </AccordionDetails>
+          <div style={{ display: "flex", justifyContent: "right",  margin: "1rem",  }}>
+            <Button color="error" style={{ textTransform: "none"  }} onClick={() => removeStep(step.id)}>Remove step</Button>
+          </div>
+        </Accordion>
+      ))}
+
+      <div
+        style={{ display: "flex", justifyContent: "right",  margin: "1rem"}}
+      >
+        <Button
+          style={{
+            float: "right",
+            color: "white",
+            backgroundColor: "#005B36",
+            textTransform: "none",
+            width: "6rem",
+          }}
+          onClick={addStep}
+        >
+          Add Step
+        </Button>
+      </div>
+    </Grid>
   )
 }
 
@@ -269,6 +447,10 @@ Number.propTypes = {
   ...propTypes,
 }
 
+Text.propTypes = {
+  ...propTypes,
+}
+
 Select.propTypes = { ...propTypes, options: PropTypes.string }
 
 Group.propTypes = {
@@ -276,11 +458,23 @@ Group.propTypes = {
   fields: PropTypes.string,
 }
 
+StagedInput.propTypes = {
+  ...propTypes,
+  fields: PropTypes.string,
+}
+
+InputWithOverlay.propTypes = {
+  ...propTypes,
+}
+
 const renderers = {
   number: Number,
   array: Array,
+  text: Text,
   group: Group,
   select: Select,
+  staged_input: StagedInput,
+  modal: InputWithOverlay,
 }
 
 export default renderers
@@ -322,15 +516,44 @@ function groupParser(field) {
   })
   return JSON.stringify(out)
 }
+function stageParser(field) {
+  const accordions = document.querySelectorAll(".MuiAccordionDetails-root")
+  const accordionValues = []
 
+  accordions.forEach((accordion) => {
+    const inputs = accordion.querySelectorAll("input")
+    const accordionData = {}
+    const fields = JSON.parse(field.fields)
+
+    inputs.forEach((input, index) => {
+      // accordionData[fields[index].name] = input.value;
+      fields.forEach((f) => {
+        if (input.getAttribute("id") == f.name) {
+          accordionData[f.name] = input.value
+        }
+      })
+    })
+
+    accordionValues.push(accordionData)
+  })
+
+  return JSON.stringify(accordionValues)
+}
 const PARSERS = {
   number: inputParser,
   group: groupParser,
   array: arrayParser,
   select: inputParser,
+  text: inputParser,
+  staged_input: stageParser,
+  modal: arrayParser,
+}
+
+const MODALS = {
+  transportCalculator: DialogComponent,
 }
 
 export function getFieldValue(field) {
   const value = PARSERS[field.type](field)
-  return { name: field.name, value: value, type: field.type }
+  return { name: field.name, value, type: field.type }
 }

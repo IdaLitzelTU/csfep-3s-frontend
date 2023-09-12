@@ -8,6 +8,7 @@ import PropTypes from "prop-types"
 import renderers from "./FieldRender"
 
 const FormRender = ({ formData, defaultData }) => {
+  //console.log(defaultData)
   return (
     <>
       {formData && (
@@ -44,6 +45,7 @@ const FormRender = ({ formData, defaultData }) => {
 
                     {formData[key].map((element) => {
                       const Renderer = renderers[element.type]
+                      // if element is staged_input pass down the whole value 
                       return (
                         <Renderer
                           key={element.name}

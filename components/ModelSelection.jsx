@@ -32,7 +32,7 @@ const ModelSelection = ({ version, setVersion }) => {
   return (
     data && (
       <div>
-        <FormControl fullWidth>
+        <FormControl style={{ marginTop:"1rem" }} fullWidth>
           <InputLabel id="select-model-label">Model version</InputLabel>
           <Select
             labelId="select-model"
