@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import DialogComponent from "./DialogComponent"
 import { Button } from "@mui/material"
 import { InputAdornment } from "@mui/material"
+import Autocomplete from "@mui/material/Autocomplete"
 
 const Row = ({ children, description }) => {
   return (
@@ -81,6 +82,54 @@ const Select = ({
         </TextField>
       </Row>
     </>
+  )
+}
+
+const Populate = ({
+  name,
+  default: defaultValue,
+  display_name: displayName,
+  options,
+  value,
+  description,
+  ...props
+}) => {
+  const optionsObject = JSON.parse(options)
+  return (
+    <Row description={description}>
+      <Autocomplete
+        id={name}
+        key={value}
+        freeSolo
+        options={optionsObject}
+        getOptionLabel={(option) => {
+          if (typeof option === "string") {
+            return option
+          }
+          if (option.inputValue) {
+            return `${option.inputValue}`
+          }
+          return `${option.values}`
+        }}
+        renderOption={(props, option) => (
+          <li {...props}>{option.display_name}</li>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={displayName}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">{props?.unit}</InputAdornment>
+              ),
+            }}
+           helperText={"Input comma separated numbers: (min, best, max)"}
+          />
+        )}
+        style={{ width: "100%" }}
+      />
+    </Row>
   )
 }
 
@@ -184,9 +233,13 @@ const Number = ({
         style={{ width: "100%" }}
         placeholder={units}
         inputProps={{ step: 0.01 }}
-        InputProps={ unit && {
-          endAdornment: <InputAdornment position="end">{unit}</InputAdornment>,
-        }}
+        InputProps={
+          unit && {
+            endAdornment: (
+              <InputAdornment position="end">{unit}</InputAdornment>
+            ),
+          }
+        }
         helperText={
           defaultValue === "None"
             ? ""
@@ -245,9 +298,13 @@ const Array = ({
             : value.replace("[", "").replace("]", "")
         }
         style={{ width: "100%" }}
-        InputProps={ unit && {
-          endAdornment: <InputAdornment position="end">{unit}</InputAdornment>,
-        }}
+        InputProps={
+          unit && {
+            endAdornment: (
+              <InputAdornment position="end">{unit}</InputAdornment>
+            ),
+          }
+        }
         placeholder={units}
         helperText={
           defaultHelper !== ""
@@ -274,9 +331,9 @@ const InputWithOverlay = ({
   const [calcValue, setCalcValue] = useState(value)
   const Modal = MODALS[modal]
 
-useEffect(()=>{
-  setCalcValue(value)
-},[value])
+  useEffect(() => {
+    setCalcValue(value)
+  }, [value])
   return (
     <>
       <Array
@@ -303,7 +360,7 @@ useEffect(()=>{
         openModal={openModal}
         handleClose={() => setOpenModal(false)}
         setValue={setCalcValue}
-        transportName = {name}
+        transportName={name}
       />
     </>
   )
@@ -349,8 +406,7 @@ const StagedInput = ({
   value = "",
   ...props
 }) => {
-
-  const [steps, setSteps] = useState([{ id: 1}])
+  const [steps, setSteps] = useState([{ id: 1 }])
   const [expanded, setExpanded] = useState("step1")
 
   const fieldsObject = JSON.parse(fields)
@@ -362,7 +418,6 @@ const StagedInput = ({
     setSteps(steps.filter((s) => s.id !== index))
   }
 
-
   useEffect(() => {
     let parsedData
     if (value !== "") {
@@ -370,15 +425,18 @@ const StagedInput = ({
     } else {
       parsedData = []
     }
-    const incomingValue = parsedData.map((el, i) => ({id: i, ...el}))
+    const incomingValue = parsedData.map((el, i) => ({ id: i, ...el }))
     setSteps(incomingValue)
   }, [value])
-
 
   return (
     <Grid>
       {steps.map((step, index) => (
-        <Accordion key={step.id} expanded={expanded === `step${step.id}` ? true : false} onChange={() => setExpanded(`step${step.id}`)} >
+        <Accordion
+          key={step.id}
+          expanded={expanded === `step${step.id}` ? true : false}
+          onChange={() => setExpanded(`step${step.id}`)}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`step${step.id}-content`}
@@ -400,15 +458,21 @@ const StagedInput = ({
               )
             })}
           </AccordionDetails>
-          <div style={{ display: "flex", justifyContent: "right",  margin: "1rem",  }}>
-            <Button color="error" style={{ textTransform: "none"  }} onClick={() => removeStep(step.id)}>Remove step</Button>
+          <div
+            style={{ display: "flex", justifyContent: "right", margin: "1rem" }}
+          >
+            <Button
+              color="error"
+              style={{ textTransform: "none" }}
+              onClick={() => removeStep(step.id)}
+            >
+              Remove step
+            </Button>
           </div>
         </Accordion>
       ))}
 
-      <div
-        style={{ display: "flex", justifyContent: "right",  margin: "1rem"}}
-      >
+      <div style={{ display: "flex", justifyContent: "right", margin: "1rem" }}>
         <Button
           style={{
             float: "right",
@@ -467,6 +531,8 @@ InputWithOverlay.propTypes = {
   ...propTypes,
 }
 
+Populate.propTypes = { ...propTypes, options: PropTypes.string }
+
 const renderers = {
   number: Number,
   array: Array,
@@ -475,6 +541,7 @@ const renderers = {
   select: Select,
   staged_input: StagedInput,
   modal: InputWithOverlay,
+  populate: Populate,
 }
 
 export default renderers
@@ -547,6 +614,7 @@ const PARSERS = {
   text: inputParser,
   staged_input: stageParser,
   modal: arrayParser,
+  populate: arrayParser,
 }
 
 const MODALS = {
