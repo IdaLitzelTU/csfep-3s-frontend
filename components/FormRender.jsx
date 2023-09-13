@@ -1,17 +1,25 @@
-import React, { useState } from "react"
+import React from "react"
+
+import PropTypes from "prop-types"
+
+import Box from "@mui/material/Box"
+import Divider from "@mui/material/Divider"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
-import Divider from "@mui/material/Divider"
-import PropTypes from "prop-types"
+
 import renderers from "./FieldRender"
 
-const FormRender = ({ formData, defaultData }) => {
-  //console.log(defaultData)
+import useDataset from "../hooks/useDataset"
+import useModelInput from "../hooks/useModelInput"
+
+const FormRender = ({ version, dataset }) => {
+  const { data } = useDataset({ dataset })
+  const { fields } = useModelInput({ version })
+
   return (
     <>
-      {formData && (
+      {fields && (
         <Paper
           variant="outlined"
           key={"paper-outline"}
@@ -27,7 +35,7 @@ const FormRender = ({ formData, defaultData }) => {
               justifyContent="center"
               alignItems="stretch"
             >
-              {Object.keys(formData).map((key) => {
+              {Object.keys(fields).map((key) => {
                 return (
                   // originaly that was an empty tag, but next.js does not sit well with keyless head html tags
                   <div style={{ width: "inherit" }} key={key}>
@@ -43,13 +51,13 @@ const FormRender = ({ formData, defaultData }) => {
                       </Divider>
                     </Grid>
 
-                    {formData[key].map((element) => {
+                    {fields[key].map((element) => {
                       const Renderer = renderers[element.type]
-                      // if element is staged_input pass down the whole value 
+                      // if element is staged_input pass down the whole value
                       return (
                         <Renderer
                           key={element.name}
-                          value={String(defaultData[element.name] || "")}
+                          value={String(data[element.name] || "")}
                           {...element}
                           default={String(element.default || "")}
                         />
@@ -68,6 +76,6 @@ const FormRender = ({ formData, defaultData }) => {
 export default FormRender
 
 FormRender.propTypes = {
-  formData: PropTypes.object,
-  defaultData: PropTypes.object,
+  version: PropTypes.string,
+  dataset: PropTypes.object,
 }

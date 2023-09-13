@@ -12,7 +12,7 @@ import {
 import { Stack, Typography } from "@mui/material"
 import PropTypes from "prop-types"
 
-import useDim from "../hooks/useDim"
+import useDim from "../../hooks/useDim"
 
 const DoughnutChart = ({ data, colors }) => {
   const { ref, height, width } = useDim()

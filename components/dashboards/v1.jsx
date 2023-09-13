@@ -1,22 +1,24 @@
-import React, { useState } from "react"
-import PropTypes from "prop-types"
-import DoughnutChart from "../DoughnutChart"
-import RadialBChart from "../RadialChart"
-import NumberChart from "../NumberChart"
-import GroupBarChart from "../GroupBarChart"
-import StackedBarChart from "../StackedBarChart"
-import Assumptions from "../Assumptions"
-import { Grid, Paper, Stack, Typography, Switch } from "@mui/material"
 import * as util from "../../api/util"
-import Image from "next/image"
+
+import { Grid, Paper, Stack, Switch, Typography } from "@mui/material"
+import React, { useState } from "react"
+
 import { ArrowBack } from "@mui/icons-material"
+import Assumptions from "../info/Assumptions"
+import DoughnutChart from "../charts/DoughnutChart"
+import GroupBarChart from "../charts/GroupBarChart"
+import Image from "next/image"
+import NumberChart from "../charts/NumberChart"
+import PropTypes from "prop-types"
+import RadialBChart from "../charts/RadialChart"
+import StackedBarChart from "../charts/StackedBarChart"
 import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
 const colorsSink = ["#005B36BF"]
 const colorsStorage = ["#7B3F00", "#B87333", "#D27D2D"]
-const colorsSubsctitution = ["#FFC000","#FFD966"]
+const colorsSubsctitution = ["#FFC000", "#FFD966"]
 
 const imageDivStyle = {
   position: "relative",
@@ -82,7 +84,9 @@ const Dashboard = ({ data, version, dataset, dataset_name }) => {
                   style={{ cursor: "pointer" }}
                 >
                   <ArrowBack fontSize="medium" />
-                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>Return</span>
+                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
+                    Return
+                  </span>
                 </Stack>
                 <Typography
                   variant="h4"

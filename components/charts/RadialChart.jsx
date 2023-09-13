@@ -7,7 +7,7 @@ import {
 } from "recharts"
 import { Grid, Typography, Stack } from "@mui/material"
 import PropTypes from "prop-types"
-import useDim from "../hooks/useDim"
+import useDim from "../../hooks/useDim"
 import Image from "next/image"
 
 const RadialBChart = ({ data, colors, units }) => {

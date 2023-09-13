@@ -1,24 +1,18 @@
 import React, { useState } from "react"
-
-import { useRouter } from "next/router"
-import { useQuery } from "react-query"
-
-import Button from "@mui/material/Button"
-import Stack from "@mui/material/Stack"
-import CircularProgress from "@mui/material/CircularProgress"
-import Backdrop from "@mui/material/Backdrop"
-import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
-import Grow from "@mui/material/Grow"
 import Router from "next/router"
 
-import * as client from "../api/csfep"
-import { getFieldValue } from "./FieldRender"
+import { useQuery } from "react-query"
 
-import ModelSelection from "./ModelSelection"
-import ModelRender from "./ModelRender"
+import { Button, Grow, Stack, Typography } from "@mui/material"
+
+import * as client from "../api/csfep"
+
+import Loader from "./Loader"
 import DatasetSelection from "./DatasetSelection"
+import FormRender from "./FormRender"
+import { getFieldValue } from "./FieldRender"
 import ModelMeta from "./ModelMeta"
+import ModelSelection from "./ModelSelection"
 
 const dataset_object = {
   id: "-1",
@@ -30,8 +24,6 @@ const dataset_object = {
 }
 
 const RunModel = () => {
-  const router = useRouter()
-
   const [version, setVersion] = useState("")
   const [outputLoading, setOutputLoading] = useState(false)
   const [dataset, setDataset] = useState(dataset_object)
@@ -75,17 +67,20 @@ const RunModel = () => {
       // document.getElementById("error").scrollIntoView()
       return
     }
-    console.log(payload)
     // if data is not empty then check if you want to persist the model
     if (newChecked) {
       setStatus("Saving your dataset")
       const datasetId = await client.postNewDataset(payload)
       setStatus("Running 3S Model")
-      Router.push(`/run?version=${version}&dataset=${datasetId}&dataset_name=${dataset.dataset_name}`)
+      Router.push(
+        `/run?version=${version}&dataset=${datasetId}&dataset_name=${dataset.dataset_name}`
+      )
     } else {
       setStatus("Running 3S Model")
       Router.push(
-        `/run?version=${version}&dataset=${JSON.stringify(payload.data)}&dataset_name=${dataset.dataset_name}`
+        `/run?version=${version}&dataset=${JSON.stringify(
+          payload.data
+        )}&dataset_name=${dataset.dataset_name}`
       )
     }
   }
@@ -95,7 +90,6 @@ const RunModel = () => {
     let inputData = []
 
     names.forEach((input) => {
-     // console.log(input)
       inputData.push(getFieldValue(input))
     })
     const datasetMeta = [
@@ -114,84 +108,68 @@ const RunModel = () => {
     return newDataset
   }
   return (
-        <Stack
-          direction="column"
-          justifyContent="space-between"
-          alignItems="stretch"
-          spacing={2}
-          height="100%"
-        >
-          <div>
-            <Grow
-              in={error !== "" || inputError !== ""}
-              {...(error !== "" || inputError !== "" ? { timeout: 1000 } : {})}
-            >
-              <Typography id="error" variant="h4" style={{ color: "red" }}>
-                {error}
-                {inputError}
-              </Typography>
-            </Grow>
-            <h4>Available Model Versions: {"  "} </h4>
-            <ModelSelection version={version} setVersion={setVersion} />
-            <ModelMeta version={version} />
-            <DatasetSelection
-              version={version}
-              dataset={dataset}
-              setDataset={setDataset}
-              newChecked={newChecked}
-              setNewChecked={setNewChecked}
-            />
-          </div>
-          <div style={{ minHeight: "60vh" }}>
-            {version && dataset ? (
-              <ModelRender version={version} dataset={dataset} />
-            ) : (
-              <h4
-                style={{
-                  textAlign: "center",
-                  verticalAlign: "middle",
-                  lineHeight: "50",
-                }}
-              >
-                Please select a version to run the model
-              </h4>
-            )}
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              sx={{
-                float: "right",
-                color: "white",
-                backgroundColor: "#005B36",
-                textTransform: "none",
+    <>
+      <Loader loading={outputLoading} status={status} />
+      <Stack
+        direction="column"
+        justifyContent="space-between"
+        alignItems="stretch"
+        spacing={2}
+        height="100%"
+      >
+        <div>
+          <Grow
+            in={error !== "" || inputError !== ""}
+            {...(error !== "" || inputError !== "" ? { timeout: 1000 } : {})}
+          >
+            <Typography id="error" variant="h4" style={{ color: "red" }}>
+              {error}
+              {inputError}
+            </Typography>
+          </Grow>
+          <h4>Available Model Versions: {"  "} </h4>
+          <ModelSelection version={version} setVersion={setVersion} />
+          <ModelMeta version={version} />
+          <DatasetSelection
+            version={version}
+            dataset={dataset}
+            setDataset={setDataset}
+            newChecked={newChecked}
+            setNewChecked={setNewChecked}
+          />
+        </div>
+        <div style={{ minHeight: "60vh" }}>
+          {version && dataset ? (
+            <FormRender version={version} dataset={dataset} />
+          ) : (
+            <h4
+              style={{
+                textAlign: "center",
+                verticalAlign: "middle",
+                lineHeight: "50",
               }}
-              onClick={handleClick}
-              disabled={version !== "" ? false : true}
             >
-              Save & Run
-            </Button>
-            {outputLoading ? (
-              <Backdrop
-                sx={{
-                  color: "#fff",
-                  zIndex: (theme) => theme.zIndex.drawer + 1,
-                }}
-                open={outputLoading}
-              >
-                <Box display="flex" justifyContent="center" alignItems="center">
-                  <CircularProgress color="inherit" />
-                  <Typography position="absolute" mt={10}>
-                    {status}
-                  </Typography>
-                  <Typography position="absolute" mt={15}>
-                    Please do not close this page.
-                  </Typography>
-                </Box>
-              </Backdrop>
-            ) : null}
-          </div>
-        </Stack>
+              Please select a version to run the model
+            </h4>
+          )}
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            sx={{
+              float: "right",
+              color: "white",
+              backgroundColor: "#005B36",
+              textTransform: "none",
+            }}
+            onClick={handleClick}
+            disabled={version !== "" ? false : true}
+          >
+            Save & Run
+          </Button>
+        </div>
+      </Stack>
+    </>
   )
 }
 

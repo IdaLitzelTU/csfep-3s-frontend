@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 import CircularProgress from "@mui/material/CircularProgress"
 import ModelMeta from "./ModelMeta"
-import ModelRender from "./ModelRender"
+import FormRender from "./FormRender"
 import DatasetSelection from "./DatasetSelection"
 
 const dataset_object = {
@@ -165,7 +165,7 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
           setNewChecked={setNewChecked}
         />
 
-        <ModelRender version={version} dataset={dataset} />
+        <FormRender version={version} dataset={dataset} />
 
       </DialogContent>
       <DialogActions style={{ marginLeft: "1rem" }}>
