@@ -27,7 +27,7 @@ const Loader = ({ loading, status }) => {
 }
 
 Loader.propTypes = {
-  loading: PropTypes.boolean,
+  loading: PropTypes.bool,
   status: PropTypes.string,
 }
 

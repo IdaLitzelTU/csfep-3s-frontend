@@ -4,16 +4,10 @@ import Contact from "./info/Contact"
 import Assumptions from "./info/Assumptions"
 
 import PropTypes from "prop-types"
-import { useQuery } from "react-query"
-import * as client from "../api/csfep"
 
-const ModelMeta = ({ version }) => {
-  const { data } = useQuery(["model-input", version], () =>
-    client.fetchModelInput(version)
-  )
+const ModelMeta = ({ model }) => {
   return (
-    version !== "" &&
-    data && (
+    model && (
       <Paper
         variant="outlined"
         style={{
@@ -22,15 +16,15 @@ const ModelMeta = ({ version }) => {
           marginTop: "1rem",
         }}
       >
-        <Contact meta={data["meta"]} />
-        <Assumptions assumptions={data["assumptions"]} />
+        <Contact meta={model["meta"]} />
+        <Assumptions assumptions={model["assumptions"]} />
       </Paper>
     )
   )
 }
 
 ModelMeta.propTypes = {
-  version: PropTypes.string,
+  model: PropTypes.object,
 }
 
 export default ModelMeta

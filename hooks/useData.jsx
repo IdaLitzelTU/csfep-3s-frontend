@@ -3,15 +3,11 @@ import PropTypes from "prop-types"
 import { useQuery } from "react-query"
 import * as client from "../api/csfep"
 
-
-const useDataset = ({ dataset }) => {
-
-  const { data: body } = useQuery(
-    ["model-input-data", dataset.id],
-    () =>
-      dataset.id !== "-1" && dataset.id !== undefined
-        ? client.fetchSelectedData(dataset.id)
-        : []
+const useData = ({ dataset }) => {
+  const { data: body } = useQuery(["model-input-data", dataset.id], () =>
+    dataset.id !== "-1" && dataset.id !== undefined
+      ? client.fetchSelectedData(dataset.id)
+      : []
   )
 
   const [data, setData] = useState({})
@@ -29,8 +25,8 @@ const useDataset = ({ dataset }) => {
   return { data }
 }
 
-useDataset.propTypes = {
+useData.propTypes = {
   dataset: PropTypes.object,
 }
 
-export default useDataset
+export default useData

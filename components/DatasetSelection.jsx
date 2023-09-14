@@ -14,6 +14,7 @@ import { Grid, ListSubheader, Paper } from "@mui/material"
 import * as client from "../api/csfep"
 
 const DatasetSelection = ({
+  catalog,
   version,
   dataset,
   setDataset,
@@ -21,32 +22,6 @@ const DatasetSelection = ({
   setNewChecked,
 }) => {
   const [checked, setChecked] = useState(true)
-  const [datasetList, setDatasetList] = useState([])
-
-  const { isLoading, error, data } = useQuery(
-    ["datasets"],
-    client.fetchDatasets
-  )
-
-  if (isLoading)
-    <>
-      <div>
-        <p>Loading...</p>
-      </div>
-    </>
-
-  if (error)
-    <>
-      <div>
-        <p>{JSON.stringify(error)}</p>
-      </div>
-    </>
-
-  useEffect(() => {
-    if (data) {
-      setDatasetList(data)
-    }
-  }, [data])
 
   const setToNew = (e) => {
     dataset[e.target.id] = e.target.value
@@ -62,7 +37,7 @@ const DatasetSelection = ({
   }
 
   return (
-    data &&
+    catalog &&
     version !== "" && (
       <Paper
         variant="outlined"
@@ -83,9 +58,7 @@ const DatasetSelection = ({
               label="Select dataset"
               onChange={(event) => {
                 setDataset(
-                  datasetList.filter(
-                    (el) => el.id === event.target.value
-                  )[0] || {
+                  catalog.filter((el) => el.id === event.target.value)[0] || {
                     dataset_name: "New dataset",
                   }
                 )
@@ -96,13 +69,13 @@ const DatasetSelection = ({
               </MenuItem>
               <ListSubheader>Existing datasets</ListSubheader>
               {(checked
-                ? datasetList
+                ? catalog
                     .map((el) => ({
                       ...el,
                       version: el.version.filter((v) => v.name === version),
                     }))
                     .filter((v) => v.version.length > 0)
-                : datasetList
+                : catalog
               ).map((v) => (
                 <MenuItem key={v.id} value={v.id}>
                   {v.dataset_name}
@@ -199,6 +172,7 @@ MetaFields.propTypes = {
 }
 
 DatasetSelection.propTypes = {
+  catalog: PropTypes.array,
   version: PropTypes.string,
   dataset: PropTypes.object,
   setDataset: PropTypes.func,

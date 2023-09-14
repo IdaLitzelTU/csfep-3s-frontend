@@ -1,19 +1,30 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState } from "react"
+
 import PropTypes from "prop-types"
-import { Dialog } from "@mui/material"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
-import { useQuery } from "react-query"
-import * as client from "../api/csfep"
-import { Button } from "@mui/material"
-import { getFieldValue } from "./FieldRender"
-import IconButton from "@mui/material/IconButton"
+
 import CloseIcon from "@mui/icons-material/Close"
-import CircularProgress from "@mui/material/CircularProgress"
-import ModelMeta from "./ModelMeta"
-import FormRender from "./FormRender"
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material"
+
 import DatasetSelection from "./DatasetSelection"
+import FormRender from "./FormRender"
+import ModelMeta from "./ModelMeta"
+import Loader from "./Loader"
+
+import useCatalog from "../hooks/useCatalog"
+import useData from "../hooks/useData"
+import useModel from "../hooks/useModel"
+
+import * as client from "../api/csfep"
+
+import { getData } from "./form/model"
 
 const dataset_object = {
   id: "-1",
@@ -24,95 +35,34 @@ const dataset_object = {
   version: [{ name: "vTC" }],
 }
 
-const DialogComponent = ({ openModal, handleClose, setValue }) => {
-  const version = "vTC"
-  const { data, isLoading } = useQuery(["model-input", version], () =>
-    client.fetchModelInput(version)
-  )
+const DialogComponent = ({
+  version = "vTC",
+  openModal,
+  handleClose,
+  setValue,
+}) => {
   const [dataset, setDataset] = useState(dataset_object)
-  const { data: selectedData } = useQuery(
-    ["model-input-data", dataset.id],
-    () => client.fetchSelectedData(dataset.id)
-  )
 
-  const [formData, setFormData] = useState(undefined)
-  const [body, setBody] = useState({})
-  const [status, setStatus] = useState("Loading...")
+  const { model } = useModel({ version })
+  const { catalog } = useCatalog()
+  const { data } = useData({ dataset })
+
   const [applyStatus, setApplyStatus] = useState(false)
 
   const [newChecked, setNewChecked] = useState(false)
 
-  useEffect(() => {
-    if (data) {
-      const categories = data
-        ? [...new Set(data.input.map((el) => el.category))]
-        : []
-
-      const tempFormData = {}
-
-      categories.forEach((key) => {
-        tempFormData[key] = data
-          ? data.input.filter((el) => el.category === key)
-          : [{}]
-      })
-
-      setFormData(tempFormData)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (selectedData) {
-      const inputData = {}
-      selectedData.forEach((el) => {
-        inputData[el.key] = JSON.parse(el.value)
-      })
-      setBody(inputData)
-    }
-  }, [selectedData])
-
-  function getData() {
-    const names = data ? [...new Set(data.input)] : []
-    let inputData = []
-
-    names.forEach((input) => {
-      // console.log(input)
-      inputData.push(getFieldValue(input))
-    })
-    const datasetMeta = [
-      "dataset_name",
-      "publisher_name",
-      "organisation_name",
-      "description",
-    ]
-    const newDataset = {}
-    console.log("show", dataset)
-    datasetMeta.forEach((dm) => {
-      //console.log("element-dialog",document.getElementById(dm).value)
-      newDataset[dm] = dataset[dm]
-    })
-    newDataset["version"] = version
-    newDataset["data"] = inputData
-    return newDataset
-  }
-
   const handleClick = async () => {
-    const payload = getData()
-    //console.log(payload)
-    setStatus("Checking your data")
+    const payload = getData(model, version)
     setApplyStatus(true)
     // if new create dataset then run model otherwise run model
     if (newChecked) {
-      console.log("new", payload)
       client.postNewDataset(payload).then((r) => {
-        console.log("saved dataset", r)
         client
           .runModel("vTC", payload.data)
           .then((res) => {
             const final = res.map((r) => r.toFixed(2))
-            setApplyStatus(false)
             setValue(final.toString())
-            console.log(r)
-
+            setApplyStatus(false)
             handleClose()
           })
           .catch((error) => {
@@ -120,15 +70,12 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
           })
       })
     } else {
-      console.log("not new", payload)
       client
         .runModel("vTC", payload.data)
         .then((res) => {
           const final = res.map((r) => r.toFixed(2))
-          setApplyStatus(false)
           setValue(final.toString())
-          console.log(inputData)
-
+          setApplyStatus(false)
           handleClose()
         })
         .catch((error) => {
@@ -136,7 +83,7 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
         })
     }
   }
-  //console.log(dataset)
+
   return (
     <Dialog maxWidth="xl" fullWidth open={openModal} onClose={handleClose}>
       <DialogTitle>
@@ -155,9 +102,10 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-
-        <ModelMeta version={version}/>
+        <Loader loading={applyStatus} status={"Loading"} />
+        <ModelMeta version={version} />
         <DatasetSelection
+          catalog={catalog}
           version={version}
           dataset={dataset}
           setDataset={setDataset}
@@ -165,8 +113,7 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
           setNewChecked={setNewChecked}
         />
 
-        <FormRender version={version} dataset={dataset} />
-
+        <FormRender model={model} data={data} />
       </DialogContent>
       <DialogActions style={{ marginLeft: "1rem" }}>
         <Button
@@ -179,11 +126,7 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
           }}
           onClick={handleClick}
         >
-          {applyStatus ? (
-            <CircularProgress color="inherit" size={15} />
-          ) : (
-            "Apply"
-          )}
+          Apply
         </Button>
       </DialogActions>
     </Dialog>
@@ -191,6 +134,7 @@ const DialogComponent = ({ openModal, handleClose, setValue }) => {
 }
 
 DialogComponent.propTypes = {
+  version: PropTypes.string,
   openModal: PropTypes.boolean,
   handleClose: PropTypes.function,
   setValue: PropTypes.function,

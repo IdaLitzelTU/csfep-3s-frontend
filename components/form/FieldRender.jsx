@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography"
 
 import PropTypes from "prop-types"
 
-import DialogComponent from "./DialogComponent"
+import DialogComponent from "../DialogComponent"
 
 const Row = ({ children, description }) => {
   return (

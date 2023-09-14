@@ -3,17 +3,16 @@ import PropTypes from "prop-types"
 import { useQuery } from "react-query"
 import * as client from "../api/csfep"
 
-
-const useModelInput = ({ version }) => {
-
-  const { data } = useQuery(["model-input", version], () =>
+const useModel = ({ version }) => {
+  const { data, refetch } = useQuery(["model-input", version], () =>
     client.fetchModelInput(version)
   )
 
-  const [fields, setFields] = useState(undefined)
+  const [model, setModel] = useState(undefined)
 
   useEffect(() => {
-    if (data) {
+    if (version && data) {
+      console.log(data)
       const categories = data
         ? [...new Set(data.input.map((el) => el.category))]
         : []
@@ -26,18 +25,17 @@ const useModelInput = ({ version }) => {
           : [{}]
       })
 
-      setFields(tempFormData)
+      setModel(data)
     }
-  }, [data])
-
+  }, [data, version])
 
   return {
-    fields
+    model,
   }
 }
 
-useModelInput.propTypes = {
+useModel.propTypes = {
   version: PropTypes.string,
 }
 
-export default useModelInput
+export default useModel

@@ -8,22 +8,27 @@ import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
 
-import renderers from "./FieldRender"
+import renderers from "./form/FieldRender"
 
-import useDataset from "../hooks/useDataset"
-import useModelInput from "../hooks/useModelInput"
+const FormRender = ({ model, data }) => {
+  const categories = model
+    ? [...new Set(model.input.map((el) => el.category))]
+    : []
 
-const FormRender = ({ version, dataset }) => {
-  const { data } = useDataset({ dataset })
-  const { fields } = useModelInput({ version })
+  const fields = {}
+
+  categories.forEach((key) => {
+    fields[key] = model ? model.input.filter((el) => el.category === key) : [{}]
+  })
 
   return (
     <>
-      {fields && (
+      {model && data && fields && (
         <Paper
           variant="outlined"
           key={"paper-outline"}
           style={{
+            marginTop: "1rem",
             padding: "5rem",
             backgroundColor: "whitesmoke",
           }}
@@ -76,6 +81,6 @@ const FormRender = ({ version, dataset }) => {
 export default FormRender
 
 FormRender.propTypes = {
-  version: PropTypes.string,
-  dataset: PropTypes.object,
+  model: PropTypes.object,
+  data: PropTypes.object,
 }

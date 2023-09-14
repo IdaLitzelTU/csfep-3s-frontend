@@ -7,32 +7,15 @@ import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem"
 import InputLabel from "@mui/material/InputLabel"
 
-import * as client from "../api/csfep"
+import useVersions from "../hooks/useVersions"
 
 const ModelSelection = ({ version, setVersion }) => {
-  const { isLoading, error, data } = useQuery(
-    ["model-versions"],
-    client.fetchModelVersion
-  )
-
-  if (isLoading)
-    <>
-      <div>
-        <p>Loading...</p>
-      </div>
-    </>
-
-  if (error)
-    <>
-      <div>
-        <p>{JSON.stringify(error)}</p>
-      </div>
-    </>
+  const { versions } = useVersions()
 
   return (
-    data && (
+    versions && (
       <div>
-        <FormControl style={{ marginTop:"1rem" }} fullWidth>
+        <FormControl style={{ marginTop: "1rem" }} fullWidth>
           <InputLabel id="select-model-label">Model version</InputLabel>
           <Select
             labelId="select-model"
@@ -41,7 +24,7 @@ const ModelSelection = ({ version, setVersion }) => {
             label="Model version"
             onChange={(event) => setVersion(event.target.value)}
           >
-            {data.map((v) => (
+            {versions.map((v) => (
               <MenuItem key={v} value={v}>
                 {v}
               </MenuItem>
