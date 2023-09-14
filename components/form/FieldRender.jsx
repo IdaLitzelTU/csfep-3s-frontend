@@ -105,7 +105,9 @@ const Populate = ({
         key={value}
         defaultValue={
           value == ""
-            ? defaultValue.replace("[", "").replace("]", "")
+            ? defaultValue == "None"
+              ? ""
+              : defaultValue.replace("[", "").replace("]", "")
             : value.replace("[", "").replace("]", "")
         }
         freeSolo
