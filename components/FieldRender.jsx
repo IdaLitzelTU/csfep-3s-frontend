@@ -16,7 +16,6 @@ import PropTypes from "prop-types"
 
 import DialogComponent from "./DialogComponent"
 
-
 const Row = ({ children, description }) => {
   return (
     <Grid
@@ -104,6 +103,11 @@ const Populate = ({
       <Autocomplete
         id={name}
         key={value}
+        defaultValue={
+          value == ""
+            ? defaultValue.replace("[", "").replace("]", "")
+            : value.replace("[", "").replace("]", "")
+        }
         freeSolo
         options={optionsObject}
         getOptionLabel={(option) => {
@@ -128,7 +132,7 @@ const Populate = ({
                 <InputAdornment position="end">{props?.unit}</InputAdornment>
               ),
             }}
-           helperText={"Input comma separated numbers: (min, best, max)"}
+            helperText={"Input comma separated numbers: (min, best, max)"}
           />
         )}
         style={{ width: "100%" }}
@@ -327,7 +331,7 @@ const InputWithOverlay = ({
   display_name: displayName,
   value = "",
   description,
-  defaultHelper = "Open Calculator",
+  defaultHelper = "Open calculator",
   modal = "transportCalculator",
   ...props
 }) => {
