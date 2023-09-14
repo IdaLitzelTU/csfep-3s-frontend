@@ -45,7 +45,7 @@ const RunModel = () => {
 
   const handleClick = async (e) => {
     setOutputLoading(true)
-    const payload = getData(model, version)
+    const payload = getData(model, version, "run-model")
     setStatus("Checking your data")
     // check if data is empty
     if (isEmpty(payload.data)) {
@@ -74,7 +74,7 @@ const RunModel = () => {
   }
 
   return (
-    <>
+    <div id="run-model">
       <Grow
         in={inputError !== ""}
         {...(inputError !== "" ? { timeout: 1000 } : {})}
@@ -121,7 +121,7 @@ const RunModel = () => {
           Please select a version to run the model
         </h4>
       )}
-    </>
+    </div>
   )
 }
 

@@ -1,7 +1,6 @@
 import { getFieldValue } from "./FieldRender"
 
-export function getData(model, version) {
-  console.log(model)
+export function getData(model, version, parentId) {
   const names = model ? [...new Set(model.input)] : []
   let inputData = []
 
@@ -15,8 +14,9 @@ export function getData(model, version) {
     "description",
   ]
   const newDataset = {}
+  const parentElement = document.getElementById(parentId)
   datasetMeta.forEach((dm) => {
-    newDataset[dm] = document.getElementById(dm).value
+    newDataset[dm] = parentElement.querySelector(`#${dm}`).value
   })
   newDataset["version"] = version
   newDataset["data"] = inputData
@@ -24,7 +24,6 @@ export function getData(model, version) {
 }
 
 export function isEmpty(data) {
-  console.log(data)
   const empty = (key) => data[key]?.length < 1
   return Object.keys(data).some(empty)
 }

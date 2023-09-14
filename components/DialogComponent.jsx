@@ -52,7 +52,7 @@ const DialogComponent = ({
   const [newChecked, setNewChecked] = useState(false)
 
   const handleClick = async () => {
-    const payload = getData(model, version)
+    const payload = getData(model, version, "dialog-popup")
     setApplyStatus(true)
     // if new create dataset then run model otherwise run model
     if (newChecked) {
@@ -101,7 +101,7 @@ const DialogComponent = ({
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent id="dialog-popup">
         <Loader loading={applyStatus} status={"Loading"} />
         <ModelMeta version={version} />
         <DatasetSelection
