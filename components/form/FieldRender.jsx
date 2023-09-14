@@ -227,6 +227,8 @@ const Number = ({
   display_name: displayName,
   value = "",
   description,
+  min,
+  max,
   unit,
   ...props
 }) => {
@@ -242,19 +244,23 @@ const Number = ({
         defaultValue={value == "" ? defaultValue : value}
         style={{ width: "100%" }}
         placeholder={units}
-        inputProps={{ step: 0.01 }}
-        InputProps={
-          unit && {
-            endAdornment: (
-              <InputAdornment position="end">{unit}</InputAdornment>
-            ),
-          }
-        }
+        InputProps={{
+          step: 0.01,
+          min: min,
+          max: max,
+          endAdornment: unit && (
+            <InputAdornment position="end">{unit}</InputAdornment>
+          ),
+        }}
         helperText={
           defaultValue === "None"
             ? ""
             : `Default value: ${defaultValue}${units || ""}`
         }
+        onChange={(e) => {
+          if (e.target.value > max) e.target.value = max
+          if (e.target.value < min) e.target.value = min
+        }}
       />
     </Row>
   )
@@ -519,6 +525,8 @@ Array.propTypes = {
 
 Number.propTypes = {
   ...propTypes,
+  min: PropTypes.number,
+  max: PropTypes.number,
 }
 
 Text.propTypes = {
