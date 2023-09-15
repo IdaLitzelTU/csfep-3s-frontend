@@ -46,11 +46,18 @@ const GroupBarChart = ({ data, colors, units }) => {
             <CartesianGrid strokeDasharray="1" vertical={false} />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip itemStyle={{marginTop:'0.75rem'}} labelStyle={{marginTop:'0.75rem'}} />
+            <Tooltip
+              itemStyle={{ marginTop: "0.75rem" }}
+              labelStyle={{ marginTop: "0.75rem" }}
+            />
             <Legend
               iconType="circle"
               align="left"
-              wrapperStyle={{ paddingLeft: "55px", bottom:"-1.5rem", lineHeight:"1.5rem" }}
+              wrapperStyle={{
+                paddingLeft: "55px",
+                bottom: "-1.5rem",
+                lineHeight: "1.5rem",
+              }}
               formatter={(value) => (
                 <span style={{ fontFamily: "Gotham Book", color: "black" }}>
                   {value}
@@ -58,24 +65,24 @@ const GroupBarChart = ({ data, colors, units }) => {
               )}
             />
             <Bar
-              dataKey={Object.keys(data[0])[1]}
+              dataKey={Object.keys(data[0])[2]}
               stackId="a"
               fill={colors[0]}
             />
             <Bar
-              dataKey={Object.keys(data[0])[2]}
+              dataKey={Object.keys(data[0])[3]}
               stackId="a"
               fill={`${colors[0]}BF`}
             >
               <LabelList position="top" dataKey="totalMT" />
             </Bar>
             <Bar
-              dataKey={Object.keys(data[0])[3]}
+              dataKey={Object.keys(data[0])[4]}
               stackId="b"
               fill={colors[1]}
             />
             <Bar
-              dataKey={Object.keys(data[0])[4]}
+              dataKey={Object.keys(data[0])[5]}
               stackId="b"
               fill={`${colors[1]}BF`}
             >

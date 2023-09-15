@@ -12,6 +12,7 @@ import NumberChart from "../charts/NumberChart"
 import PropTypes from "prop-types"
 import RadialBChart from "../charts/RadialChart"
 import StackedBarChart from "../charts/StackedBarChart"
+import SimpleTable from "../charts/SimpleTableChart"
 import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
@@ -49,6 +50,7 @@ const paperStyle = {
 }
 
 const Dashboard = ({ data, version, datasetName }) => {
+  console.log(data)
   const [units, setUnits] = useState("tC")
   const router = useRouter()
 
@@ -121,13 +123,21 @@ const Dashboard = ({ data, version, datasetName }) => {
           </Paper>
         </Grid>
 
-        {getCommonValues(data, units).map((el, i) => (
-          <Grid item xs={2} key={`number-container-${i}`}>
-            <Paper key={`common-paper-${i}`} {...paperStyle}>
-              <NumberChart {...el} />
-            </Paper>
-          </Grid>
-        ))}
+        <Grid item xs={8}>
+          <Paper
+            {...{
+              elevation: 1,
+              style: {
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
+                overflow: "auto",
+              },
+            }}
+          >
+            <SimpleTable data={getCommonValues(data, units)} />
+          </Paper>
+        </Grid>
 
         <Grid item xs={8}>
           <Paper {...paperStyle}>
@@ -220,30 +230,39 @@ const Dashboard = ({ data, version, datasetName }) => {
 }
 
 function getCommonValues(data, units) {
-  const buildingArea = data[units]["constants"]["Buildings floor area m2"]
-  const numberOfBuildings = data[units]["constants"]["Number of Buildings"]
-  const yearsToRegrowForest = data[units]["constants"]["Years to Regrow Forest"]
-  const harvested = data[units]["constants"]["Harvested"]
-  const accumulated = data[units]["constants"]["Accumulated"]
+  const scenarios = {
+    scenario_1: "S1",
+    scenario_2: "S2",
+    scenario_3: "S3",
+  }
 
-  return [
-    {
-      name: "Bulding floor area [m2]",
-      value: util.round(buildingArea),
-    },
-    {
-      name: "Number of buildings",
-      value: util.round(numberOfBuildings),
-    },
-    {
-      name: `Carbon gained from forest [${units}]`,
-      value: util.round(harvested + accumulated),
-    },
-    {
-      name: "Time to replenish forest carbon [years]",
-      value: util.round(yearsToRegrowForest),
-    },
-  ]
+  const out = Object.keys(scenarios).map((scenario) => {
+    const accumulated = data[units][scenario]["c_accumulated"]
+    const harvested = data[units][scenario]["c_harvested"]
+    const numberOfBuildings = data[units][scenario]["number_of_buildings"]
+    const buildingArea = data[units][scenario]["building_area"]
+    const yearsToRegrowForest = data[units][scenario]["years_to_regrow_forest"]
+
+    return [
+      scenarios[scenario],
+      util.round(accumulated),
+      util.round(harvested),
+      util.round(numberOfBuildings),
+      util.round(buildingArea),
+      util.round(yearsToRegrowForest),
+    ]
+  })
+
+  out.unshift([
+    "",
+    `Carbon accumulated [${units}]`,
+    `Harvested from forest [${units}]`,
+    "Number of buildings",
+    "Total area [m2]",
+    "Time to replenish carbon [years]",
+  ])
+
+  return out
 }
 
 function getSink(data, units) {
@@ -260,9 +279,7 @@ function getSink(data, units) {
       key: scenario,
       name: "Carbon recovered during building lifetime",
       tooltip: scenarios[scenario],
-      value: util.round(
-        data[units][scenario]["Carbon Recovered during Building Lifetime"]
-      ),
+      value: util.round(data[units][scenario]["c_recovered"]),
     })
   })
 
@@ -273,9 +290,9 @@ function getStorage(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    C2Buildings: `Building`,
-    C2Scrap: `Scrap wood`,
-    C2Forest: `Forest`,
+    c_in_building: `Building`,
+    c_lost: `Scrap wood`,
+    c_forest: `Forest`,
   }
 
   const out = []
@@ -287,14 +304,13 @@ function getStorage(data, units) {
     }
     Object.keys(variables).forEach((variable) => {
       scopeData[variables[variable]] = util.round(
-        data[units][scenario][variable]
+        data[units][scenario][variable] || 0
       )
     })
-    scopeData["total"] = `${util.round(
-      data[units][scenario]["C2Scrap"] +
-        data[units][scenario]["C2Buildings"] +
-        data[units][scenario]["C2Forest"]
-    )}`
+    scopeData["total"] = util.round(
+      data[units][scenario]["c_lost"] + data[units][scenario]["c_in_building"]
+      //+ data[units][scenario]["C2Forest"]
+    )
     out.push(scopeData)
   })
 
@@ -305,10 +321,10 @@ function getSubstitution(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    "MT Production": `Biomass-based materials manufacturing`,
-    "MT Transport": `Biomass-based materials transport`,
-    "SC Production": `Mineral-based materials manufacturing`,
-    "SC Transport": `Mineral-based materials transport`,
+    timber_manufacturing: `Biomass-based materials manufacturing`,
+    timber_transporting: `Biomass-based materials transport`,
+    conventional_manufacturing: `Mineral-based materials manufacturing`,
+    conventional_transporting: `Mineral-based materials transport`,
   }
 
   const out = []
@@ -323,14 +339,14 @@ function getSubstitution(data, units) {
         data[units][scenario][variable]
       )
     })
-    scopeData["totalMT"] = `${util.round(
-      data[units][scenario]["MT Production"] +
-        data[units][scenario]["MT Transport"]
-    )}`
-    scopeData["totalSC"] = `${util.round(
-      data[units][scenario]["SC Production"] +
-        data[units][scenario]["SC Transport"]
-    )}`
+    scopeData["totalMT"] = util.round(
+      data[units][scenario]["timber_manufacturing"] +
+        data[units][scenario]["timber_transporting"]
+    )
+    scopeData["totalSC"] = util.round(
+      data[units][scenario]["conventional_manufacturing"] +
+        data[units][scenario]["conventional_transporting"]
+    )
     out.push(scopeData)
   })
 
@@ -346,35 +362,30 @@ function get3sTotals(data, units) {
 
   const out = []
 
+  const sink = getSink(data, units)
+  const storage = getStorage(data, units)
+  const substitution = getSubstitution(data, units)
+
   Object.keys(scenarios).forEach((scenario) => {
     // formula is Sink + Substitution
 
-    const sink = util.round(
-      data[units][scenario]["Carbon Recovered during Building Lifetime"]
+    const scopedSink = sink.find((e) => e.key == scenario)
+    const scopedStorage = storage.find((e) => e.key == scenario)
+    const scopedSubstitution = substitution.find((e) => e.key == scenario)
+    const total = util.round(
+      scopedSink.value + scopedSubstitution.totalSC - scopedSubstitution.totalMT
     )
-
-    const storage = util.round(
-      data[units][scenario]["C2Scrap"] +
-        data[units][scenario]["C2Forest"] +
-        data[units][scenario]["C2Buildings"]
-    )
-
-    const substitution = util.round(
-      data[units][scenario]["SC Production"] +
-        data[units][scenario]["SC Transport"] -
-        data[units][scenario]["MT Production"] -
-        data[units][scenario]["MT Transport"]
-    )
-
-    const total = util.round(sink + substitution)
 
     out.push({
       tooltip: `${total} ${units}`,
       title: scenarios[scenario],
       data: [
-        { name: "Sink", value: sink },
-        { name: "Storage", value: storage },
-        { name: "Substitution", value: substitution },
+        { name: "Sink", value: scopedSink.value },
+        { name: "Storage", value: scopedStorage.total },
+        {
+          name: "Substitution",
+          value: scopedSubstitution.totalSC - scopedSubstitution.totalMT,
+        },
       ],
     })
   })
