@@ -350,6 +350,7 @@ const InputWithOverlay = ({
   description,
   defaultHelper = "Open calculator",
   modal = "transportCalculator",
+  unit,
   ...props
 }) => {
   const [openModal, setOpenModal] = useState(false)
@@ -368,6 +369,7 @@ const InputWithOverlay = ({
         value={calcValue}
         key={value}
         description={description}
+        unit={unit}
         defaultHelper={
           <span
             style={{

@@ -5,7 +5,6 @@ import PropTypes from "prop-types"
 import CloseIcon from "@mui/icons-material/Close"
 import {
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -60,7 +59,9 @@ const DialogComponent = ({
         client
           .runModel("vTC", payload.data)
           .then((res) => {
-            const final = res.map((r) => r.toFixed(2))
+            const final = Object.values(res.emmissions).map((d) =>
+              parseFloat(d).toFixed(3)
+            )
             setValue(final.toString())
             setApplyStatus(false)
             handleClose()
@@ -73,7 +74,9 @@ const DialogComponent = ({
       client
         .runModel("vTC", payload.data)
         .then((res) => {
-          const final = res.map((r) => r.toFixed(2))
+          const final = Object.values(res.emmissions).map((d) =>
+            parseFloat(d).toFixed(3)
+          )
           setValue(final.toString())
           setApplyStatus(false)
           handleClose()
