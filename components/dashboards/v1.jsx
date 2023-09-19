@@ -1,10 +1,7 @@
 import * as util from "../../api/util"
 
-import { Grid, Paper, Stack, Switch, Typography } from "@mui/material"
+import { Grid, Paper, Stack } from "@mui/material"
 import React, { useState } from "react"
-
-import { ArrowBack } from "@mui/icons-material"
-import Assumptions from "../info/Assumptions"
 import DoughnutChart from "../charts/DoughnutChart"
 import GroupBarChart from "../charts/GroupBarChart"
 import Image from "next/image"
@@ -12,7 +9,9 @@ import NumberChart from "../charts/NumberChart"
 import PropTypes from "prop-types"
 import RadialBChart from "../charts/RadialChart"
 import StackedBarChart from "../charts/StackedBarChart"
-import { useRouter } from "next/router"
+import { paperStyle, imageDivStyle, imageProps } from "../dashboard/styling"
+import DashboardHeader from "../dashboard/DashboardHeader"
+import Footer from "../dashboard/Footer"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
@@ -20,37 +19,8 @@ const colorsSink = ["#005B36BF"]
 const colorsStorage = ["#7B3F00", "#B87333", "#D27D2D"]
 const colorsSubsctitution = ["#FFC000", "#FFD966"]
 
-const imageDivStyle = {
-  position: "relative",
-  borderRadius: "50%",
-  padding: "10px",
-  backgroundColor: "#DAE5D1",
-  top: "-20px",
-  left: "calc(50% - 30px)",
-  width: "60px",
-  height: "60px",
-}
-const imageProps = {
-  height: 40,
-  width: 40,
-  style: {
-    objectPosition: "center",
-    objectFit: "contain",
-  },
-}
-
-const paperStyle = {
-  elevation: 1,
-  style: {
-    borderRadius: "30px",
-    width: "100%",
-    height: "100%",
-  },
-}
-
-const Dashboard = ({ data, version, datasetName }) => {
+const Dashboard = ({ data, version, dataset_name }) => {
   const [units, setUnits] = useState("tC")
-  const router = useRouter()
 
   const handleChange = (event) => {
     setUnits(event.target.checked ? "tCO2" : "tC")
@@ -67,58 +37,12 @@ const Dashboard = ({ data, version, datasetName }) => {
         style={{ width: "100%", minWidth: "650px" }}
       >
         <Grid item xs={8}>
-          <Paper {...paperStyle}>
-            <div
-              style={{
-                margin: "0 auto",
-                padding: "2%",
-                textAlign: "center",
-              }}
-            >
-              <Stack direction="row" spacing={4} alignItems="flex-start">
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  alignItems="center"
-                  onClick={() => router.back()}
-                  style={{ cursor: "pointer" }}
-                >
-                  <ArrowBack fontSize="medium" />
-                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
-                    Return
-                  </span>
-                </Stack>
-                <Typography
-                  variant="h4"
-                  style={{ fontFamily: "Gotham Medium" }}
-                >
-                  Climate Smart Forest Economy Program: 3
-                  <span style={{ color: "green" }}>S</span>
-                  Model {`${version}`}
-                  <br />
-                  Building Initiative: {datasetName}
-                </Typography>
-              </Stack>
-              <Stack
-                direction="row"
-                spacing={1}
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  Measurement units:{" "}
-                </Typography>
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  tC
-                </Typography>
-                <Switch onChange={handleChange} />
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  tCO2
-                </Typography>
-              </Stack>
-              <Assumptions assumptions={data["assumptions"]} />
-            </div>
-          </Paper>
+          <DashboardHeader
+            data={data}
+            handleChange={handleChange}
+            version={version}
+            datasetName={dataset_name}
+          />
         </Grid>
 
         {getCommonValues(data, units).map((el, i) => (
@@ -197,23 +121,7 @@ const Dashboard = ({ data, version, datasetName }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={8}>
-          <Image
-            alt="forest"
-            src="/forest.svg"
-            width={1}
-            height={1}
-            style={{
-              paddingTop: "45px",
-              objectFit: "contain",
-              width: "100%",
-              position: "relative",
-              height: "unset",
-              opacity: "75%",
-              marginBottom: "-2vh",
-            }}
-          />
-        </Grid>
+        <Footer />
       </Grid>
     )
   )

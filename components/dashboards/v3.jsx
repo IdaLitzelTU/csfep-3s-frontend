@@ -1,18 +1,16 @@
 import * as util from "../../api/util"
 
-import { Grid, Paper, Stack, Switch, Typography } from "@mui/material"
+import { Grid, Paper, Stack } from "@mui/material"
 import React, { useState } from "react"
 
-import { ArrowBack } from "@mui/icons-material"
-import Assumptions from "../info/Assumptions"
 import DoughnutChart from "../charts/DoughnutChart"
 import GroupBarChart from "../charts/GroupBarChart"
 import Image from "next/image"
-import NumberChart from "../charts/NumberChart"
 import PropTypes from "prop-types"
 import RadialBChart from "../charts/RadialChart"
 import StackedBarChart from "../charts/StackedBarChart"
 import SimpleTable from "../charts/SimpleTableChart"
+import DashboardHeader from "../dashboard/DashboardHeader"
 import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
@@ -69,58 +67,12 @@ const Dashboard = ({ data, version, datasetName }) => {
         style={{ width: "100%", minWidth: "650px" }}
       >
         <Grid item xs={8}>
-          <Paper {...paperStyle}>
-            <div
-              style={{
-                margin: "0 auto",
-                padding: "2%",
-                textAlign: "center",
-              }}
-            >
-              <Stack direction="row" spacing={4} alignItems="flex-start">
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  alignItems="center"
-                  onClick={() => router.back()}
-                  style={{ cursor: "pointer" }}
-                >
-                  <ArrowBack fontSize="medium" />
-                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
-                    Return
-                  </span>
-                </Stack>
-                <Typography
-                  variant="h4"
-                  style={{ fontFamily: "Gotham Medium" }}
-                >
-                  Climate Smart Forest Economy Program: 3
-                  <span style={{ color: "green" }}>S</span>
-                  Model {`${version}`}
-                  <br />
-                  Building Initiative: {datasetName}
-                </Typography>
-              </Stack>
-              <Stack
-                direction="row"
-                spacing={1}
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  Measurement units:{" "}
-                </Typography>
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  tC
-                </Typography>
-                <Switch onChange={handleChange} />
-                <Typography variant="h6" style={{ fontFamily: "Gotham Book" }}>
-                  tCO2
-                </Typography>
-              </Stack>
-              <Assumptions assumptions={data["assumptions"]} />
-            </div>
-          </Paper>
+          <DashboardHeader
+            data={data}
+            handleChange={handleChange}
+            version={version}
+            datasetName={dataset_name}
+          />
         </Grid>
 
         <Grid item xs={8}>

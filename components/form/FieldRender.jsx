@@ -21,20 +21,29 @@ const Row = ({ children, description }) => {
     <Grid
       container
       columns={5}
-      style={{ paddingBottom: "24px", justifyContent: "space-between" }}
+      spacing={2}
+      style={{
+        paddingBottom: "24px",
+        justifyContent: "space-between",
+      }}
     >
-      <Grid item xs={2}>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Typography>{description}</Typography>
-        </div>
-      </Grid>
-      <Grid item xs={2}>
+      {description !== "hide" && (
+        <>
+          <Grid item xs={2}>
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography>{description}</Typography>
+            </div>
+          </Grid>
+          <Grid item xs={1} />
+        </>
+      )}
+      <Grid item xs>
         <div>{children}</div>
       </Grid>
     </Grid>
@@ -205,18 +214,19 @@ const Group = ({
       </Row>
       {fieldsObject
         .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) =>
-          inputFields.length > 0 ? (
-            <Number
-              {...field}
-              key={index}
-              name={`${name}-${field.name}`}
-              value={inputFields.find((f) => field.name === f[0])[1]}
-            />
-          ) : (
-            <Number {...field} key={index} name={`${name}-${field.name}`} />
-          )
-        )}
+        .map((field, index) => (
+          <Number
+            {...field}
+            key={index}
+            name={`${name}-${field.name}`}
+            value={
+              (inputFields.find((f) => field.name === f[0]) || ["", ""])[1]
+            }
+            description={
+              description === "hide" ? description : field.description
+            }
+          />
+        ))}
     </>
   )
 }
@@ -341,6 +351,7 @@ const InputWithOverlay = ({
   description,
   defaultHelper = "Open calculator",
   modal = "transportCalculator",
+  unit,
   ...props
 }) => {
   const [openModal, setOpenModal] = useState(false)
@@ -359,6 +370,7 @@ const InputWithOverlay = ({
         value={calcValue}
         key={value}
         description={description}
+        unit={unit}
         defaultHelper={
           <span
             style={{
@@ -463,13 +475,13 @@ const StagedInput = ({
           <AccordionDetails id={`step${step.id}`}>
             {fieldsObject.map((element) => {
               const Renderer = renderers[element.type]
-              console.log(element)
               return (
                 <Renderer
                   key={element.name + "_" + index}
                   value={step && step[element.name]}
                   {...element}
                   default={element.default || ""}
+                  {...(description == "hide" ? { description: "hide" } : {})}
                 />
               )
             })}

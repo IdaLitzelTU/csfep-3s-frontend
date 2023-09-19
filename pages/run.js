@@ -1,7 +1,10 @@
 import React from "react"
 import styles from "../styles/Home.module.css"
 import { useQuery } from "react-query"
+
 import * as client from "../api/csfep"
+
+import ReturnButton from "../components/navigation/Return"
 import DashboardV1 from "../components/dashboards/v1"
 import DashboardVTC from "../components/dashboards/vTC"
 import DashboardV3 from "../components/dashboards/v3"
@@ -27,18 +30,19 @@ export default function Model({ version, dataset, datasetName }) {
 
   return (
     <main className={styles.main}>
-      {data && <div>{render({ version, dataset, data, datasetName })}</div>}
+      <ReturnButton />
+      {data && <div>{render({ version, dataset, data })}</div>}
     </main>
   )
 }
 
 Model.getInitialProps = async ({ query }) => {
-  const { version, dataset, dataset_name } = query
-  return { version, dataset: JSON.parse(dataset), dataset_name }
+  const { version, dataset, datasetName } = query
+  return { version, dataset: JSON.parse(dataset), datasetName }
 }
 
 Model.propTypes = {
   version: PropTypes.string,
   dataset: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  dataset_name: PropTypes.string,
+  datasetName: PropTypes.string,
 }

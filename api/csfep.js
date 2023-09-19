@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const endpoint = "https://csfep-3s-framework.herokuapp.com"
-// const endpoint = "http://127.0.0.1:8080"
+// const endpoint = "http://127.0.0.1:8000"
 
 export async function fetchModelVersion() {
   const response = await axios.get(`${endpoint}/model`)
