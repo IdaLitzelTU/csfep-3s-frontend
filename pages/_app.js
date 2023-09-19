@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import "../styles/globals.css"
 import styles from "../styles/Home.module.css"
 import { QueryClient, QueryClientProvider } from "react-query"
-import Navbar from "../components/Navbar"
+import Navbar from "../components/navigation/Navbar"
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = React.useState(() => new QueryClient())

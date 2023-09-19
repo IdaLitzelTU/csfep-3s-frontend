@@ -3,7 +3,6 @@ import * as util from "../../api/util"
 import { Grid, Paper, Stack, Switch, Typography } from "@mui/material"
 import React, { useState } from "react"
 
-import { ArrowBack } from "@mui/icons-material"
 import Assumptions from "../info/Assumptions"
 import DoughnutChart from "../charts/DoughnutChart"
 import GroupBarChart from "../charts/GroupBarChart"
@@ -12,7 +11,6 @@ import NumberChart from "../charts/NumberChart"
 import PropTypes from "prop-types"
 import RadialBChart from "../charts/RadialChart"
 import StackedBarChart from "../charts/StackedBarChart"
-import { useRouter } from "next/router"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
@@ -50,7 +48,6 @@ const paperStyle = {
 
 const Dashboard = ({ data, version, dataset, dataset_name }) => {
   const [units, setUnits] = useState("tC")
-  const router = useRouter()
 
   const handleChange = (event) => {
     setUnits(event.target.checked ? "tCO2" : "tC")
@@ -76,18 +73,6 @@ const Dashboard = ({ data, version, dataset, dataset_name }) => {
               }}
             >
               <Stack direction="row" spacing={4} alignItems="flex-start">
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  alignItems="center"
-                  onClick={() => router.back()}
-                  style={{ cursor: "pointer" }}
-                >
-                  <ArrowBack fontSize="medium" />
-                  <span style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
-                    Return
-                  </span>
-                </Stack>
                 <Typography
                   variant="h4"
                   style={{ fontFamily: "Gotham Medium" }}
