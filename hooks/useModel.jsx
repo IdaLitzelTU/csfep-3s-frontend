@@ -12,7 +12,6 @@ const useModel = ({ version }) => {
 
   useEffect(() => {
     if (version && data) {
-      console.log(data)
       const categories = data
         ? [...new Set(data.input.map((el) => el.category))]
         : []
