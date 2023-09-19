@@ -91,9 +91,6 @@ const Dashboard = ({ data }) => {
 
 Dashboard.propTypes = {
   data: PropTypes.object,
-  version: PropTypes.string,
-  dataset: PropTypes.array,
-  dataset_name: PropTypes.string,
 }
 
 export default Dashboard

@@ -19,7 +19,7 @@ const colorsSink = ["#005B36BF"]
 const colorsStorage = ["#7B3F00", "#B87333", "#D27D2D"]
 const colorsSubsctitution = ["#FFC000", "#FFD966"]
 
-const Dashboard = ({ data, version, dataset_name }) => {
+const Dashboard = ({ data, version, datasetName }) => {
   const [units, setUnits] = useState("tC")
 
   const handleChange = (event) => {
@@ -41,7 +41,7 @@ const Dashboard = ({ data, version, dataset_name }) => {
             data={data}
             handleChange={handleChange}
             version={version}
-            datasetName={dataset_name}
+            datasetName={datasetName}
           />
         </Grid>
 

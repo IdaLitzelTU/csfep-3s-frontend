@@ -71,7 +71,7 @@ const Dashboard = ({ data, version, datasetName }) => {
             data={data}
             handleChange={handleChange}
             version={version}
-            datasetName={dataset_name}
+            datasetName={datasetName}
           />
         </Grid>
 
