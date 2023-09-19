@@ -20,7 +20,7 @@ const CopyTextField = ({ value, label }) => {
     <Tooltip title={isCopied ? "Copied!" : "Copy"} placement="top-end">
       <TextField
         value={value}
-        style={{ width: "70%", padding: "1rem" }}
+        style={{ width: "70%", padding: "0.5rem" }}
         fullWidth
         InputProps={{
           endAdornment: (

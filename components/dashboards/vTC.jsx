@@ -71,7 +71,7 @@ const Dashboard = ({ data }) => {
                 <Typography
                   variant="h6"
                   fontFamily={"Gotham Medium"}
-                  style={{ lineHeight: 1.4 }}
+                  style={{ lineHeight: 1.5, padding: "1rem" }}
                 >
                   Copy the below values into any model that uses &apos;Carbon
                   emmitted transporting&apos; variable [kgC]

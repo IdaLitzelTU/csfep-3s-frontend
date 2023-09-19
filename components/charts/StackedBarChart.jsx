@@ -40,7 +40,10 @@ const StackedBarChart = ({ data, colors, units }) => {
           <CartesianGrid strokeDasharray="1" horizontal={false} />
           <XAxis type="number" domain={[0, "dataMax + 1.5"]} />
           <YAxis type="category" dataKey="name" />
-          <Tooltip itemStyle={{marginTop:'0.8rem'}} labelStyle={{margin:'0.8rem 0'}} />
+          <Tooltip
+            itemStyle={{ marginTop: "0.8rem" }}
+            labelStyle={{ margin: "0.8rem 0" }}
+          />
           <Legend
             align="left"
             iconType="circle"
@@ -51,13 +54,13 @@ const StackedBarChart = ({ data, colors, units }) => {
               </span>
             )}
           />
-          <Bar dataKey={Object.keys(data[0])[1]} stackId="a" fill={colors[0]} />
+          <Bar dataKey={Object.keys(data[0])[2]} stackId="a" fill={colors[0]} />
           <Bar
-            dataKey={Object.keys(data[0])[2]}
+            dataKey={Object.keys(data[0])[3]}
             stackId="a"
             fill={colors[1]}
           ></Bar>
-          <Bar dataKey={Object.keys(data[0])[3]} stackId="a" fill={colors[2]}>
+          <Bar dataKey={Object.keys(data[0])[4]} stackId="a" fill={colors[2]}>
             <LabelList position="right" dataKey="total" />
           </Bar>
         </BarChart>

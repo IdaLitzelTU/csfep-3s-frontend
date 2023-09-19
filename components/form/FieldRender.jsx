@@ -214,18 +214,19 @@ const Group = ({
       </Row>
       {fieldsObject
         .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) =>
-          inputFields.length > 0 ? (
-            <Number
-              {...field}
-              key={index}
-              name={`${name}-${field.name}`}
-              value={inputFields.find((f) => field.name === f[0])[1]}
-            />
-          ) : (
-            <Number {...field} key={index} name={`${name}-${field.name}`} />
-          )
-        )}
+        .map((field, index) => (
+          <Number
+            {...field}
+            key={index}
+            name={`${name}-${field.name}`}
+            value={
+              (inputFields.find((f) => field.name === f[0]) || ["", ""])[1]
+            }
+            description={
+              description === "hide" ? description : field.description
+            }
+          />
+        ))}
     </>
   )
 }

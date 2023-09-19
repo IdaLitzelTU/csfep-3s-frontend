@@ -10,6 +10,7 @@ const useVersions = () => {
 
   useEffect(() => {
     if (data) {
+      data.sort()
       setVersions(data)
     }
   }, [data])
