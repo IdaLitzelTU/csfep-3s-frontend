@@ -21,20 +21,29 @@ const Row = ({ children, description }) => {
     <Grid
       container
       columns={5}
-      style={{ paddingBottom: "24px", justifyContent: "space-between" }}
+      spacing={2}
+      style={{
+        paddingBottom: "24px",
+        justifyContent: "space-between",
+      }}
     >
-      <Grid item xs={2}>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Typography>{description}</Typography>
-        </div>
-      </Grid>
-      <Grid item xs={2}>
+      {description !== "hide" && (
+        <>
+          <Grid item xs={2}>
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography>{description}</Typography>
+            </div>
+          </Grid>
+          <Grid item xs={1} />
+        </>
+      )}
+      <Grid item xs>
         <div>{children}</div>
       </Grid>
     </Grid>
@@ -463,13 +472,13 @@ const StagedInput = ({
           <AccordionDetails id={`step${step.id}`}>
             {fieldsObject.map((element) => {
               const Renderer = renderers[element.type]
-              console.log(element)
               return (
                 <Renderer
                   key={element.name + "_" + index}
                   value={step && step[element.name]}
                   {...element}
                   default={element.default || ""}
+                  {...(description == "hide" ? { description: "hide" } : {})}
                 />
               )
             })}

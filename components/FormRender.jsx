@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import PropTypes from "prop-types"
 
@@ -7,10 +7,13 @@ import Divider from "@mui/material/Divider"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
+import Switch from "@mui/material/Switch"
 
 import renderers from "./form/FieldRender"
 
 const FormRender = ({ model, data }) => {
+  const [displayDescription, setDisplayDescription] = useState(false)
+
   const categories = model
     ? [...new Set(model.input.map((el) => el.category))]
     : []
@@ -40,6 +43,24 @@ const FormRender = ({ model, data }) => {
               justifyContent="center"
               alignItems="stretch"
             >
+              <Grid item>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                  }}
+                >
+                  <Switch
+                    checked={displayDescription}
+                    onChange={(event) =>
+                      setDisplayDescription(event.target.checked)
+                    }
+                    label="Display variable description"
+                    size="small"
+                  />
+                  <Typography>Display variable description</Typography>
+                </div>
+              </Grid>
               {Object.keys(fields).map((key) => {
                 return (
                   // originaly that was an empty tag, but next.js does not sit well with keyless head html tags
@@ -65,6 +86,9 @@ const FormRender = ({ model, data }) => {
                           value={String(data[element.name] || "")}
                           {...element}
                           default={String(element.default || "")}
+                          {...(displayDescription
+                            ? {}
+                            : { description: "hide" })}
                         />
                       )
                     })}
