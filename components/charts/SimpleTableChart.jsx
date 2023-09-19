@@ -1,5 +1,6 @@
 import React from "react"
-import { Stack, Typography, Grid } from "@mui/material"
+import { Typography, Grid } from "@mui/material"
+import PropTypes from "prop-types"
 
 const commonProps = {
   columns: 6,
@@ -77,5 +78,17 @@ const Row = ({ data }) => (
     ))}
   </Grid>
 )
+
+SimpleTable.propTypes = {
+  data: PropTypes.array,
+}
+
+Header.propTypes = {
+  data: PropTypes.array,
+}
+
+Row.propTypes = {
+  data: PropTypes.array,
+}
 
 export default SimpleTable
