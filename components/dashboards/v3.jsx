@@ -260,8 +260,9 @@ function getStorage(data, units) {
       )
     })
     scopeData["total"] = util.round(
-      data[units][scenario]["c_lost"] + data[units][scenario]["c_in_building"]
-      //+ data[units][scenario]["C2Forest"]
+      data[units][scenario]["c_lost"] +
+        data[units][scenario]["c_in_building"] +
+        data[units][scenario]["c_forest"]
     )
     out.push(scopeData)
   })

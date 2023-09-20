@@ -38,6 +38,7 @@ const Header = ({ data }) => (
             fontFamily: "Gotham Book",
             textAlign: "center",
             fontWeight: 800,
+            lineHeight: 1.5,
           }}
           variant="p"
         >
