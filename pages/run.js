@@ -31,7 +31,7 @@ export default function Model({ version, dataset, datasetName }) {
   return (
     <main className={styles.main}>
       <ReturnButton />
-      {data && <div>{render({ version, dataset, data })}</div>}
+      {data && <div>{render({ version, dataset, data, datasetName })}</div>}
     </main>
   )
 }
