@@ -24,6 +24,6 @@ export function getData(model, version, parentId) {
 }
 
 export function isEmpty(data) {
-  const empty = (key) => data[key]?.length < 1
-  return Object.keys(data).some(empty)
+  const empty = (key) => key.value === ""
+  return data.some(empty)
 }
