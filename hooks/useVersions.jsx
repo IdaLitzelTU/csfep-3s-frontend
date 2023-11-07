@@ -7,16 +7,18 @@ const useVersions = () => {
   const { data } = useQuery(["model-versions"], client.fetchModelVersion)
 
   const [versions, setVersions] = useState(undefined)
+  const [meta, setMeta] = useState(undefined)
 
   useEffect(() => {
     if (data) {
-      data.sort()
-      setVersions(data)
+      setVersions(data.results.sort())
+      setMeta(data.meta)
     }
   }, [data])
 
   return {
     versions,
+    meta,
   }
 }
 

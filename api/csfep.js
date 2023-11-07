@@ -6,7 +6,7 @@ const endpoint = "https://csfep-3s-framework.herokuapp.com"
 export async function fetchModelVersion() {
   const response = await axios.get(`${endpoint}/model`)
 
-  return response.data.results
+  return response.data
 }
 
 export async function fetchModelInput(version) {
