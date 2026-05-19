@@ -56,7 +56,7 @@ const DialogComponent = ({
     // if new create dataset then run model otherwise run model
     if (newChecked) {
       client.postNewDataset(payload).then((r) => {
-        refetchCatalog?.() /
+        refetchCatalog?.() 
         client
           .runModel("vTC", payload.data)
           .then((res) => {
@@ -139,8 +139,8 @@ const DialogComponent = ({
 
 DialogComponent.propTypes = {
   version: PropTypes.string,
-  openModal: PropTypes.boolean,
-  handleClose: PropTypes.function,
+  openModal: PropTypes.bool,
+  handleClose: PropTypes.func,
   setValue: PropTypes.func,
 }
 
