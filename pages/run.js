@@ -10,6 +10,7 @@ import DashboardVTC from "../components/dashboards/vTC"
 import DashboardV3 from "../components/dashboards/v3"
 import PropTypes from "prop-types"
 
+
 export default function Model({ version, dataset, datasetName }) {
   const { data } = useQuery(["model-output", version, dataset], () =>
     /*typeof dataset === "number"
@@ -72,6 +73,13 @@ Model.getInitialProps = async ({ query }) => {
 
 Model.propTypes = {
   version: PropTypes.string,
-  dataset: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  //dataset: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  dataset: PropTypes.arrayOf(
+  PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string, //stringified!
+    type: PropTypes.string
+    })
+  ),
   datasetName: PropTypes.string,
 }
