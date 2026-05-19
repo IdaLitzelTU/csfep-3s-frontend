@@ -55,7 +55,7 @@ const DoughnutChart = ({ data, colors }) => {
         </div>
         <ResponsiveContainer width={"80%"} height={300}>
           <PieChart>
-            {data.git ((d, index) => (
+            {data.map((d, index) => (
               <React.Fragment key={index}>
                 <text
                   key={`text-pie-${index}`}
