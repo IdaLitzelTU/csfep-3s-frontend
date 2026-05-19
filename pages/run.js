@@ -12,8 +12,12 @@ import PropTypes from "prop-types"
 
 export default function Model({ version, dataset, datasetName }) {
   const { data } = useQuery(["model-output", version, dataset], () =>
-    typeof dataset === "number"
+    /*typeof dataset === "number"
       ? client.fetchModelOutput(version, dataset)
+      : client.runModel(version, dataset)
+    */
+    Number.isInteger(Number(dataset))
+      ? client.fetchModelOutput(version, Number(dataset))
       : client.runModel(version, dataset)
   )
   const render = ({ data, version, datasetName }) => {
@@ -36,10 +40,35 @@ export default function Model({ version, dataset, datasetName }) {
   )
 }
 
+/*
 Model.getInitialProps = async ({ query }) => {
   const { version, dataset, datasetName } = query
   return { version, dataset: JSON.parse(dataset), datasetName }
-}
+}*/
+
+
+Model.getInitialProps = async ({ query }) => {
+  const { version, dataset, datasetName } = query
+
+  const cleanVersion =
+  version && version !== "None" && version !== "undefined"
+    ? version
+    : ""
+
+  let parsedDataset = null
+
+  try {
+    parsedDataset = JSON.parse(dataset)
+  } catch {
+    parsedDataset = dataset
+  }
+
+  return {
+    version: cleanVersion,
+    dataset: parsedDataset,
+    datasetName,
+  }
+} 
 
 Model.propTypes = {
   version: PropTypes.string,

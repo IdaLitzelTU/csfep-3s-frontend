@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const endpoint = "https://csfep-3s-framework.herokuapp.com"
-// const endpoint = "http://127.0.0.1:8000"
+//const endpoint = "https://csfep-3s-framework.herokuapp.com"
+const endpoint = "http://127.0.0.1:8000"
 
 export async function fetchModelVersion() {
   const response = await axios.get(`${endpoint}/model`)
@@ -15,14 +15,15 @@ export async function fetchModelInput(version) {
 }
 
 export async function runModel(version, body) {
-  // fetch model output for a specified version and dataset
   const options = {
     headers: { "content-type": "application/json" },
   }
+  //console.log("FULL BODY:", JSON.stringify(body, null, 2))
   const response = await axios.post(
     `${endpoint}/run/${version}?body=${JSON.stringify(body)}`,
     options
   )
+
   return response.data.results
 }
 

@@ -3,28 +3,30 @@ import { Stack, Typography } from "@mui/material"
 import { ArrowBack } from "@mui/icons-material"
 import { useRouter } from "next/router"
 
-const ReturnButton = ({}) => {
+const ReturnButton = () => {
   const router = useRouter()
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back()
+    } else {
+      router.push("/")
+    }
+  }
+
   return (
     <Stack
       direction="row"
       spacing={1}
       alignItems="center"
-      onClick={() => router.back()}
+      onClick={handleBack}
       style={{ cursor: "pointer", marginBottom: "2rem" }}
     >
-      <ArrowBack fontSize="medium" style={{ cursor: "pointer" }} />
-      <Typography
-        style={{
-          fontSize: "1rem",
-          fontFamily: "Gotham Book",
-          cursor: "pointer",
-        }}
-      >
+      <ArrowBack fontSize="medium" />
+      <Typography style={{ fontSize: "1rem", fontFamily: "Gotham Book" }}>
         Return
       </Typography>
     </Stack>
   )
 }
-
 export default ReturnButton

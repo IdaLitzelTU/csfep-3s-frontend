@@ -254,10 +254,12 @@ const Number = ({
         defaultValue={value == "" ? defaultValue : value}
         style={{ width: "100%" }}
         placeholder={units}
-        InputProps={{
-          step: 0.01,
+        inputProps={{
+          step: 0.1,
           min: min,
           max: max,
+        }}
+        InputProps={{
           endAdornment: unit && (
             <InputAdornment position="end">{unit}</InputAdornment>
           ),
@@ -617,25 +619,36 @@ function stageParser(field) {
   const accordions = document.querySelectorAll(".MuiAccordionDetails-root")
   const accordionValues = []
 
+  const fields = JSON.parse(field.fields)
+
   accordions.forEach((accordion) => {
     const inputs = accordion.querySelectorAll("input")
     const accordionData = {}
-    const fields = JSON.parse(field.fields)
 
-    inputs.forEach((input, index) => {
-      // accordionData[fields[index].name] = input.value;
+    inputs.forEach((input) => {
       fields.forEach((f) => {
         if (input.getAttribute("id") == f.name) {
-          accordionData[f.name] = input.value
+          const raw = input.value?.trim()
+
+          accordionData[f.name] = raw === "" ? null : raw
         }
       })
     })
 
-    accordionValues.push(accordionData)
+    // ✅ NEU: nur hinzufügen wenn NICHT komplett leer
+    const hasData = Object.values(accordionData).some(
+      (v) => v !== null && v !== ""
+    )
+
+    if (hasData) {
+      accordionValues.push(accordionData)
+    }
   })
 
   return JSON.stringify(accordionValues)
 }
+
+
 const PARSERS = {
   number: inputParser,
   group: groupParser,
