@@ -55,8 +55,8 @@ const DoughnutChart = ({ data, colors }) => {
         </div>
         <ResponsiveContainer width={"80%"} height={300}>
           <PieChart>
-            {data.map((d, index) => (
-              <>
+            {data.git ((d, index) => (
+              <React.Fragment key={index}>
                 <text
                   key={`text-pie-${index}`}
                   x={chartPosition(width * 0.6, index)}
@@ -76,7 +76,7 @@ const DoughnutChart = ({ data, colors }) => {
                   colors,
                   index,
                 })}
-              </>
+              </React.Fragment>
             ))}
             <Legend
               formatter={(value) => (
