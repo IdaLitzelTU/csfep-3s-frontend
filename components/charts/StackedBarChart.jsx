@@ -26,7 +26,7 @@ const StackedBarChart = ({ data, colors, units }) => {
           variant="h4"
           style={{
             fontFamily: "Gotham",
-            paddingBottom: "15px",
+            paddingBottom: "10px",
             fontFamily: "Gotham Medium",
           }}
           gutterBottom
@@ -35,19 +35,23 @@ const StackedBarChart = ({ data, colors, units }) => {
           TORAGE
         </Typography>
       </div>
-      <ResponsiveContainer width={"100%"} height={225}>
-        <BarChart data={data} layout="vertical">
+      <ResponsiveContainer width={"100%"} height={150}>
+        <BarChart data={data} layout="vertical" margin={{ left: -40, right: 60 }}>  
           <CartesianGrid strokeDasharray="1" horizontal={false} />
-          <XAxis type="number" domain={[0, "dataMax + 1.5"]} />
-          <YAxis type="category" dataKey="name" />
+          <XAxis type="number" domain={[0, dataMax => Math.ceil((dataMax + 1.5) / 10) * 10]} />
+          <YAxis   type="category"
+            dataKey="name"
+            tick={false}
+            axisLine={true}
+            tickLine={false} />
           <Tooltip
-            itemStyle={{ marginTop: "0.8rem" }}
+            itemStyle={{ marginTop: "0.6rem" }}
             labelStyle={{ margin: "0.8rem 0" }}
           />
           <Legend
-            align="left"
+            align="center"
             iconType="circle"
-            wrapperStyle={{ paddingLeft: "55px" }}
+            wrapperStyle={{ paddingLeft: "50px" }}
             formatter={(value) => (
               <span style={{ fontFamily: "Gotham Book", color: "black" }}>
                 {value}
@@ -59,17 +63,14 @@ const StackedBarChart = ({ data, colors, units }) => {
             dataKey={Object.keys(data[0])[3]}
             stackId="a"
             fill={colors[1]}
-          ></Bar>
-          <Bar dataKey={Object.keys(data[0])[4]} stackId="a" fill={colors[2]}>
-            <LabelList position="right" dataKey="total" />
-          </Bar>
+          ><LabelList position="right" dataKey="total" /></Bar>
         </BarChart>
       </ResponsiveContainer>
-      <div>
+      <div style={{ marginTop: "20px" }}>
         <Typography
           variant="h6"
           fontFamily={"Gotham Medium"}
-          style={{ lineHeight: 1.4 }}
+          style={{ lineHeight: 1.2 }}
         >
           {`Potential storage of carbon extracted from forest
             [${units}]`}

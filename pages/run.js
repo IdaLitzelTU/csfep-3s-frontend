@@ -6,6 +6,7 @@ import * as client from "../api/csfep"
 
 import ReturnButton from "../components/navigation/Return"
 import DashboardV1 from "../components/dashboards/v1"
+import DashboardV2 from "../components/dashboards/v2"
 import DashboardVTC from "../components/dashboards/vTC"
 import DashboardV3 from "../components/dashboards/v3"
 import PropTypes from "prop-types"
@@ -24,7 +25,7 @@ export default function Model({ version, dataset, datasetName }) {
   const render = ({ data, version, datasetName }) => {
     const availableModels = {
       v1: DashboardV1,
-      v2: DashboardV1,
+      v2: DashboardV2,
       v3: DashboardV3,
       vTC: DashboardVTC,
     }
