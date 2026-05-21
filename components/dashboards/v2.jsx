@@ -12,6 +12,7 @@ import StackedBarChart from "../charts/StackedBarChart"
 import { paperStyle, imageDivStyle, imageProps } from "../dashboard/styling"
 import DashboardHeader from "../dashboard/DashboardHeader"
 import Footer from "../dashboard/Footer"
+import SimpleTable from "../charts/SimpleTableChart_v2"
 
 const colorsThreeS = ["#005B36BF", "#BE8F02", "#FFD966"]
 
@@ -45,13 +46,29 @@ const Dashboard = ({ data, version, datasetName }) => {
           />
         </Grid>
 
-        {getCommonValues(data, units).map((el, i) => (
+        {getCommon(data, units).map((el, i) => (
           <Grid item xs={2} key={`number-container-${i}`}>
             <Paper key={`common-paper-${i}`} {...paperStyle}>
               <NumberChart {...el} />
             </Paper>
           </Grid>
         ))}
+
+        <Grid item xs={8}>
+          <Paper
+            {...{
+              elevation: 1,
+              style: {
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
+                overflow: "auto",
+              },
+            }}
+          >
+            <SimpleTable data={getCommonValues(data, units)} />
+          </Paper>
+        </Grid>
 
         <Grid item xs={8}>
           <Paper {...paperStyle}>
@@ -127,12 +144,10 @@ const Dashboard = ({ data, version, datasetName }) => {
   )
 }
 
-function getCommonValues(data, units) {
+function getCommon(data, units) {
   const buildingArea = data[units]["constants"]["Buildings floor area m2"]
   const numberOfBuildings = data[units]["constants"]["Number of Buildings"]
-  const yearsToRegrowForest = data[units]["constants"]["Years to Regrow Forest"]
   const harvested = data[units]["constants"]["Harvested"]
-  const accumulated = data[units]["constants"]["Accumulated"]
 
   return [
     {
@@ -144,14 +159,36 @@ function getCommonValues(data, units) {
       value: util.round(numberOfBuildings),
     },
     {
-      name: `Carbon gained from forest [${units}]`,
-      value: util.round(harvested + accumulated),
-    },
-    {
-      name: "Time to replenish forest carbon [years]",
-      value: util.round(yearsToRegrowForest),
+      name: `Carbon harvested [${units}]`,
+      value: util.round(harvested ),
     },
   ]
+}
+
+function getCommonValues(data, units) {
+  const scenarios = {
+    scenario_1: "min",
+    scenario_2: "best",
+    scenario_3: "max",
+  }
+
+  const out = Object.keys(scenarios).map((scenario) => {
+    const accumulated = data[units][scenario]["Carbon Recovered during Building Lifetime"]
+    const yearsToRegrowForest = data[units][scenario]["Years_to_Regrow"]
+
+    return [
+      scenarios[scenario],
+      util.round(accumulated),
+      util.round(yearsToRegrowForest),
+    ]
+  })
+
+  out.unshift([
+    "Forest Accumulation Rate",
+    `Carbon accumulated during Building Lifetime [${units}]`,
+    "Time to replenish carbon [years]",
+  ])
+  return out
 }
 
 function getSink(data, units) {
