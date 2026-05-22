@@ -55,22 +55,6 @@ const Dashboard = ({ data, version, datasetName }) => {
         ))}
 
         <Grid item xs={8}>
-          <Paper
-            {...{
-              elevation: 1,
-              style: {
-                borderRadius: "30px",
-                width: "100%",
-                height: "100%",
-                overflow: "auto",
-              },
-            }}
-          >
-            <SimpleTable data={getCommonValues(data, units)} />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={8}>
           <Paper {...paperStyle}>
             <DoughnutChart
               data={get3sTotals(data, units)}
@@ -137,6 +121,21 @@ const Dashboard = ({ data, version, datasetName }) => {
               </Stack>
             </Grid>
           </Grid>
+        </Grid>
+                <Grid item xs={8}>
+          <Paper
+            {...{
+              elevation: 1,
+              style: {
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
+                overflow: "auto",
+              },
+            }}
+          >
+            <SimpleTable data={getCommonValues(data, units)} />
+          </Paper>
         </Grid>
         <Footer />
       </Grid>
@@ -252,10 +251,10 @@ function getSubstitution(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    "MT Production": `Biomass-based materials manufacturing`,
-    "MT Transport": `Biomass-based materials transport`,
-    "SC Production": `Mineral-based materials manufacturing`,
-    "SC Transport": `Mineral-based materials transport`,
+    "MT Production": `Manufacturing emissions of all materials used in the timber building`,
+    "MT Transport": `Transport emissions of all materials used in the timber building`,
+    "SC Production": `Manufacturing emissions of all materials used in the conventional building`,
+    "SC Transport": `Transport emissions of all materials used in the conventional building`,
   }
 
   const out = []

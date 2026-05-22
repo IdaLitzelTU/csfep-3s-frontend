@@ -74,9 +74,9 @@ const RadialBChart = ({ data, colors, units }) => {
         <Typography
           variant="h6"
           fontFamily={"Gotham Medium"}
-          style={{ lineHeight: 1.4 }}
+          style={{ lineHeight: 1.4, whiteSpace: "pre-line" }}
         >
-          {`Forest carbon sink recovered after timber harvest [${units}]`}
+          {`Forest Carbon Sink\n(full area, S2, ${units})`}
         </Typography>
       </Grid>
     </Grid>
