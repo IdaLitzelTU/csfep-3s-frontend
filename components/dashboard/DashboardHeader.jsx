@@ -42,7 +42,7 @@ const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
             </>
           )}
         </Stack>
-        <Assumptions assumptions={data["assumptions"]} />
+        <Assumptions assumptions={data["output_description"]} />
       </div>
     </Paper>
   )

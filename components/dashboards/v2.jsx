@@ -167,26 +167,32 @@ function getCommon(data, units) {
 
 function getCommonValues(data, units) {
   const scenarios = {
-    scenario_1: "min",
-    scenario_2: "best",
-    scenario_3: "max",
+    scenario_1: "S1",
+    scenario_2: "S2",
+    scenario_3: "S3",
   }
 
   const out = Object.keys(scenarios).map((scenario) => {
     const accumulated = data[units][scenario]["Carbon Recovered during Building Lifetime"]
     const yearsToRegrowForest = data[units][scenario]["Years_to_Regrow"]
+    const accumulated_i = data[units][scenario]["Carbon Recovered during Building Lifetime_intensity"]
+    const yearsToRegrowForest_i = data[units][scenario]["Years_to_Regrow_intensity"]
 
     return [
       scenarios[scenario],
       util.round(accumulated),
       util.round(yearsToRegrowForest),
+      util.round(accumulated_i),
+      util.round(yearsToRegrowForest_i),
     ]
   })
 
   out.unshift([
-    "Forest Accumulation Rate",
-    `Carbon accumulated during Building Lifetime [${units}]`,
-    "Time to replenish carbon [years]",
+    "Scenario",
+    `Forest carbon recovery\n(full area)\n[${units}]`,
+    "Regrowth time\n(full area)\n[years]",
+    `Forest carbon recovery\n(harvested share)\n[${units}]`,
+    "Regrowth time\n(harvested share)\n[years]",
   ])
   return out
 }

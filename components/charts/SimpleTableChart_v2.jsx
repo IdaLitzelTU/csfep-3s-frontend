@@ -30,8 +30,7 @@ const SimpleTable = ({ data }) => (
 )
 
 const Header = ({ data }) => (
-  <Grid container {...commonProps} style={{ ...commonStyle ,display: "flex",
-      alignItems: "flex-end", }}>
+  <Grid container {...commonProps} style={{ ...commonStyle  }}>
     {data.map((element, i) => (
       <Grid item xs={1} key={i} style={commonItemStyle}>
         <Typography
@@ -40,6 +39,7 @@ const Header = ({ data }) => (
             textAlign: "center",
             fontWeight: 880,
             lineHeight: 1.5,
+            whiteSpace: "pre-line",
           }}
           variant="p"
         >
