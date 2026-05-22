@@ -51,7 +51,7 @@ const Dashboard = ({ data, version, datasetName }) => {
   console.log(data)
   const [units, setUnits] = useState("tC")
   const router = useRouter()
-
+  console.log("DATA: ", data)
   const handleChange = (event) => {
     setUnits(event.target.checked ? "tCO2" : "tC")
   }
@@ -160,6 +160,21 @@ const Dashboard = ({ data, version, datasetName }) => {
           </Grid>
         </Grid>
         <Grid item xs={8}>
+          <Paper
+            {...{
+              elevation: 1,
+              style: {
+                borderRadius: "30px",
+                width: "100%",
+                height: "100%",
+                overflow: "auto",
+              },
+            }}
+          >
+            <SimpleTable data={getCommon(data, units)} />
+          </Paper>
+        </Grid>
+        <Grid item xs={8}>
           <Image
             alt="forest"
             src="/forest.svg"
@@ -193,7 +208,6 @@ function getCommonValues(data, units) {
     const harvested = data[units][scenario]["c_harvested"]
     const numberOfBuildings = data[units][scenario]["number_of_buildings"]
     const buildingArea = data[units][scenario]["building_area"]
-    const yearsToRegrowForest = data[units][scenario]["years_to_regrow_forest"]
 
     return [
       scenarios[scenario],
@@ -201,17 +215,48 @@ function getCommonValues(data, units) {
       util.round(harvested),
       util.round(numberOfBuildings),
       util.round(buildingArea),
-      util.round(yearsToRegrowForest),
     ]
   })
 
   out.unshift([
     "",
-    `Carbon accumulated [${units}]`,
+    `Carbon accumulated after regrow time[${units}]`,
     `Harvested from forest [${units}]`,
     "Number of buildings",
     "Total area [m2]",
-    "Time to replenish carbon [years]",
+  ])
+
+  return out
+}
+
+function getCommon(data, units) {
+  const scenarios = {
+    scenario_1: "S1",
+    scenario_2: "S2",
+    scenario_3: "S3",
+  }
+
+  const out = Object.keys(scenarios).map((scenario) => {
+    const cRecoveredPlant = data[units][scenario]["c_recovered_plant"]
+    const cRecovered = data[units][scenario]["c_recovered"]
+    const yearsToRegrowForest = data[units][scenario]["years_to_regrow_forest"]
+    const yearsToRegrowPlantForest = data[units][scenario]["years_to_regrow_plant_forest"]
+
+    return [
+      scenarios[scenario],
+      util.round(cRecoveredPlant),
+      util.round(cRecovered),
+      util.round(yearsToRegrowPlantForest),
+      util.round(yearsToRegrowForest),
+    ]
+  })
+
+  out.unshift([
+    "Scenario in building lifespann",
+    `Carbon recovered in planted area [${units}]`,
+    `Carbon recovered in harvested area  [${units}]`,
+    "Time to replenish carbon in planted area  [years]",
+    "Time to replenish carbon in harvested area  [years]",
   ])
 
   return out
@@ -244,7 +289,6 @@ function getStorage(data, units) {
   const variables = {
     c_in_building: `Building`,
     c_lost: `Scrap wood`,
-    c_forest: `Forest`,
   }
 
   const out = []
@@ -261,8 +305,7 @@ function getStorage(data, units) {
     })
     scopeData["total"] = util.round(
       data[units][scenario]["c_lost"] +
-        data[units][scenario]["c_in_building"] +
-        data[units][scenario]["c_forest"]
+        data[units][scenario]["c_in_building"]
     )
     out.push(scopeData)
   })
