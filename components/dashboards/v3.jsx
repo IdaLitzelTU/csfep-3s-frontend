@@ -287,7 +287,7 @@ function getStorage(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    c_in_building: `Building`,
+    c_in_building: `Buildings`,
     c_lost: `Scrap wood`,
   }
 
@@ -317,10 +317,10 @@ function getSubstitution(data, units) {
   const scenarios = { scenario_1: "S1", scenario_2: "S2", scenario_3: "S3" }
 
   const variables = {
-    timber_manufacturing: `Biomass-based materials manufacturing`,
-    timber_transporting: `Biomass-based materials transport`,
-    conventional_manufacturing: `Mineral-based materials manufacturing`,
-    conventional_transporting: `Mineral-based materials transport`,
+    timber_manufacturing: `Manufacturing emissions of all materials used in the timber building`,
+    timber_transporting: `Transport emissions of all materials used in the timber building`,
+    conventional_manufacturing: `Manufacturing emissions of all materials used in the conventional building`,
+    conventional_transporting: `Transport emissions of all materials used in the conventional building`,
   }
 
   const out = []
