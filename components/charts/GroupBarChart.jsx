@@ -42,7 +42,12 @@ const GroupBarChart = ({ data, colors, units }) => {
           height={400}
           style={{ padding: "30px" }}
         >
-          <BarChart data={data}>
+          <BarChart data={data}   margin={{
+              top: 15,
+              right: 20,
+              left: 0,
+              bottom: 20,
+            }}>
             <CartesianGrid strokeDasharray="1" vertical={false} />
             <XAxis dataKey="name" />
             <YAxis />

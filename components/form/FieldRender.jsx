@@ -480,7 +480,7 @@ const StagedInput = ({
               return (
                 <Renderer
                   key={element.name + "_" + index}
-                  value={step && step[element.name]}
+                  value={step?.[element.name] ?? ""}
                   {...element}
                   default={element.default || ""}
                   {...(description == "hide" ? { description: "hide" } : {})}

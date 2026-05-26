@@ -60,7 +60,7 @@ const Row = ({ data }) => (
       marginTop: "1rem",
       marginBottom: "1rem",
       borderRadius: "15px",
-      backgroundColor: "rgb(238, 238, 238)",
+      backgroundColor: "#DAE5D1",
     }}
   >
     {data.map((element, i) => (

@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material"
 import PropTypes from "prop-types"
 
 const Assumptions = ({ assumptions }) => (
-  <Stack style={{ textAlign: "start", paddingTop: "15px" , whiteSpace: "pre-line"}}>
+  <Stack style={{ textAlign: "start", paddingTop: "15px", whiteSpace: "pre-line"}}>
     {Object.keys(assumptions).map((assumption, index) => (
       <Typography key={`assumptions-${index}`}>
         <span style={{ fontFamily: "Gotham Medium" }}>{assumption} </span>

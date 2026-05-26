@@ -48,10 +48,8 @@ const paperStyle = {
 }
 
 const Dashboard = ({ data, version, datasetName }) => {
-  console.log(data)
   const [units, setUnits] = useState("tC")
   const router = useRouter()
-  console.log("DATA: ", data)
   const handleChange = (event) => {
     setUnits(event.target.checked ? "tCO2" : "tC")
   }
