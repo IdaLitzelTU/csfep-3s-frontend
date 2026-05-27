@@ -4,6 +4,10 @@ import Assumptions from "../info/Assumptions"
 import PropTypes from "prop-types"
 import { paperStyle, typographyh6 } from "./styling"
 
+const versionLabels = {
+  v2: "City to Forest",
+  v3: "Forest to City",
+}
 const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
   return (
     <Paper {...paperStyle}>
@@ -17,7 +21,7 @@ const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
         <Typography variant="h4" style={{ fontFamily: "Gotham Medium" }}>
           Climate Smart Forest Economy Program: 3
           <span style={{ color: "green" }}>S</span>
-          Model {`${version}`}
+          Model {`${versionLabels[version] || version}`}
           {datasetName && (
             <>
               <br />

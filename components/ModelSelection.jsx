@@ -12,6 +12,10 @@ import useVersions from "../hooks/useVersions"
 
 const ModelSelection = ({ version, setVersion }) => {
   const { versions, meta } = useVersions()
+  const versionLabels = {
+    v2: "City to Forest",
+    v3: "Forest to City",
+  }
 
   return (
     versions && (
@@ -37,7 +41,7 @@ const ModelSelection = ({ version, setVersion }) => {
           >
             {versions.map((v) => (
               <MenuItem key={v} value={v}>
-                {v}
+                {versionLabels[v] || v}
               </MenuItem>
             ))}
           </Select>
