@@ -7,46 +7,54 @@ import MenuItem from "@mui/material/MenuItem"
 import InputLabel from "@mui/material/InputLabel"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
+import { Button, Grow, Typography } from "@mui/material"
 
 import useVersions from "../hooks/useVersions"
 
 const ModelSelection = ({ version, setVersion }) => {
   const { versions, meta } = useVersions()
   const versionLabels = {
-    v2: "City to Forest",
-    v3: "Forest to City",
+    v2: "CITY TO FOREST",
+    v3: "FOREST TO CITY",
+    vTC: "TRANSPORT CALCULATOR"
   }
 
   return (
     versions && (
-      <div>
-        <List sx={{ listStyleType: "disc" }}>
-          {versions.map((version) => (
-            <ListItem
-              key={version}
-              sx={{ display: "list-item", color: "black" }}
-            >
-              {meta[version].description}
-            </ListItem>
-          ))}
-        </List>
-        <FormControl style={{ marginTop: "1rem" }} fullWidth>
-          <InputLabel id="select-model-label">Model version</InputLabel>
-          <Select
-            labelId="select-model"
-            id="select-model"
-            value={version}
-            label="Model version"
-            onChange={(event) => setVersion(event.target.value)}
-          >
-            {versions.map((v) => (
-              <MenuItem key={v} value={v}>
-                {versionLabels[v] || v}
-              </MenuItem>
+      <Grow in={true} timeout={1100}>
+        <div>
+          <List sx={{ listStyleType: "disc", pl: 3,}}>
+            {versions.map((version) => (
+              <ListItem
+                key={version}
+                sx={{ display: "list-item", color: "black" }}
+              >
+                {meta[version].description}
+              </ListItem>
             ))}
-          </Select>
-        </FormControl>
-      </div>
+          </List>
+
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel id="select-model-label">
+              Model version
+            </InputLabel>
+
+            <Select
+              labelId="select-model-label"
+              id="select-model"
+              value={version}
+              label="Model version"
+              onChange={(event) => setVersion(event.target.value)}
+            >
+              {versions.map((v) => (
+                <MenuItem key={v} value={v}>
+                  {versionLabels[v] || v}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      </Grow>
     )
   )
 }

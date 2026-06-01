@@ -83,10 +83,23 @@ const RunModel = () => {
         <Typography id="error" variant="h4" style={{ color: "red" }}>
           {inputError}
         </Typography>
+
       </Grow>
-      <h4>Available Model Versions: {"  "} </h4>
+      <Grow in={true} timeout={1100}>
+      <h3
+      style={{
+        margin: "0 auto",
+        marginTop: "7rem",
+        marginBottom: "1rem",
+      }}
+      >
+      AVAILABLE MODEL VERSIONS: {"  "} </h3>
+      </Grow>
       <ModelSelection version={version} setVersion={setVersion} />
+
+      Please select a version to run the model
       <Loader loading={outputLoading} status={status} />
+
       <ModelMeta model={model} />
       <DatasetSelection
         catalog={catalog}
@@ -109,21 +122,34 @@ const RunModel = () => {
           }}
           onClick={handleClick}
         >
-          Save & Run
-        </Button>
-      ) : (
-        <h4
-          style={{
-            textAlign: "center",
-            verticalAlign: "middle",
-            lineHeight: "50",
-          }}
-        >
-          Please select a version to run the model
-        </h4>
-      )}
+           Save & Run
+      </Button>
+    ) : (
+      <h4 />
+    )}
+
+    <div
+      style={{
+        marginTop: "4rem",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <img
+        src="/Forest.svg"
+        alt="Forest"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          zIndex: -1,
+        }}
+      />
     </div>
-  )
+  </div>
+)
 }
 
 export default RunModel

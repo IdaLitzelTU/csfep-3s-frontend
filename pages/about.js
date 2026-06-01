@@ -55,7 +55,28 @@ const About = () => {
           </div>
         </Grid>
       </Box>
+      <div
+      style={{
+        marginTop: "4rem",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <img
+        src="/Forest.svg"
+        alt="Forest"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          zIndex: -1,
+        }}
+      />
+    </div>
     </main>
+    
   )
 }
 

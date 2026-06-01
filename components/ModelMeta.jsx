@@ -11,9 +11,12 @@ const ModelMeta = ({ model }) => {
       <Paper
         variant="outlined"
         style={{
-          padding: "1rem",
+          padding: "2rem",
           backgroundColor: "whitesmoke",
-          marginTop: "1rem",
+          marginTop: "4rem",
+          backgroundImage: `url("/Gradient-Green.png")`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
         }}
       >
         <Contact meta={model["meta"]} />

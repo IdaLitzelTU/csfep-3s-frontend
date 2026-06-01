@@ -5,8 +5,9 @@ import PropTypes from "prop-types"
 import { paperStyle, typographyh6 } from "./styling"
 
 const versionLabels = {
-  v2: "City to Forest",
-  v3: "Forest to City",
+  v2: "CITY TO FOREST",
+  v3: "FOREST TO CITY",
+  vTC: "TRANSPORT CALCULATOR"
 }
 const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
   return (
@@ -18,15 +19,16 @@ const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
           textAlign: "center",
         }}
       >
+        <Typography variant="h5" style={{ fontFamily: "Gotham Medium" }}>
+          Climate Smart Forest Economy Program: 
+        </Typography>
         <Typography variant="h4" style={{ fontFamily: "Gotham Medium" }}>
-          Climate Smart Forest Economy Program: 3
-          <span style={{ color: "green" }}>S</span>
+          3<span style={{ color: "green" }}>S</span>
           Model {`${versionLabels[version] || version}`}
           {datasetName && (
-            <>
-              <br />
+            <Typography variant="h5" style={{ fontFamily: "Gotham Medium" }}>
               Building Initiative: {datasetName}
-            </>
+            </Typography>
           )}
         </Typography>
         <Stack
