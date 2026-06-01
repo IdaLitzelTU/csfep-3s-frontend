@@ -60,6 +60,7 @@ function NavBar() {
               width={185}
               height={75}
               object-fit="cover"
+              priority
             />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>

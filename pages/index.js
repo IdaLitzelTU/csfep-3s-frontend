@@ -121,6 +121,7 @@ export default function Home() {
                   width={400}
                   height={400}
                   alt="Forest-Light"
+                  priority
                   style={{
                     objectFit: "contain",
                     width: "100%",
