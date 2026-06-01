@@ -5,6 +5,7 @@ import Assumptions from "./info/Assumptions"
 
 import PropTypes from "prop-types"
 
+
 const ModelMeta = ({ model }) => {
   return (
     model && (
@@ -14,9 +15,7 @@ const ModelMeta = ({ model }) => {
           padding: "2rem",
           backgroundColor: "whitesmoke",
           marginTop: "4rem",
-          backgroundImage: `url("/Gradient-Green.png")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          backgroundColor: "#DAE5D1",
         }}
       >
         <Contact meta={model["meta"]} />
