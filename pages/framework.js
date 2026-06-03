@@ -132,20 +132,20 @@ const Framework = () => {
                     <Typography {...bodyProps}>
                       There is a lack of understanding about forestry practices.
                       Carbon tends to only be expressed through building
-                      materials, and impacts are widely misunderstood,
+                      materials, and impacts are widely misunderstood and
                       misrepresented until building material gets to site.
                     </Typography>
                   </li>
                   <li>
                     <Typography {...bodyProps}>
                       There is a missing link between feedbacks of
-                      forests/construction materials and climate
+                      forests/construction materials and climate.
                     </Typography>
                   </li>
                   <li>
                     <Typography {...bodyProps}>
                       A consistent framework (or a numeric model) tracking
-                      carbon from forest to city does not exist
+                      carbon from forest to city does not exist.
                     </Typography>
                   </li>
                 </ul>

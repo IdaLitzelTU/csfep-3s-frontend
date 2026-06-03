@@ -59,10 +59,11 @@ export default function Home() {
                     fontFamily: "Gotham Medium",
                     color: "black",
                     paddingBottom: "15px",
+                    color: "#005B36",
                   }}
                   gutterBottom
                 >
-                  The Climate Smart Forest Economy Program (CSFEP)
+                ABOUT <span style={{ color: "#005B36", fontWeight: 600, letterSpacing: "3px", }}>3S</span>
                 </Typography>
                 <Typography
                   variant="h6"
@@ -75,15 +76,15 @@ export default function Home() {
                   }}
                   gutterBottom
                 >
-                  is a collaborative initiative from EIT Climate-KIC, World
-                  Economic Forum, and the World Resources Institute, with seed
-                  funding from Good Energies Foundation, and support from Dalberg 
-                  Catalyst. We are part of a global movement of organizations that 
-                  are scaling climate smart biobased economies. CSFEPs initial focus
-                  is the building and construction sector and its sourcing practices, where
-                  increasing the use of sustainable forest products could
-                  rapidly decarbonize construction, while creating carbon sinks
-                  in the built environment.
+                  The 3S (Sink, Storage, and Substitution) platform was originally developed 
+                  under the Climate Smart Forest Economy Program (CSFEP), 
+                  a collaborative initiative from EIT Climate-KIC, World Economic Forum,
+                  and the World Resources Institute, with seed funding from the 
+                  Good Energies Foundation and support from Dalberg Catalyst.
+                  <br />
+                  The platform has since been further developed and expanded <br />
+                  through the ForestOvershoot project, which is a subproject <br />
+                  under the CDRterra umbrella program.
                 </Typography>
               </div>
             </Grow>
@@ -97,7 +98,7 @@ export default function Home() {
                   is to generate and disseminate knowledge, inspire and raise
                   ambition of stakeholders, and support initiatives that
                   demonstrate how the Sink, carbon Storage, and fossil-carbon
-                  Substitution (<span style={{ color: "#005B36" }}>3S</span>)
+                  Substitution (<span style={{ color: "#005B36", fontWeight: 100, }}>3S</span>)
                   functions of forests and forest products can be maximized for
                   enhanced climate, social and economic benefits.
                 </Typography>
@@ -163,24 +164,71 @@ export default function Home() {
             <Grow in={true} timeout={1200}>
               <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>
-                  CLIMATE SMART FOREST ECONOMY
+                  FORESTOVERSHOOT
                 </Typography>
                 <Typography {...bodyProps}>
-                  is the usage of forest products in circumstances where this
-                  provides net climate benefits while meeting social and
-                  ecological safeguards. Building it offers an economic
-                  incentive that could protect, maintain, and manage forests,
-                  while assigning greater value to forests, creating further
-                  incentives for restoration and reforestation. This offers an
-                  opportunity to decarbonize sectors that interface with forests
-                  through their value chains, such as construction. In addition
-                  to positive climate outcomes, this can result in substantial
-                  social and economic benefits.
+                  ForestOvershoot is a subproject within the broader 
+                  CDRterra research program, contributing scientific 
+                  knowledge and decision-support tools for assessing 
+                  the climate benefits of forests and forest products.
+                  The project uses advanced forest, wood product, 
+                  and building models to test different climate and 
+                  management scenarios and to quantify when and how 
+                  forests and wood use in construction can provide 
+                  climate benefits and contribute to negative emissions 
+                  most effectively.
                 </Typography>
               </div>
             </Grow>
           </Grid>
+
+                  <Grid item sm={12} md={6} style={{ margin: "auto" }}>
+            <Grow in={true} timeout={1100}>
+              <div style={{ padding: "30px" }}>
+                <Typography {...headerProps}>PROJECT SUPPORT</Typography>
+                <Typography {...bodyProps}>
+                  ForestOvershoot is part of the CDRterra Phase II research program. 
+                  CDRterra is coordinated by Ludwig Maximilian University of Munich 
+                  (LMU Munich) and funded by the German Federal Ministry for Research, 
+                  Technology and Space (BMFTR) and Deutsches Zentrum für Luft- und Raumfahrt (DLR).
+
+                  In the second phase of CDRterra, 17 collaborative research projects
+                  across Germany investigate land-based carbon dioxide removal
+                  approaches, including their feasibility, impacts, and limitations.
+                </Typography>
+              </div>
+            </Grow>
+          </Grid>
+
+          <Grid item sm={12} md={6} style={{ margin: "auto" }}>
+            <Grow in={true} timeout={1100}>
+              <div
+                style={{
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  padding: "30px",
+                }}
+              >
+                <Image
+                  src="/CDRterra_logo.png"
+                  width={400}
+                  height={400}
+                  alt="Forest-Light"
+                  style={{
+                    objectFit: "contain",
+                    width: "100%",
+                    position: "relative",
+                    height: "unset",
+                  }}
+                />
+              </div>
+            </Grow>
+          </Grid>
         </Grid>
+
+
+
       </Box>
     </main>
   )

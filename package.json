@@ -30,5 +30,6 @@
   "main": "./pages/index.js",
   "repository": "https://github.com/DalbergDataInsights/csfep-3s-frontend.git",
   "author": "Denys Sementsov <denys.sementsov@dalberg.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": { "node": ">=20 <25" }
 }

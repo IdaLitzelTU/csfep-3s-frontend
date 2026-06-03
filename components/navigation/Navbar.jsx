@@ -16,7 +16,7 @@ function NavBar() {
   const menuItems = [
     {
       href: "/",
-      title: "Home",
+      title: "About",
     },
     {
       href: "/framework",
@@ -40,28 +40,27 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h2"
             noWrap
             component="a"
             href="/"
             sx={{
               mr: 2,
-              display: { xs: "flex", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              display: "flex",
+              fontFamily: "Gotham Medium, sans-serif",
+              fontWeight: 100,
+              color: "#95E338",
               textDecoration: "none",
-            }}
+              letterSpacing: "3px",
+              transition: "0.4s ease",
+              textShadow: "0 0 30px rgba(0, 0, 0, 0.6)",
+
+              "&:hover": {
+                transform: "scale(1.15)",
+                textShadow: "0 0 20px rgba(0, 0, 0, 0.6)",
+            }}}
           >
-            <Image
-              src="/logo.jfif"
-              alt="csfep logo"
-              width={185}
-              height={75}
-              object-fit="cover"
-              priority
-            />
+            3S
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
             <Stack spacing={2} direction="row">
@@ -79,7 +78,7 @@ function NavBar() {
                       color: currentRoute === href ? "#afb0ae" : "white",
                       display: "block",
                       textTransform: "none",
-                      fontFamily: currentRoute === href ? "Gotham Book": "Gotham Medium" 
+                      fontFamily: "Gotham Medium, sans-serif"
                     }}
                     variant="text"
                   >
@@ -89,6 +88,53 @@ function NavBar() {
               ))}
             </Stack>
           </Box>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="https://www.tu.berlin/urbanoikos/"
+          > 
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "2px",
+              }} >
+
+            <Image
+              src="/TU_BERLIN_Logo_Kurz_CMYK_SR_schwarz.png"
+              alt="csfep logo"
+              width={120}
+              height={85}
+              object-fit="contain"
+            />
+            </div>
+          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="https://cdrterra.de/consortia/forestovershoot/"
+          > 
+            <div
+                style={{
+                  backgroundColor: "white",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  padding: "0px",
+                }} >
+
+            <Image
+              src="/ForestOvershoot-logo-dark.png"
+              alt="csfep logo"
+              width={120}
+              height={90}
+              object-fit="contain"
+            />
+            </div>
+          </Typography>
         </Toolbar>
       </Container>
     </AppBar>

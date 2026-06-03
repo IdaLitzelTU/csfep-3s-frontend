@@ -64,7 +64,7 @@ const About = () => {
       }}
     >
       <img
-        src="/Forest.svg"
+        src="/forest.svg"
         alt="Forest"
         style={{
           position: "fixed",
