@@ -49,12 +49,15 @@ function NavBar() {
               display: "flex",
               fontFamily: "Gotham Medium, sans-serif",
               fontWeight: 100,
-              color: "#95E338",
+              color: "#efc005",
               textDecoration: "none",
               letterSpacing: "3px",
               transition: "0.4s ease",
-              textShadow: "0 0 30px rgba(0, 0, 0, 0.6)",
-
+              textShadow: `
+                4px 4px 5px rgba(0, 30, 15, 0.9),
+                0 0 12px rgba(0, 60, 30, 0.4)
+              `,
+              
               "&:hover": {
                 transform: "scale(1.15)",
                 textShadow: "0 0 20px rgba(0, 0, 0, 0.6)",

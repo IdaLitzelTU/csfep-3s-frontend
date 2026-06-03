@@ -1,7 +1,6 @@
-import React from "react"
-
+import React, { useState } from "react"
+import Footer from "../components/dashboard/Footer"
 import styles from "../styles/Home.module.css"
-
 import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box"
@@ -27,6 +26,7 @@ const bodyProps = {
 
 export default function Home() {
   return (
+    <Grid>
     <main className={styles.main}>
       <Box
         sx={{
@@ -230,6 +230,10 @@ export default function Home() {
 
 
       </Box>
+    
     </main>
+    <Footer />
+    </Grid>
+    
   )
 }

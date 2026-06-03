@@ -6,6 +6,7 @@ import Box from "@mui/material/Box"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import Grow from "@mui/material/Grow"
+import Footer from "../components/dashboard/Footer"
 
 const headerProps = {
   variant: "h6",
@@ -173,6 +174,7 @@ const Framework = () => {
           </Grid>
         </Grid>
       </Box>
+      <Footer />
     </main>
   )
 }
