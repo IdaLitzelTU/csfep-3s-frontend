@@ -76,15 +76,15 @@ export default function Home() {
                   }}
                   gutterBottom
                 >
-                  The 3S (Sink, Storage, and Substitution) platform was originally developed 
-                  under the Climate Smart Forest Economy Program (CSFEP), 
-                  a collaborative initiative from EIT Climate-KIC, World Economic Forum,
+                  The 3S (Sink, Storage, and Substitution) platform is currently 
+                  maintained and further developed by the ForestOvershoot project, 
+                  a subproject of the CDRterra umbrella program. 
+                  <br />
+                  The platform was originally 
+                  created under the Climate Smart Forest Economy Program (CSFEP), 
+                  a collaborative initiative of EIT Climate-KIC, the World Economic Forum, 
                   and the World Resources Institute, with seed funding from the 
                   Good Energies Foundation and support from Dalberg Catalyst.
-                  <br />
-                  The platform has since been further developed and expanded <br />
-                  through the ForestOvershoot project, which is a subproject <br />
-                  under the CDRterra umbrella program.
                 </Typography>
               </div>
             </Grow>
