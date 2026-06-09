@@ -76,15 +76,17 @@ export default function Home() {
                   }}
                   gutterBottom
                 >
-                  The 3S (Sink, Storage, and Substitution) platform is currently 
-                  maintained and further developed by the ForestOvershoot project, 
-                  a subproject of the CDRterra umbrella program. 
+                  The 3S (Sink, Storage, and Substitution) platform was originally developed by 
+                  CSFEP and is now further maintained and advanced by the ForestOvershoot project
+                   under the CDRterra umbrella programme.
                   <br />
-                  The platform was originally 
-                  created under the Climate Smart Forest Economy Program (CSFEP), 
-                  a collaborative initiative of EIT Climate-KIC, the World Economic Forum, 
-                  and the World Resources Institute, with seed funding from the 
-                  Good Energies Foundation and support from Dalberg Catalyst.
+                  
+                  Our mission is to generate and disseminate knowledge, inspire and raise
+                  ambition of stakeholders, and support initiatives that
+                  demonstrate how the Sink, carbon Storage, and fossil-carbon
+                  Substitution (<span style={{ color: "#005B36", fontWeight: 100, }}>3S</span>)
+                  functions of forests and forest products can be maximized for
+                  enhanced climate, social and economic benefits.
                 </Typography>
               </div>
             </Grow>
@@ -93,14 +95,14 @@ export default function Home() {
           <Grid item sm={12} md={6} style={{ margin: "auto" }}>
             <Grow in={true} timeout={1100}>
               <div style={{ padding: "30px" }}>
-                <Typography {...headerProps}>OUR MISSION</Typography>
+                <Typography {...headerProps}>CSFEP</Typography>
                 <Typography {...bodyProps}>
-                  is to generate and disseminate knowledge, inspire and raise
-                  ambition of stakeholders, and support initiatives that
-                  demonstrate how the Sink, carbon Storage, and fossil-carbon
-                  Substitution (<span style={{ color: "#005B36", fontWeight: 100, }}>3S</span>)
-                  functions of forests and forest products can be maximized for
-                  enhanced climate, social and economic benefits.
+                  The platform was originally 
+                  created under the Climate Smart Forest Economy Program (CSFEP). 
+                  <br />
+                  CSFEP is a collaborative initiative of EIT Climate-KIC, the World Economic Forum, 
+                  and the World Resources Institute, with seed funding from the 
+                  Good Energies Foundation and support from Dalberg Catalyst.
                 </Typography>
               </div>
             </Grow>
@@ -118,7 +120,7 @@ export default function Home() {
                 }}
               >
                 <Image
-                  src="/Forest-Light.jpg"
+                  src="/logo.jfif"
                   width={400}
                   height={400}
                   alt="Forest-Light"
@@ -145,7 +147,7 @@ export default function Home() {
                 }}
               >
                 <Image
-                  src="/Log-House.jpg"
+                  src="/Forest-Light.jpg"
                   width={400}
                   height={400}
                   alt="Log-House"
@@ -187,14 +189,13 @@ export default function Home() {
               <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>PROJECT SUPPORT</Typography>
                 <Typography {...bodyProps}>
-                  ForestOvershoot is part of the CDRterra Phase II research program. 
-                  CDRterra is coordinated by Ludwig Maximilian University of Munich 
-                  (LMU Munich) and funded by the German Federal Ministry for Research, 
-                  Technology and Space (BMFTR) and Deutsches Zentrum für Luft- und Raumfahrt (DLR).
-
-                  In the second phase of CDRterra, 17 collaborative research projects
+                  ForestOvershoot is part of the second phase of the CDRterra research program. 
+                  CDRterra is coordinated by LMU Munich and funded by the German Federal Ministry for Research, 
+                  Technology and Space (BMFTR) and the German Aerospace Center (DLR).
+                  <br />
+                  In this second phase of CDRterra, 17 collaborative research projects
                   across Germany investigate land-based carbon dioxide removal
-                  approaches, including their feasibility, impacts, and limitations.
+                  approaches, including their feasibility, environmental and societal impacts, as well as their limitations.
                 </Typography>
               </div>
             </Grow>

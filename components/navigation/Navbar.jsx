@@ -91,6 +91,7 @@ function NavBar() {
               ))}
             </Stack>
           </Box>
+
           <Typography
             variant="h6"
             noWrap
@@ -102,42 +103,49 @@ function NavBar() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "2px",
+                padding: "4px",
               }} >
 
             <Image
               src="/TU_BERLIN_Logo_Kurz_CMYK_SR_schwarz.png"
               alt="csfep logo"
-              width={120}
-              height={85}
+              width={110}
+              height={75}
               object-fit="contain"
             />
             </div>
           </Typography>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="https://cdrterra.de/consortia/forestovershoot/"
-          > 
-            <div
-                style={{
-                  backgroundColor: "white",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                  padding: "0px",
-                }} >
 
+
+    <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="https://cdrterra.de/consortia/forestovershoot/"
+          style={{ textDecoration: "none" }}
+        >
+          <Box
+            sx={{
+              bgcolor: "#efc005",
+              px: 0.5,
+              py: 0.0,
+              borderRadius: 2,
+              alignItems: "center",
+              justifyContent: "center",
+              background: "radial-gradient(circle, #efc005 0%, #efc005 28%, rgba(239,192,5,0) 80%)",
+            }}
+          >
             <Image
               src="/ForestOvershoot-logo-dark.png"
-              alt="csfep logo"
+              alt="ForestOvershoot logo"
               width={120}
               height={90}
-              object-fit="contain"
+              style={{ objectFit: "contain" }}
             />
-            </div>
-          </Typography>
+          </Box>
+        </Typography>
+
+
         </Toolbar>
       </Container>
     </AppBar>
