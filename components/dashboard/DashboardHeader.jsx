@@ -19,18 +19,17 @@ const DashboardHeader = ({ data, datasetName, version, handleChange }) => {
           textAlign: "center",
         }}
       >
-        <Typography variant="h5" style={{ fontFamily: "Gotham Medium" }}>
-          Climate Smart Forest Economy Program: 
-        </Typography>
-        <Typography variant="h4" style={{ fontFamily: "Gotham Medium",padding: "10px",}}>
+
+        <Typography variant="h4" style={{ fontFamily: "Gotham Medium", padding: "10px" }}>
           3<span style={{ color: "green" }}>S</span>
           Model {`${versionLabels[version] || version}`}
-          {datasetName && (
-            <Typography variant="h5" style={{ fontFamily: "Gotham Medium", padding: "10px", }}>
-              Building Initiative: {datasetName}
-            </Typography>
-          )}
         </Typography>
+
+        {datasetName && (
+          <Typography variant="h5" style={{ fontFamily: "Gotham Medium", padding: "5px" }}>
+            Building Initiative: {datasetName}
+          </Typography>
+        )}
         <Stack
           direction="row"
           spacing={1}

@@ -13,7 +13,6 @@ import renderers from "./form/FieldRender"
 
 const FormRender = ({ model, data }) => {
   const [displayDescription, setDisplayDescription] = useState(false)
-
   const categories = model
     ? [...new Set(model.input.map((el) => el.category))]
     : []

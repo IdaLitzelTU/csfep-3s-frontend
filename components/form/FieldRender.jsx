@@ -11,6 +11,8 @@ import Grid from "@mui/material/Grid"
 import MenuItem from "@mui/material/MenuItem"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
+import Switch from "@mui/material/Switch"
+import FormControlLabel from "@mui/material/FormControlLabel"
 
 import PropTypes from "prop-types"
 
@@ -152,83 +154,308 @@ const Populate = ({
   )
 }
 
+const getFieldData = (fieldName) =>
+  inputFields.find(([name]) => name === fieldName)?.[1] || {
+    mass: "",
+    state: "dry",
+    sourcing_energy_id: None,
+    manufacturing_energy_id: None,
+  }
+
 const Group = ({
   name,
   display_name: displayName,
   fields,
   description,
   value = "",
-  ...props
 }) => {
   const [selectedFields, setSelectedFields] = useState([])
-  const [inputFields, setInputFields] = useState([])
+  const [inputFields, setInputFields] = useState({})
 
   const fieldsObject = JSON.parse(fields)
-
+  
   useEffect(() => {
-    if (!!value) {
+    if (value) {
       const parsedFields = JSON.parse(value)
-      setSelectedFields(Object.keys(parsedFields))
-      setInputFields(Object.entries(parsedFields))
+
+      const normalized = {}
+
+      Object.entries(parsedFields).forEach(([key, val]) => {
+        normalized[key] =
+          typeof val === "object"
+            ? val
+            : {
+                mass: val,
+                state: "dry",
+                sourcing_energy_id: null,        // Standardmäßig auf null setzen
+                manufacturing_energy_id: null,   // Standardmäßig auf null setzen
+              }
+      })
+
+      setSelectedFields(Object.keys(normalized))
+      setInputFields(normalized)
     } else {
       setSelectedFields([])
-      setInputFields([])
+      setInputFields({})
     }
   }, [value])
-  // row at the top with stateful multi-select
-  // based on the select, filter the array of fields and render it with rows
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event
-    setSelectedFields(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    )
+    const value =
+      typeof event.target.value === "string"
+        ? event.target.value.split(",")
+        : event.target.value
+
+    setSelectedFields(value)
+
+    setInputFields((prev) => {
+      const next = { ...prev }
+
+      value.forEach((fieldName) => {
+        if (!next[fieldName]) {
+          next[fieldName] = {
+            mass: "",
+            state: "dry",
+            sourcing_energy_id: null,        // Initialer Wert bei Neu-Auswahl
+            manufacturing_energy_id: null,   // Initialer Wert bei Neu-Auswahl
+          }
+        }
+      })
+
+      Object.keys(next).forEach((fieldName) => {
+        if (!value.includes(fieldName)) {
+          delete next[fieldName]
+        }
+      })
+
+      return next
+    })
   }
 
-  return (
-    <>
-      <Row description={description}>
-        <TextField
-          select
-          id={name}
-          label={displayName}
-          style={{ width: "100%" }}
-          SelectProps={{
-            multiple: true,
-          }}
-          inputProps={{
-            id: name,
-            value: selectedFields,
-            onChange: handleChange,
-          }}
-        >
-          {fieldsObject.map((field) => (
-            <MenuItem key={field.name} value={field.name}>
-              {field.display_name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Row>
-      {fieldsObject
-        .filter((field) => selectedFields.includes(field.name))
-        .map((field, index) => (
-          <Number
-            {...field}
-            key={index}
-            name={`${name}-${field.name}`}
-            value={
-              (inputFields.find((f) => field.name === f[0]) || ["", ""])[1]
-            }
-            description={
-              description === "hide" ? description : field.description
-            }
-          />
+  // Erweitert, damit standardmäßig auch die IDs mit null zurückgegeben werden, falls nicht existent
+  const getFieldData = (fieldName) =>
+    inputFields[fieldName] || {
+      mass: "",
+      state: "dry",
+      sourcing_energy_id: null,
+      manufacturing_energy_id: null,
+    }
+
+  const updateMass = (fieldName, mass) => {
+    setInputFields((prev) => ({
+      ...prev,
+      [fieldName]: {
+        ...getFieldData(fieldName),
+        mass,
+      },
+    }))
+  }
+
+  const updateState = (fieldName, state) => {
+    setInputFields((prev) => ({
+      ...prev,
+      [fieldName]: {
+        ...getFieldData(fieldName),
+        state,
+      },
+    }))
+  }
+
+  // --- NEU: Funktion für Sourcing Energie-ID ---
+  const updateSourcingEnergy = (fieldName, energyId) => {
+    setInputFields((prev) => ({
+      ...prev,
+      [fieldName]: {
+        ...getFieldData(fieldName),
+        sourcing_energy_id: energyId, // Setzt entweder die ID oder null
+      },
+    }))
+  }
+
+  // --- NEU: Funktion für Manufacturing Energie-ID ---
+  const updateManufacturingEnergy = (fieldName, energyId) => {
+    setInputFields((prev) => ({
+      ...prev,
+      [fieldName]: {
+        ...getFieldData(fieldName),
+        manufacturing_energy_id: energyId, // Setzt entweder die ID oder null
+      },
+    }))
+  }
+
+return (
+  <>
+    <Row description={description}>
+      <TextField
+        select
+        id={name}
+        label={displayName}
+        style={{ width: "100%" }}
+        SelectProps={{
+          multiple: true,
+        }}
+        inputProps={{
+          id: name,
+          value: selectedFields,
+          onChange: handleChange,
+        }}
+      >
+        {fieldsObject.map((field) => (
+          <MenuItem key={field.name} value={field.name}>
+            {field.display_name}
+          </MenuItem>
         ))}
-    </>
-  )
+      </TextField>
+    </Row>
+
+    {fieldsObject
+      .filter((field) => selectedFields.includes(field.name))
+      .map((field) => {
+        // Zustand auslesen, um zu prüfen, ob bereits eine ID (also ungleich null) gesetzt ist
+        const sourcingSelected = getFieldData(field.name).sourcing_energy_id !== null && getFieldData(field.name).sourcing_energy_id !== undefined;
+        const manufacturingSelected = getFieldData(field.name).manufacturing_energy_id !== null && getFieldData(field.name).manufacturing_energy_id !== undefined;
+
+        return (
+          <React.Fragment key={field.name}>
+            {/* UMHÜLLENDER CONTAINER FÜR DIE MATERIAL-GRUPPE */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px", width: "100%" }}>
+              
+              {/* Erste Zeile: Flex-Container, um Number-Input und Button nebeneinander zu platzieren */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", width: "100%" }}>
+                
+                <Number
+                  {...field}
+                  name={`${name}-${field.name}`}
+                  value={getFieldData(field.name).mass}
+                  description={
+                    description === "hide"
+                      ? description
+                      : field.description
+                  }
+                  onChange={(e) =>
+                    updateMass(field.name, e.target.value)
+                  }
+                />
+
+                {/* TOGGLE BUTTON */}
+                {field.has_moisture_option && (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <button
+                      id={`${name}-${field.name}-state-btn`}
+                      type="button"
+                      onClick={() =>
+                        updateState(
+                          field.name,
+                          getFieldData(field.name).state === "dry" ? "fresh" : "dry"
+                        )
+                      }
+                      style={{
+                        height: "30px",
+                        padding: "10px",
+                        borderRadius: "18px",
+                        border: "1px solid #ccc",
+                        marginTop: "-20px",
+                        background: getFieldData(field.name).state === "dry" ? "#005B36" : "#efc005",
+                        color: getFieldData(field.name).state === "dry" ? "#efc005" : "#005B36",
+                        cursor: "pointer",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {getFieldData(field.name).state === "dry" ? "DRY" : "FRESH"}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Zweite Zeile: Optionale Energie-Auswahlfelder mit Aktivierungs-Checkboxen */}
+              <div style={{ display: "flex", gap: "24px", width: "100%", flexWrap: "wrap" }}>
+                
+                {/* SOURCING OPTION */}
+                {field.has_sourcing_option && (
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                      <input 
+                        type="checkbox" 
+                        checked={sourcingSelected}
+                        onChange={(e) => {
+                          // Wenn abgehakt, wird NULL gesetzt, andernfalls z.B. die erste verfügbare ID oder leer
+                          if (!e.target.checked) {
+                            updateSourcingEnergy(field.name, null);
+                          } else {
+                            updateSourcingEnergy(field.name, field.energy_sources[0]?.id || "");
+                          }
+                        }}
+                      />
+                      Include Sourcing
+                    </label>
+
+                    {sourcingSelected && (
+                      <TextField
+                        select
+                        label="Energy Source (Sourcing)"
+                        style={{ width: "100%" }}
+                        value={getFieldData(field.name).sourcing_energy_id || ""}
+                        onChange={(e) => updateSourcingEnergy(field.name, e.target.value)}
+                        inputProps={{ id: `${name}-${field.name}-sourcing` }}
+                      >
+                        {field.energy_sources.map((source) => (
+                          <MenuItem key={source.id} value={source.id}>
+                            {source.source}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </div>
+                )}
+
+                {/* MANUFACTURING OPTION */}
+                {field.has_manufactoring_option && (
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                      <input 
+                        type="checkbox" 
+                        checked={manufacturingSelected}
+                        onChange={(e) => {
+                          // Wenn abgehakt, wird NULL gesetzt
+                          if (!e.target.checked) {
+                            updateManufacturingEnergy(field.name, null);
+                          } else {
+                            updateManufacturingEnergy(field.name, field.energy_sources[0]?.id || "");
+                          }
+                        }}
+                      />
+                      Include Manufacturing
+                    </label>
+
+                    {manufacturingSelected && (
+                      <TextField
+                        select
+                        label="Energy Source (Manufacturing)"
+                        style={{ width: "100%" }}
+                        value={getFieldData(field.name).manufacturing_energy_id || ""}
+                        onChange={(e) => updateManufacturingEnergy(field.name, e.target.value)}
+                        inputProps={{ id: `${name}-${field.name}-manufacturing` }}
+                      >
+                        {field.energy_sources.map((source) => (
+                          <MenuItem key={source.id} value={source.id}>
+                            {source.source}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  </div>
+                )}
+
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      })}
+  </>
+)
 }
 
 const Number = ({
@@ -273,6 +500,68 @@ const Number = ({
           if (e.target.value > max) e.target.value = max
           if (e.target.value < min) e.target.value = min
         }}
+      />
+    </Row>
+  )
+}
+
+const Number2 = ({
+  name,
+  default: defaultValue,
+  display_name: displayName,
+  value = "",
+  description,
+  min,
+  max,
+  unit,
+  onChange,
+  ...props
+}) => {
+  const units = getUnits(displayName)
+  const label = cleanString(displayName)
+
+  const handleInputChange = (e) => {
+    let val = e.target.value;
+
+    if (val !== "") {
+      const numVal = parseFloat(val);
+      if (numVal > max) val = max.toString();
+      if (numVal < min) val = min.toString();
+    }
+
+    if (onChange) {
+      e.target.value = val;
+      onChange(e);
+    }
+  };
+
+  return (
+    <Row description={description}>
+      <TextField
+        label={label}
+        type="number2"
+        // id={name} <-- HIER GELÖSCHT, da es sonst auf dem äußeren Container landet!
+        value={value === "" && defaultValue !== "None" ? defaultValue : value}
+        style={{ width: "100%" }}
+        placeholder={units}
+        InputProps={{
+          endAdornment: unit && (
+            <InputAdornment position="end">{unit}</InputAdornment>
+          ),
+        }}
+        // WICHTIG: Die ID muss exakt auf dem echten Input-Feld liegen!
+        inputProps={{
+          id: name, // <-- HIERHER VERSCHOBEN
+          step: 0.1,
+          min: min,
+          max: max,
+        }}
+        helperText={
+          defaultValue === "None"
+            ? ""
+            : `Default value: ${defaultValue}${units || ""}`
+        }
+        onChange={handleInputChange}
       />
     </Row>
   )
@@ -428,6 +717,10 @@ const Text = ({
   )
 }
 
+
+
+
+
 const StagedInput = ({
   name,
   display_name: displayName,
@@ -567,6 +860,7 @@ Populate.propTypes = { ...propTypes, options: PropTypes.string }
 
 const renderers = {
   number: Number,
+  number2: Number2,
   array: Array,
   text: Text,
   group: Group,
@@ -591,7 +885,11 @@ function getUnits(string) {
 }
 
 function cleanString(string) {
-  return string.split("(")[0]
+  // Falls der Wert null, undefined oder gar nicht da ist, gib einen leeren Text zurück
+  if (string === null || string === undefined) return ""; 
+  
+  // .toString() wandelt Zahlen (wie deine IDs) sicher in Text um, bevor .split() gerufen wird
+  return string.toString().split("(")[0].trim();
 }
 
 function arrayParser(field) {
@@ -604,17 +902,96 @@ function inputParser(field) {
 }
 
 function groupParser(field) {
-  const fields = JSON.parse(field.fields)
-  const out = {}
-  fields.forEach((f) => {
-    const groupName = field.name
-    const element = document.getElementById(`${groupName}-${f.name}`)
-    if (element) {
-      out[f.name] = element.value
+  const fields = JSON.parse(field.fields);
+  const activeFields = fields.filter((f) =>
+    document.getElementById(`${field.name}-${f.name}`)
+  )
+  const out = {};
+  console.log("fields", fields);
+
+  console.log(
+    "active fields",
+    activeFields.map((f) => f.name)
+  )
+
+  activeFields.forEach((f) => {
+    const groupName = field.name;
+    const fieldId = f.name ? f.name.toString() : ""; 
+    const baseId = `${groupName}-${fieldId}`;
+
+    // 1. Das Element für die Masse holen und absichern
+    let massElement = document.getElementById(baseId);
+    console.log("Suche:", baseId);
+    console.log("Gefunden:", document.getElementById(baseId));
+    console.log("element", massElement)
+    console.log("tag", massElement.tagName)
+    console.log("value", massElement.value)
+    console.log("outerHTML", massElement.outerHTML)
+    
+    if (!massElement) {
+      return;
     }
-  })
-  return JSON.stringify(out)
+
+    // Falls es eine Custom-Komponente ist, tiefer graben
+    if (massElement.tagName !== "INPUT") {
+      const nativeInput = massElement.querySelector("input") || massElement.shadowRoot?.querySelector("input");
+      if (nativeInput) massElement = nativeInput;
+    }
+
+    // Wert auslesen (verschiedene Wege absichern)
+    let rawMass = massElement.value !== undefined ? massElement.value : massElement.getAttribute('value');
+    let massValue = 0;
+    if (rawMass !== undefined && rawMass !== null && rawMass !== "") {
+      massValue = rawMass;
+      if (isNaN(massValue)) massValue = 0;
+    }
+    
+
+    // 2. Den State (DRY/FRESH) auslesen
+    const stateButton = document.getElementById(`${baseId}-state-btn`);
+    // Nutze trim(), um versteckte Leerzeichen zu entfernen
+    const currentState = stateButton ? stateButton.textContent.trim().toLowerCase() : "dry";
+
+    // 3. Sourcing Energie-ID auslesen
+    let sourcingElement = document.getElementById(`${baseId}-sourcing`);
+    if (sourcingElement && sourcingElement.tagName !== "INPUT") {
+      const nativeSourcing = sourcingElement.querySelector("input") || sourcingElement.shadowRoot?.querySelector("input");
+      if (nativeSourcing) sourcingElement = nativeSourcing;
+    }
+
+    let rawSourcing = sourcingElement ? (sourcingElement.value !== undefined ? sourcingElement.value : sourcingElement.getAttribute('value')) : null;
+    const sourcingValue = rawSourcing !== undefined && rawSourcing !== null && rawSourcing !== "" 
+      ? rawSourcing
+      : null;
+
+    // 4. Manufacturing Energie-ID auslesen
+    let manufacturingElement = document.getElementById(`${baseId}-manufacturing`);
+    if (manufacturingElement && manufacturingElement.tagName !== "INPUT") {
+      const nativeManufacturing = manufacturingElement.querySelector("input") || manufacturingElement.shadowRoot?.querySelector("input");
+      if (nativeManufacturing) manufacturingElement = nativeManufacturing;
+    }
+
+    let rawManufacturing = manufacturingElement ? (manufacturingElement.value !== undefined ? manufacturingElement.value : manufacturingElement.getAttribute('value')) : null;
+    const manufacturingValue = rawManufacturing !== undefined && rawManufacturing !== null && rawManufacturing !== "" 
+      ? rawManufacturing
+      : null;
+
+    // Alles sauber verpackt für das Backend
+    out[f.name] = {
+      mass: massValue,
+      state: currentState,
+      sourcing_energy_id: (sourcingValue === null || isNaN(sourcingValue)) ? null : sourcingValue,
+      manufacturing_energy_id: (manufacturingValue === null || isNaN(manufacturingValue)) ? null : manufacturingValue
+    };
+    
+    // Einzellog pro Material zur schnellen Analyse
+    console.log(`Parsed ${f.name}:`, out[f.name]);
+  });
+
+
+  return JSON.stringify(out);
 }
+
 function stageParser(field) {
   const accordions = document.querySelectorAll(".MuiAccordionDetails-root")
   const accordionValues = []
@@ -651,6 +1028,7 @@ function stageParser(field) {
 
 const PARSERS = {
   number: inputParser,
+  number2: inputParser,
   group: groupParser,
   array: arrayParser,
   select: inputParser,
