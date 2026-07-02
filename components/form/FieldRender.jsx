@@ -307,7 +307,9 @@ return (
         ))}
       </TextField>
     </Row>
-
+    <Row description={description}>
+    Please enter the mass of each selected material. If applicable, specify whether it is fresh or dry. You may also indicate the energy source used for raw material sourcing and the manufacturing process if you want to include the energy balances of these processing steps.
+  </Row>
     {fieldsObject
       .filter((field) => selectedFields.includes(field.name))
       .map((field) => {
@@ -318,13 +320,25 @@ return (
         return (
           <React.Fragment key={field.name}>
             {/* UMHÜLLENDER CONTAINER FÜR DIE MATERIAL-GRUPPE */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px", width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "30px", paddingBottom: "30px", borderBottom: "1px solid #d9d9d9", width: "100%", }} >  
+            <h4
+              style={{
+                margin: 5,
+                color: "#005B36",
+                fontSize: "13px",
+                fontWeight: 550,
+              }}
+            >
+              {field.display_name}
+            </h4>
+  
               
               {/* Erste Zeile: Flex-Container, um Number-Input und Button nebeneinander zu platzieren */}
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", width: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: "-0px",  gap: "12px", width: "100%" }}>
                 
                 <Number
                   {...field}
+                  display_name="Mass"
                   name={`${name}-${field.name}`}
                   value={getFieldData(field.name).mass}
                   description={
@@ -337,7 +351,7 @@ return (
                   }
                 />
 
-                {/* TOGGLE BUTTON */}
+                {/* TOGGLE BUTTON FRESH-DRY*/}
                 {field.has_moisture_option && (
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <button
@@ -376,7 +390,7 @@ return (
                 {/* SOURCING OPTION */}
                 {field.has_sourcing_option && (
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "12px" }}>
                       <input 
                         type="checkbox" 
                         checked={sourcingSelected}
@@ -395,7 +409,7 @@ return (
                     {sourcingSelected && (
                       <TextField
                         select
-                        label="Energy Source (Sourcing)"
+                        label="Energy Source"
                         style={{ width: "100%" }}
                         value={getFieldData(field.name).sourcing_energy_id || ""}
                         onChange={(e) => updateSourcingEnergy(field.name, e.target.value)}
@@ -412,9 +426,9 @@ return (
                 )}
 
                 {/* MANUFACTURING OPTION */}
-                {field.has_manufactoring_option && (
+                {field.has_manufacturing_option && (
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "12px" }}>
                       <input 
                         type="checkbox" 
                         checked={manufacturingSelected}
@@ -433,7 +447,7 @@ return (
                     {manufacturingSelected && (
                       <TextField
                         select
-                        label="Energy Source (Manufacturing)"
+                        label="Energy Source"
                         style={{ width: "100%" }}
                         value={getFieldData(field.name).manufacturing_energy_id || ""}
                         onChange={(e) => updateManufacturingEnergy(field.name, e.target.value)}
