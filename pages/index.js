@@ -46,7 +46,7 @@ export default function Home() {
                 style={{
                   padding: "5% 12% 5% 12%",
                   textAlign: "justify",
-                  backgroundImage: `url("/Gradient-Header-Compressed.png")`,
+                  backgroundImage: `url("/Gradient-Header.png")`,
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -112,11 +112,10 @@ export default function Home() {
             <Grow in={true} timeout={1100}>
               <div
                 style={{
-                  backgroundImage: `url("/Gradient-Green.png")`,
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
-                  padding: "30px",
+                  padding: "40px",
                 }}
               >
                 <Image
@@ -139,18 +138,17 @@ export default function Home() {
             <Grow in={true} timeout={1100}>
               <div
                 style={{
-                  backgroundImage: `url("/Gradient-Gold.png")`,
                   backgroundSize: "contain",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
-                  padding: "30px",
+                  padding: "0px",
                 }}
               >
                 <Image
-                  src="/Forest-Light.jpg"
+                  src="/Mainlogo_ForestOvershoot_RGB_CMYK.png"
                   width={400}
                   height={400}
-                  alt="Log-House"
+                  alt="ForestOvershoot"
                   style={{
                     objectFit: "contain",
                     width: "100%",
@@ -184,7 +182,7 @@ export default function Home() {
             </Grow>
           </Grid>
 
-                  <Grid item sm={12} md={6} style={{ margin: "auto" }}>
+          <Grid item sm={12} md={6} style={{ margin: "auto" }}>
             <Grow in={true} timeout={1100}>
               <div style={{ padding: "30px" }}>
                 <Typography {...headerProps}>PROJECT SUPPORT</Typography>
@@ -212,10 +210,10 @@ export default function Home() {
                 }}
               >
                 <Image
-                  src="/CDRterra_logo.png"
+                  src="/Mainlogo_CDRterra_RGB_CMYK.png"
                   width={400}
                   height={400}
-                  alt="Forest-Light"
+                  alt="CDRterra"
                   style={{
                     objectFit: "contain",
                     width: "100%",

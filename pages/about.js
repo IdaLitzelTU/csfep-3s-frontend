@@ -41,7 +41,7 @@ const About = () => {
           alignItems="stretch"
           spacing={6}
           columns={1}
-          style={{ width: "100%", minWidth: "650px" }}
+          style={{ width: "100%", minWidth: "660px" }}
         >
           <div>
             <Typography {...headerProps}> CONTACT US</Typography>
@@ -50,6 +50,9 @@ const About = () => {
             <Typography {...bodyProps}>
               If you would like to partner with us, provide potential breakthrough initiative opportunities, or learn more about the CSFEP, 
               please contact us at robyn.vdh@csfep.org.
+              <br />
+              <br />
+              For questions or support regarding the app, please contact help3s@urbanoikos.tu-berlin.de.
             </Typography>
           </div>
         </Grid>
