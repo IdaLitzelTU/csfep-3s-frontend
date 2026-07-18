@@ -132,11 +132,11 @@ function NavBar() {
               borderRadius: 2,
               alignItems: "center",
               justifyContent: "center",
-              background: "radial-gradient(circle, #efc005 0%, #efc005 28%, rgba(239,192,5,0) 80%)",
+              background: "radial-gradient(circle, #efc005 0%, #efc005 20%, rgba(239,192,5,0) 80%)",
             }}
           >
             <Image
-              src="/ForestOvershoot-logo-dark.png"
+              src="/Mainlogo_ForestOvershoot_RGB_CMYK.png"
               alt="ForestOvershoot logo"
               width={120}
               height={90}

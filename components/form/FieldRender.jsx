@@ -187,8 +187,8 @@ const Group = ({
             : {
                 mass: val,
                 state: "dry",
-                sourcing_energy_id: null,        // Standardmäßig auf null setzen
-                manufacturing_energy_id: null,   // Standardmäßig auf null setzen
+                sourcing_energy_id: null,        
+                manufacturing_energy_id: null,  
               }
       })
 
@@ -216,8 +216,8 @@ const Group = ({
           next[fieldName] = {
             mass: "",
             state: "dry",
-            sourcing_energy_id: null,        // Initialer Wert bei Neu-Auswahl
-            manufacturing_energy_id: null,   // Initialer Wert bei Neu-Auswahl
+            sourcing_energy_id: null,        
+            manufacturing_energy_id: null,   
           }
         }
       })
@@ -232,7 +232,6 @@ const Group = ({
     })
   }
 
-  // Erweitert, damit standardmäßig auch die IDs mit null zurückgegeben werden, falls nicht existent
   const getFieldData = (fieldName) =>
     inputFields[fieldName] || {
       mass: "",
@@ -261,7 +260,7 @@ const Group = ({
     }))
   }
 
-  // --- NEU: Funktion für Sourcing Energie-ID ---
+  // --- Funktion für Sourcing Energie-ID ---
   const updateSourcingEnergy = (fieldName, energyId) => {
     setInputFields((prev) => ({
       ...prev,
@@ -272,7 +271,7 @@ const Group = ({
     }))
   }
 
-  // --- NEU: Funktion für Manufacturing Energie-ID ---
+  // --- Funktion für Manufacturing Energie-ID ---
   const updateManufacturingEnergy = (fieldName, energyId) => {
     setInputFields((prev) => ({
       ...prev,
@@ -307,9 +306,15 @@ return (
         ))}
       </TextField>
     </Row>
+    {description !== "hide" && (
     <Row description={description}>
-    Please enter the mass of each selected material. If applicable, specify whether it is fresh or dry. You may also indicate the energy source used for raw material sourcing and the manufacturing process if you want to include the energy balances of these processing steps.
-  </Row>
+      <span style={{ fontSize: "12px" }}>
+      Please enter the mass of each selected material. If applicable, specify whether it is fresh or dry. 
+      You may also indicate the energy source used for raw material sourcing and the manufacturing process 
+      if you want to include the energy balances of these processing steps.
+      </span>
+    </Row>
+    )}
     {fieldsObject
       .filter((field) => selectedFields.includes(field.name))
       .map((field) => {
@@ -320,7 +325,7 @@ return (
         return (
           <React.Fragment key={field.name}>
             {/* UMHÜLLENDER CONTAINER FÜR DIE MATERIAL-GRUPPE */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "30px", paddingBottom: "30px", borderBottom: "1px solid #d9d9d9", width: "100%", }} >  
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "5px", paddingBottom: "0px", borderBottom: "1px solid #d9d9d9", width: "100%", paddingLeft: "50px",}} >  
             <h4
               style={{
                 margin: 5,
@@ -385,7 +390,7 @@ return (
               </div>
 
               {/* Zweite Zeile: Optionale Energie-Auswahlfelder mit Aktivierungs-Checkboxen */}
-              <div style={{ display: "flex", gap: "24px", width: "100%", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "20px", width: "100%", flexWrap: "wrap", marginBottom: "20px", }}>
                 
                 {/* SOURCING OPTION */}
                 {field.has_sourcing_option && (
@@ -990,7 +995,7 @@ function groupParser(field) {
       ? rawManufacturing
       : null;
 
-    // Alles sauber verpackt für das Backend
+
     out[f.name] = {
       mass: massValue,
       state: currentState,
@@ -998,7 +1003,7 @@ function groupParser(field) {
       manufacturing_energy_id: (manufacturingValue === null || isNaN(manufacturingValue)) ? null : manufacturingValue
     };
     
-    // Einzellog pro Material zur schnellen Analyse
+
     console.log(`Parsed ${f.name}:`, out[f.name]);
   });
 
@@ -1026,7 +1031,7 @@ function stageParser(field) {
       })
     })
 
-    // ✅ NEU: nur hinzufügen wenn NICHT komplett leer
+    // nur hinzufügen wenn NICHT komplett leer
     const hasData = Object.values(accordionData).some(
       (v) => v !== null && v !== ""
     )
