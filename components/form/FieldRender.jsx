@@ -849,6 +849,15 @@ Array.propTypes = {
   ...propTypes,
 }
 
+Number2.propTypes = {
+  ...propTypes,
+  description: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  unit: PropTypes.string,
+  onChange: PropTypes.func,
+}
+
 Number.propTypes = {
   ...propTypes,
   min: PropTypes.number,
