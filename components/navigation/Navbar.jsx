@@ -24,7 +24,7 @@ function NavBar() {
     },
     {
       href: "/model",
-      title: "3S Model",
+      title: "3S Tool",
     },
     {
       href: "/about",
